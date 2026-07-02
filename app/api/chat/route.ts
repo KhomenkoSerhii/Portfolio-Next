@@ -52,30 +52,35 @@ function validate(body: unknown): IncomingMessage[] | null {
   return messages as IncomingMessage[];
 }
 
-// Gemini via its OpenAI-compatible endpoint (free tier)
-async function streamGemini(messages: IncomingMessage[]): Promise<Response> {
-  const upstream = await fetch(
-    "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.GEMINI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gemini-2.5-flash",
-        stream: true,
-        max_tokens: 1024,
-        reasoning_effort: "none", // flash "thinks" by default – too slow for a chat widget
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
-      }),
-    }
-  );
+// generic streamer for OpenAI-compatible endpoints (Gemini, Groq)
+async function streamOpenAICompat(opts: {
+  url: string;
+  apiKey: string;
+  model: string;
+  extraBody?: Record<string, unknown>;
+  messages: IncomingMessage[];
+}): Promise<Response> {
+  const upstream = await fetch(opts.url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${opts.apiKey}`,
+    },
+    body: JSON.stringify({
+      model: opts.model,
+      stream: true,
+      max_tokens: 1024,
+      ...opts.extraBody,
+      messages: [{ role: "system", content: SYSTEM_PROMPT }, ...opts.messages],
+    }),
+  });
 
   if (!upstream.ok || !upstream.body) {
     const detail = await upstream.text().catch(() => "");
-    console.error("Gemini error:", upstream.status, detail.slice(0, 500));
-    return new Response("Upstream error", { status: 502 });
+    console.error(`${opts.model} error:`, upstream.status, detail.slice(0, 500));
+    return new Response(upstream.status === 429 ? "Rate limited" : "Upstream error", {
+      status: upstream.status === 429 ? 429 : 502,
+    });
   }
 
   // re-stream OpenAI-style SSE as plain text
@@ -113,7 +118,7 @@ async function streamGemini(messages: IncomingMessage[]): Promise<Response> {
         }
         controller.close();
       })().catch((err) => {
-        console.error("Gemini stream error:", err);
+        console.error("Chat stream error:", err);
         controller.error(err);
       });
     },
@@ -127,6 +132,26 @@ async function streamGemini(messages: IncomingMessage[]): Promise<Response> {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "no-store",
     },
+  });
+}
+
+function streamGemini(messages: IncomingMessage[]) {
+  return streamOpenAICompat({
+    url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+    apiKey: process.env.GEMINI_API_KEY!,
+    model: "gemini-2.5-flash",
+    // flash "thinks" by default – too slow for a chat widget
+    extraBody: { reasoning_effort: "none" },
+    messages,
+  });
+}
+
+function streamGroq(messages: IncomingMessage[]) {
+  return streamOpenAICompat({
+    url: "https://api.groq.com/openai/v1/chat/completions",
+    apiKey: process.env.GROQ_API_KEY!,
+    model: "llama-3.3-70b-versatile",
+    messages,
   });
 }
 
@@ -180,7 +205,14 @@ export async function POST(req: Request) {
   const messages = validate(body);
   if (!messages) return new Response("Invalid messages", { status: 400 });
 
-  if (process.env.GEMINI_API_KEY) return streamGemini(messages);
+  // provider cascade: Gemini (free) -> Groq (free backup) -> Claude (paid)
+  if (process.env.GEMINI_API_KEY) {
+    const res = await streamGemini(messages);
+    if (res.ok || !process.env.GROQ_API_KEY) return res;
+    console.warn("Gemini unavailable, falling back to Groq");
+    return streamGroq(messages);
+  }
+  if (process.env.GROQ_API_KEY) return streamGroq(messages);
   if (process.env.ANTHROPIC_API_KEY) return streamClaude(messages);
   return new Response("Chat is not configured", { status: 503 });
 }

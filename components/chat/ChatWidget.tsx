@@ -41,6 +41,11 @@ export default function ChatWidget() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: history }),
       });
+      if (res.status === 429) {
+        throw new Error(
+          "I'm getting a lot of questions right now – give me a minute and try again."
+        );
+      }
       if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
 
       const reader = res.body.getReader();
@@ -53,8 +58,12 @@ export default function ChatWidget() {
         const current = acc;
         setMessages([...history, { role: "assistant", content: current }]);
       }
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      setError(
+        err instanceof Error && err.message.startsWith("I'm getting")
+          ? err.message
+          : "Something went wrong. Please try again."
+      );
       setMessages(history);
     } finally {
       setLoading(false);
