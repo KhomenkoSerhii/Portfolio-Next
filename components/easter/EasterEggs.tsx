@@ -68,6 +68,7 @@ export default function EasterEggs() {
     }
 
     function onKey(e: KeyboardEvent) {
+      if (!e.key) return; // synthetic events (autofill, extensions) have no key
       if (e.key === "Escape") {
         dispatchToggle(false);
         return;

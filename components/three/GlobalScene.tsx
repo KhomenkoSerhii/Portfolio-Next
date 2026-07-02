@@ -228,7 +228,7 @@ function NeuralCore() {
       d: "right",
     };
     const onKeyDown = (e: KeyboardEvent) => {
-      if (!game.current.on) return;
+      if (!game.current.on || !e.key) return;
       const dir = KEYMAP[e.key.length === 1 ? e.key.toLowerCase() : e.key];
       if (dir) {
         e.preventDefault(); // stop arrows from scrolling the page
@@ -236,6 +236,7 @@ function NeuralCore() {
       }
     };
     const onKeyUp = (e: KeyboardEvent) => {
+      if (!e.key) return;
       const dir = KEYMAP[e.key.length === 1 ? e.key.toLowerCase() : e.key];
       if (dir) game.current.keys[dir] = false;
     };
