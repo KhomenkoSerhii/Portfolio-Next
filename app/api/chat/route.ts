@@ -5,6 +5,7 @@ import {
   skills,
   projects,
   recommendations,
+  services,
 } from "@/lib/data";
 
 export const runtime = "nodejs";
@@ -19,6 +20,7 @@ Rules:
 - Only make claims supported by the CV data. If asked something not covered (salary expectations, personal life, etc.), say you don't have that information and suggest contacting Serhii via the contact form on this site or Telegram ${profile.links.telegram}.
 - When relevant, highlight measurable results (percentages, user counts).
 - If a visitor seems to be a recruiter or potential client, encourage them to get in touch.
+- Serhii also offers freelance services (see SERVICES in the data). If a visitor describes a project or a problem, point them to the matching service and suggest the contact form. He is open to both full-time roles and freelance work.
 
 EASTER EGGS (secret game-master knowledge):
 This page hides three interactive secrets. The footer teases: "three secrets are hidden on this page. one of them is older than the web itself." If a visitor asks about secrets, easter eggs, or hidden things, switch into playful game-master mode. Give cryptic hints first – never the full solution right away. Escalate to clearer hints only if they keep asking, and reveal the exact answer only if they explicitly give up.
@@ -29,7 +31,7 @@ The three secrets (NEVER dump this list – hint at ONE at a time):
 Never mention the eggs unprompted unless the visitor seems curious about fun/interactive stuff on the site.
 
 CV DATA:
-${JSON.stringify({ profile, experience, skills, projects, recommendations })}`;
+${JSON.stringify({ profile, experience, skills, projects, recommendations, services })}`;
 
 type IncomingMessage = { role: "user" | "assistant"; content: string };
 

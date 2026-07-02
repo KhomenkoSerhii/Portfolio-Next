@@ -2,6 +2,7 @@ import Hero from "@/components/sections/Hero";
 import Experience from "@/components/sections/Experience";
 import Skills from "@/components/sections/Skills";
 import Recommendations from "@/components/sections/Recommendations";
+import Services from "@/components/sections/Services";
 import Contact from "@/components/sections/Contact";
 import ChatWidget from "@/components/chat/ChatWidget";
 import SceneMount from "@/components/three/SceneMount";
@@ -53,6 +54,7 @@ export default function Home() {
         <Experience />
         <Skills />
         <Recommendations />
+        <Services />
         <Contact />
       </div>
       <ChatWidget />

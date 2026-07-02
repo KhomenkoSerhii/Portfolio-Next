@@ -256,3 +256,63 @@ export const projects = [
     stack: ["React Native", "WebSocket"],
   },
 ];
+
+// services – flagship cards + compact secondary list
+export const services = {
+  intro:
+    "Available for full-time roles and selected freelance projects. Everything below is backed by shipped production work – ask the AI assistant for details.",
+  featured: [
+    {
+      title: "Vibe-Code Rescue",
+      tag: "FLAGSHIP",
+      accent: "ai" as const,
+      tagline: "Your AI-built app works – until it doesn't.",
+      bullets: [
+        "Deep review of AI-generated codebases: security, performance, architecture",
+        "Refactoring to production standards without losing what already ships",
+        "Deploy pipeline, monitoring and a clear technical roadmap",
+      ],
+    },
+    {
+      title: "AI Features & Assistants",
+      tag: "LIVE DEMO ON THIS SITE",
+      accent: "ai" as const,
+      tagline: "LLM-powered UX that ships – like the assistant in the corner.",
+      bullets: [
+        "Chat assistants trained on your product, docs or data",
+        "Streaming UX: incremental rendering, fallbacks, latency handling",
+        "Provider strategy with cost control: Gemini, Claude, OpenAI, Groq",
+      ],
+    },
+    {
+      title: "Performance Sprint",
+      tag: "MEASURABLE",
+      accent: "default" as const,
+      tagline: "Slow apps lose users. I find out why – with numbers.",
+      bullets: [
+        "Core Web Vitals, bundle and rendering audit with prioritised fixes",
+        "Proven results: ~35% faster loads, ~30% lower UI latency under load",
+        "Before/after metrics report you can show stakeholders",
+      ],
+    },
+    {
+      title: "Web3 Frontend",
+      tag: "NICHE",
+      accent: "default" as const,
+      tagline: "Wallets, dApps and crypto payments that feel like Web2.",
+      bullets: [
+        "Wallet connection flows and transaction UX",
+        "Crypto payment dashboards – cut payment errors by ~20%",
+        "Contract-aware frontend: events, calls, failure states",
+      ],
+    },
+  ],
+  secondary: [
+    { title: "MVP Development", blurb: "idea to deployed product in weeks" },
+    { title: "Payments", blurb: "Stripe, checkout flows, subscriptions" },
+    { title: "Real-Time", blurb: "WebSocket chats, live dashboards" },
+    { title: "Search UX", blurb: "faceted search, –30% time-to-find" },
+    { title: "Design Systems", blurb: "testable shadcn/Radix libraries" },
+    { title: "AI Tooling for Teams", blurb: "adopt Claude Code without chaos" },
+  ],
+};
