@@ -24,7 +24,7 @@ function ThemeToggle() {
       className="relative flex h-9 w-9 items-center justify-center rounded-full text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/60 dark:hover:text-white"
     >
       <AnimatePresence mode="wait" initial={false}>
-        {isDark ? (
+        {!isDark ? (
           <motion.svg
             key="moon"
             initial={{ opacity: 0, rotate: -90, scale: 0.6 }}

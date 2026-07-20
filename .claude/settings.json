@@ -3,7 +3,8 @@
     "allow": [
       "Bash(kill 15599)",
       "Bash(mkdir -p /Users/serhiikh/Desktop/portfolio/docs/superpowers/specs && ls docs/superpowers/specs 2>/dev/null)",
-      "Bash(node -e \"console.log\\('three', require\\('/Users/serhiikh/Desktop/portfolio/node_modules/three/package.json'\\).version\\); console.log\\('r3f', require\\('/Users/serhiikh/Desktop/portfolio/node_modules/@react-three/fiber/package.json'\\).version\\)\")"
+      "Bash(node -e \"console.log\\('three', require\\('/Users/serhiikh/Desktop/portfolio/node_modules/three/package.json'\\).version\\); console.log\\('r3f', require\\('/Users/serhiikh/Desktop/portfolio/node_modules/@react-three/fiber/package.json'\\).version\\)\")",
+      "Bash(curl -s https://serhii-khomenko.vercel.app/ -o vercel.html)"
     ],
     "additionalDirectories": [
       "/Users/serhiikh/Desktop/portfolio/docs/superpowers"

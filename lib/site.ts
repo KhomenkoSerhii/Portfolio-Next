@@ -1,6 +1,6 @@
-// Change this to the real domain before deploying
+// Override with NEXT_PUBLIC_SITE_URL if a custom domain is connected later.
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://serhii-khomenko.dev";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://serhii-khomenko.vercel.app";
 
 export const SITE_NAME = "Serhii Khomenko - Frontend Developer";
 export const SITE_DESCRIPTION =
