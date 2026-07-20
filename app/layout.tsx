@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Syne } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { MotionConfig } from "framer-motion";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import "./globals.css";
@@ -90,7 +91,13 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>{children}</ThemeProvider>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        <div className="scroll-progress" aria-hidden />
+        <ThemeProvider>
+          <MotionConfig reducedMotion="user">{children}</MotionConfig>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

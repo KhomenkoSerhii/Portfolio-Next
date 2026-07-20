@@ -64,8 +64,38 @@ body::before {
 }
 
 /* keep anchored sections clear of the fixed navbar */
-section[id] {
+section[id],
+#main {
   scroll-margin-top: 5rem;
+}
+
+/* keyboard focus ring for all interactive elements */
+:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* skip-to-content link — visible only when focused */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  border-radius: 9999px;
+  background: #10b981;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #052e1a;
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline-offset: 2px;
 }
 
 /* AI chat button */
@@ -110,4 +140,55 @@ body.game-mode {
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* ── scroll-driven reading progress bar ─────────────────────────────
+   Native CSS scroll timeline. Gated behind @supports so browsers
+   without scroll-driven animations simply don't render the bar. */
+@keyframes grow-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 50;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #10b981, #22d3ee);
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    display: block;
+    animation: grow-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+/* ── respect the user's reduced-motion preference ───────────────────
+   Neutralises CSS animations/transitions; framer-motion is handled by
+   <MotionConfig reducedMotion="user"> in layout.tsx. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
 }

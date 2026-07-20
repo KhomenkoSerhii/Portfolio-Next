@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
@@ -563,12 +563,21 @@ function Starfield() {
 }
 
 export default function GlobalScene() {
+  // pause the render loop while the tab is hidden to save CPU/battery
+  const [active, setActive] = useState(true);
+  useEffect(() => {
+    const onVisibility = () => setActive(!document.hidden);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
   return (
     <div
       className="pointer-events-none fixed inset-0 -z-10 [animation:fade-in_1.2s_ease_both] motion-reduce:hidden"
       aria-hidden
     >
       <Canvas
+        frameloop={active ? "always" : "never"}
         camera={{ position: [0, 0, 7.5], fov: 55 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
