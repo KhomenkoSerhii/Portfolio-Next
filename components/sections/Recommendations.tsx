@@ -84,9 +84,9 @@ export default function Recommendations() {
 
   return (
     <section id="recommendations" className="mx-auto max-w-5xl px-6 py-28">
-      <SectionTitle index="03 – WHAT PEOPLE SAY">Recommendations</SectionTitle>
+      <SectionTitle index="04 - WHAT PEOPLE SAY">Recommendations</SectionTitle>
 
-      {/* featured quote – content crossfades when a card below is clicked */}
+      {/* featured quote - content crossfades when a card below is clicked */}
       <Reveal>
         <figure className="relative min-h-[16rem] border-l-2 border-emerald-400 pl-6 sm:pl-10">
           <span
@@ -114,7 +114,7 @@ export default function Recommendations() {
         </figure>
       </Reveal>
 
-      {/* the rest – horizontal snap strip, click/swipe/drag to read in full above */}
+      {/* the rest - horizontal snap strip, click/swipe/drag to read in full above */}
       <div
         ref={scrollerRef}
         onPointerDown={onPointerDown}

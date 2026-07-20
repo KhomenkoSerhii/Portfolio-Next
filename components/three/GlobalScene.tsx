@@ -181,7 +181,7 @@ function NeuralCore() {
     [net]
   );
 
-  // easter-egg state (refs only – no react re-renders in the frame loop)
+  // easter-egg state (refs only - no react re-renders in the frame loop)
   const game = useRef({
     on: false,
     x: 0,
@@ -416,7 +416,7 @@ function NeuralCore() {
   return (
     <>
       <group ref={group}>
-        {/* connections – gradient lines via vertex colors */}
+        {/* connections - gradient lines via vertex colors */}
         <lineSegments ref={edgesRef}>
           <bufferGeometry>
             <bufferAttribute attach="attributes-position" args={[edgePositions, 3]} />
@@ -424,7 +424,7 @@ function NeuralCore() {
           </bufferGeometry>
           <lineBasicMaterial ref={edgeMatRef} vertexColors transparent opacity={0.25} />
         </lineSegments>
-        {/* neurons – cyan->emerald gradient across the sphere */}
+        {/* neurons - cyan->emerald gradient across the sphere */}
         <points ref={nodesRef} frustumCulled={false}>
           <bufferGeometry>
             <bufferAttribute attach="attributes-position" args={[nodePositions, 3]} />
@@ -460,7 +460,7 @@ function NeuralCore() {
         ))}
       </group>
 
-      {/* game collectibles – world space, outside the moving group */}
+      {/* game collectibles - world space, outside the moving group */}
       <points ref={collectiblesRef} frustumCulled={false}>
         <bufferGeometry>
           <bufferAttribute

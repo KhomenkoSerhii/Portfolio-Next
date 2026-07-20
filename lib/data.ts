@@ -1,9 +1,9 @@
 export const profile = {
   name: "Serhii Khomenko",
-  role: "Software Engineer · Frontend Developer",
+  role: "Senior Frontend Engineer · React / TypeScript",
   location: "Lviv, Ukraine",
   summary:
-    "7+ years turning complex requirements into fast, reliable React/TypeScript products across fintech, Web3, and eCommerce. Over the last 2+ years – shipping AI-powered features end-to-end: LLM-driven workflows, streaming UX, prompt design. Measurable impact: ~35% faster apps, +15% conversion, platforms serving 100k+ users.",
+    "Senior Frontend Engineer with 7+ years in React, TypeScript, and Next.js, specialising in AI-powered product UX - LLM features in production, streaming model responses, and agentic development workflows (Claude Code daily). Measurable impact across fintech, Web3, and eCommerce: ~35% faster apps, +15% conversion, platforms serving 100k+ users.",
   links: {
     linkedin: "https://linkedin.com/in/serhiikhomenko",
     telegram: "https://t.me/KhSerhii",
@@ -25,7 +25,7 @@ export const experience: Job[] = [
   {
     company: "Calyptus",
     location: "London, UK",
-    period: "Sep 2023 – Present",
+    period: "Sep 2023 - Present",
     title: "Software Engineer",
     product: "AI-powered talent platform",
     stack: [
@@ -37,51 +37,58 @@ export const experience: Job[] = [
       "Stripe",
       "web3",
       "AWS",
+      "CI/CD",
     ],
     highlights: [
-      "Owned the full React/TypeScript front-end architecture serving 100k+ users, adopted by leading Web3 companies",
-      "Integrated LLM-powered features: candidate-job matching, smart search, automated profile parsing",
-      "Designed UX for streaming AI responses: incremental rendering, progress states, graceful fallbacks",
+      "Owned and built the full React/TypeScript front-end architecture serving 100k+ users, adopted by leading Web3 companies",
+      "Integrated LLM-powered features end-to-end (candidate-job matching, smart search, automated profile parsing), wiring the front-end to AI/LLM APIs",
+      "Designed UX for streaming AI responses: incremental rendering, progress states, and graceful fallbacks for model latency and errors",
+      "Collaborated with backend and product on prompt design and response formatting to improve the quality of AI output in the UI",
+      "Built internal dashboards, admin tools, and Stripe payment workflows; set up CI/CD pipelines and AWS deployments",
       "Improved application performance by ~35% via code splitting, lazy loading, and real-time update optimisation",
     ],
   },
   {
     company: "Avenga",
     location: "London, UK",
-    period: "Jul 2022 – Jun 2023",
+    period: "Jul 2022 - Jun 2023",
     title: "Software Engineer",
     product: "Insurance Technology Portal",
-    stack: ["React", "TypeScript", "REST APIs", "Contentful", "Auth0", "AWS"],
+    stack: ["React", "TypeScript", "REST APIs", "Contentful", "Auth0", "AWS", "CI/CD"],
     highlights: [
-      "Built a scalable faceted search system that cut time-to-find by ~30%",
-      "Reduced initial load time by ~25–35% and response times by ~20%",
-      "Integrated 5+ third-party data sources to enrich search results",
+      "Built a scalable faceted search system (filtering, sorting, navigation) that cut time-to-find by ~30%",
+      "Reduced initial load time by ~25-35% and response times by ~20% via lazy loading and bundle optimisation",
+      "Defined API contracts and aligned frontend-backend interactions for efficient data indexing and search accuracy",
+      "Integrated 5+ third-party data sources to enrich search results and improve relevance",
+      "Delivered responsive, mobile-first UI consistent across all devices",
     ],
   },
   {
     company: "Perfectial",
     location: "USA",
-    period: "Mar 2021 – Jul 2022",
+    period: "Mar 2021 - Jul 2022",
     title: "Software Engineer",
     product: "Crypto & Payment Infrastructure",
-    stack: ["React", "Redux", "TypeScript", "web3", "Solidity", "Jest"],
+    stack: ["React", "Redux", "TypeScript", "web3", "Solidity", "REST APIs", "Jest"],
     highlights: [
-      "Built a crypto payments dashboard for transactions, wallets, and payment flows",
+      "Built a crypto payments dashboard for transactions, wallets, and payment flows in a unified interface",
       "Integrated multiple payment providers and blockchain interactions, cutting payment errors by ~20%",
-      "Reduced UI latency by ~30% during peak transaction periods",
+      "Architected scalable Redux state management for high-frequency transaction data",
+      "Reduced UI latency by ~30% during peak transaction periods under high load",
     ],
   },
   {
     company: "StarApps",
     location: "UK · USA",
-    period: "Oct 2019 – Feb 2021",
+    period: "Oct 2019 - Feb 2021",
     title: "Front End Developer",
     product: "Corporate Management App & Online Store",
-    stack: ["React", "JavaScript", "Node.js", "MongoDB", "SASS"],
+    stack: ["React", "JavaScript", "Node.js", "REST APIs", "MongoDB", "SASS"],
     highlights: [
-      "Developed core HR modules (Leave, Timesheets, Attendance, Reporting) used daily by internal teams",
-      "Built e-commerce features that lifted conversion by ~15%",
-      "Built and maintained Node.js REST APIs powering the HR and e-commerce modules",
+      "Developed and scaled core HR modules (Leave, Timesheets, Attendance, Reporting) used daily by internal teams",
+      "Built e-commerce features (listings, cart, checkout) and REST API integrations that lifted conversion by ~15%",
+      "Worked as a backend developer in Node.js: built and maintained REST APIs, business logic, and data integrations powering the HR and e-commerce modules",
+      "Improved performance by ~25%, resolved critical production issues, and built a reusable UI component library",
     ],
   },
 ];
@@ -95,39 +102,68 @@ export const skills: { group: string; items: string[] }[] = [
       "Streaming UX",
       "Claude Code",
       "GitHub Copilot",
+      "ChatGPT",
+      "Gemini",
     ],
   },
   {
     group: "Core",
     items: [
-      "React",
+      "React.js",
       "Next.js",
-      "TypeScript",
       "Redux",
+      "TypeScript",
       "JavaScript",
-      "Vite",
+      "React Hooks",
+      "Git",
       "Webpack",
+      "Vite",
     ],
   },
   {
     group: "Frontend",
-    items: ["Tailwind", "shadcn", "Radix", "Material-UI", "SASS", "BEM"],
+    items: [
+      "HTML",
+      "CSS",
+      "SASS",
+      "BEM",
+      "Material-UI",
+      "Ant Design",
+      "Tailwind",
+      "shadcn",
+      "Radix",
+    ],
   },
   {
     group: "Backend",
-    items: ["Node.js", "GraphQL", "REST APIs", "WebSocket", "MongoDB"],
+    items: ["Node.js", "MongoDB", "GraphQL", "Apollo", "REST APIs", "WebSocket"],
   },
   {
-    group: "DevOps & Testing",
-    items: ["Docker", "AWS", "CI/CD", "GitHub Actions", "Jest", "RTL"],
+    group: "DevOps",
+    items: ["Docker", "AWS", "CI/CD", "GitHub Actions"],
+  },
+  {
+    group: "Testing",
+    items: ["Jest", "Enzyme", "React Testing Library", "Cypress", "Playwright"],
   },
   {
     group: "Other",
-    items: ["web3", "Solidity", "Stripe", "React Native", "Auth0", "Contentful"],
+    items: [
+      "Vue",
+      "Angular",
+      "React Native",
+      "Stripe",
+      "Contentful",
+      "Auth0",
+      "Kibana",
+      "Mixpanel",
+      "web3",
+      "Solidity",
+    ],
   },
 ];
 
-// proficiency tiers: per-skill level (0..1) and years – rendered as a spec sheet
+// proficiency tiers: per-skill level (0..1) and years - rendered as a spec sheet
 export type SkillEntry = { name: string; level: number; years: string };
 
 export const skillTiers: {
@@ -162,7 +198,7 @@ export const skillTiers: {
   },
   {
     label: "IN PRODUCTION",
-    note: "3–5 years",
+    note: "3-5 years",
     accent: "default",
     items: [
       { name: "Next.js", level: 0.7, years: "5y" },
@@ -173,8 +209,11 @@ export const skillTiers: {
       { name: "Tailwind", level: 0.6, years: "3y" },
       { name: "shadcn/Radix", level: 0.55, years: "2y" },
       { name: "Jest", level: 0.55, years: "4y" },
+      { name: "Cypress", level: 0.5, years: "3y" },
+      { name: "Playwright", level: 0.5, years: "2y" },
       { name: "Webpack", level: 0.5, years: "4y" },
       { name: "Material-UI", level: 0.5, years: "3y" },
+      { name: "Ant Design", level: 0.5, years: "3y" },
       { name: "Vite", level: 0.5, years: "3y" },
     ],
   },
@@ -189,10 +228,13 @@ export const skillTiers: {
       { name: "Docker", level: 0.35, years: "projects" },
       { name: "GitHub Actions", level: 0.35, years: "projects" },
       { name: "GraphQL", level: 0.35, years: "projects" },
+      { name: "Apollo", level: 0.35, years: "projects" },
       { name: "MongoDB", level: 0.35, years: "projects" },
       { name: "Stripe", level: 0.3, years: "projects" },
       { name: "Auth0", level: 0.3, years: "projects" },
       { name: "Contentful", level: 0.3, years: "projects" },
+      { name: "Kibana", level: 0.3, years: "projects" },
+      { name: "Mixpanel", level: 0.3, years: "projects" },
       { name: "React Native", level: 0.3, years: "projects" },
       { name: "Vue", level: 0.25, years: "projects" },
       { name: "Angular", level: 0.2, years: "projects" },
@@ -224,7 +266,7 @@ export const recommendations = [
     relation: "Worked on the same team",
     featured: false,
     quote:
-      "Working with Serhii as a QA/SDET engineer was a genuinely great experience – I can confidently say he is one of the most QA-friendly frontend developers I've worked with.\n\nHe consistently wrote predictable, well-structured UI that made it easy to build reliable automated tests. No mystery selectors, no layout surprises – just clean, testable components. When bugs came up, Serhii was fast to respond and never made it feel like a battle. We'd often jump on things together and close them out the same day.\n\nI especially appreciated the times he stayed available in the evening to help me work through tricky issues. That's not something you can take for granted, and it made a real difference.\n\nWith strong expertise in React, TypeScript, Next.js, Redux, and GraphQL, Serhii combines technical excellence with a highly collaborative mindset. He consistently delivers high-quality frontend solutions while making everyone around him more effective. He raises the bar not only for frontend quality but also for how engineering teams collaborate.",
+      "Working with Serhii as a QA/SDET engineer was a genuinely great experience - I can confidently say he is one of the most QA-friendly frontend developers I've worked with.\n\nHe consistently wrote predictable, well-structured UI that made it easy to build reliable automated tests. No mystery selectors, no layout surprises - just clean, testable components. When bugs came up, Serhii was fast to respond and never made it feel like a battle. We'd often jump on things together and close them out the same day.\n\nI especially appreciated the times he stayed available in the evening to help me work through tricky issues. That's not something you can take for granted, and it made a real difference.\n\nWith strong expertise in React, TypeScript, Next.js, Redux, and GraphQL, Serhii combines technical excellence with a highly collaborative mindset. He consistently delivers high-quality frontend solutions while making everyone around him more effective. He raises the bar not only for frontend quality but also for how engineering teams collaborate.",
   },
   {
     name: "Roman Snihur",
@@ -232,7 +274,7 @@ export const recommendations = [
     relation: "Worked on the same team",
     featured: false,
     quote:
-      "Serhiy joined us at Calyptus in early 2023, and he instantly stood out as one of the sharpest front-end engineers I've ever worked with. He doesn't just execute tasks–he drives features forward, blending deep technical skills in React and TypeScript with a strong understanding of product value. Whether launching advanced flows or integrating smart mechanics, his work is always clean, scalable, and impactful. Serhiy is an absolute asset to any engineering team looking for world-class talent. Highly recommended!",
+      "Serhiy joined us at Calyptus in early 2023, and he instantly stood out as one of the sharpest front-end engineers I've ever worked with. He doesn't just execute tasks-he drives features forward, blending deep technical skills in React and TypeScript with a strong understanding of product value. Whether launching advanced flows or integrating smart mechanics, his work is always clean, scalable, and impactful. Serhiy is an absolute asset to any engineering team looking for world-class talent. Highly recommended!",
   },
   {
     name: "Ross Kolodyazhnyi",
@@ -244,37 +286,53 @@ export const recommendations = [
   },
 ];
 
-export const projects = [
+export type Project = {
+  name: string;
+  tag: string;
+  accent: "default" | "ai";
+  description: string;
+  stack: string[];
+};
+
+export const projects: Project[] = [
   {
-    name: "Gaming Platform",
+    name: "Browser Extension",
+    tag: "CHROME · MANIFEST V3",
+    accent: "default",
     description:
-      "Account management system with user registration and profile control",
-    stack: ["React", "WebSocket"],
+      "Recruiter-facing tool built end to end: content script injecting UI into third-party pages, background service worker, cross-context message passing, and chrome.storage state.",
+    stack: ["TypeScript", "Manifest V3", "Service Worker", "chrome.storage"],
   },
   {
-    name: "Admin Dashboard",
+    name: "AI Chat Assistant",
+    tag: "STREAMING LLM UI",
+    accent: "ai",
     description:
-      "Internal tool for managing platform data and configurations",
-    stack: ["React", "REST APIs"],
+      "Streaming LLM chat UI (OpenAI API) with incremental rendering, conversation state, and graceful error and loading handling - the same pattern powering the assistant on this site.",
+    stack: ["React", "TypeScript", "OpenAI API", "Streaming"],
   },
   {
-    name: "Mobile Chat App",
+    name: "Real-Time Chat App",
+    tag: "WEBSOCKET",
+    accent: "default",
     description:
-      "Real-time messaging with WebSocket-based communication, optimised for mobile",
-    stack: ["React Native", "WebSocket"],
+      "WebSocket-based messaging with live presence and reconnection handling, optimised for mobile performance.",
+    stack: ["React Native", "WebSocket", "Live Presence"],
   },
 ];
 
-// services – flagship cards + compact secondary list
+// services - flagship cards + compact secondary list
 export const services = {
   intro:
-    "Available for full-time roles and selected freelance projects. Everything below is backed by shipped production work – ask the AI assistant for details.",
+    "Available for full-time roles and selected freelance projects. Everything below is backed by shipped production work - ask the AI assistant for details.",
   featured: [
     {
       title: "Vibe-Code Rescue",
       tag: "FLAGSHIP",
+      icon: "rescue" as const,
       accent: "ai" as const,
-      tagline: "Your AI-built app works – until it doesn't.",
+      tagline: "Your AI-built app works - until it doesn't.",
+      metric: null,
       bullets: [
         "Deep review of AI-generated codebases: security, performance, architecture",
         "Refactoring to production standards without losing what already ships",
@@ -284,8 +342,10 @@ export const services = {
     {
       title: "AI Features & Assistants",
       tag: "LIVE DEMO ON THIS SITE",
+      icon: "ai" as const,
       accent: "ai" as const,
-      tagline: "LLM-powered UX that ships – like the assistant in the corner.",
+      tagline: "LLM-powered UX that ships - like the assistant in the corner.",
+      metric: null,
       bullets: [
         "Chat assistants trained on your product, docs or data",
         "Streaming UX: incremental rendering, fallbacks, latency handling",
@@ -295,8 +355,10 @@ export const services = {
     {
       title: "Performance Sprint",
       tag: "MEASURABLE",
+      icon: "performance" as const,
       accent: "default" as const,
-      tagline: "Slow apps lose users. I find out why – with numbers.",
+      tagline: "Slow apps lose users. I find out why - with numbers.",
+      metric: "~35% faster",
       bullets: [
         "Core Web Vitals, bundle and rendering audit with prioritised fixes",
         "Proven results: ~35% faster loads, ~30% lower UI latency under load",
@@ -306,11 +368,13 @@ export const services = {
     {
       title: "Web3 Frontend",
       tag: "NICHE",
+      icon: "web3" as const,
       accent: "default" as const,
       tagline: "Wallets, dApps and crypto payments that feel like Web2.",
+      metric: "−20% errors",
       bullets: [
         "Wallet connection flows and transaction UX",
-        "Crypto payment dashboards – cut payment errors by ~20%",
+        "Crypto payment dashboards - cut payment errors by ~20%",
         "Contract-aware frontend: events, calls, failure states",
       ],
     },
@@ -319,7 +383,7 @@ export const services = {
     { title: "MVP Development", blurb: "idea to deployed product in weeks" },
     { title: "Payments", blurb: "Stripe, checkout flows, subscriptions" },
     { title: "Real-Time", blurb: "WebSocket chats, live dashboards" },
-    { title: "Search UX", blurb: "faceted search, –30% time-to-find" },
+    { title: "Search UX", blurb: "faceted search, -30% time-to-find" },
     { title: "Design Systems", blurb: "testable shadcn/Radix libraries" },
     { title: "AI Tooling for Teams", blurb: "adopt Claude Code without chaos" },
   ],

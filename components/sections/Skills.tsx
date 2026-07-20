@@ -80,14 +80,14 @@ export default function Skills() {
 
   return (
     <section id="skills" className="mx-auto max-w-5xl px-6 py-28">
-      <SectionTitle index="02 – TOOLKIT">Skills</SectionTitle>
+      <SectionTitle index="02 - TOOLKIT">Skills</SectionTitle>
       <p className="-mt-8 mb-10 max-w-xl text-sm text-zinc-500 dark:text-zinc-400">
         Tile size = how much of my working time each area gets today. Bar
         length = proficiency, years of hands-on experience on the right.
       </p>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {/* EVERY DAY – the anchor tile, largest */}
+        {/* EVERY DAY - the anchor tile, largest */}
         <Reveal className="lg:col-span-2 lg:row-span-2">
           <div className={`${tileCls} h-full justify-center`}>
             <TileHeader
@@ -106,7 +106,7 @@ export default function Skills() {
           </div>
         </Reveal>
 
-        {/* CURRENT FOCUS – accent tile, second most prominent */}
+        {/* CURRENT FOCUS - accent tile, second most prominent */}
         <Reveal delay={0.05} className="lg:col-span-2">
           <div
             className={`${tileCls} border-cyan-500/25 hover:border-cyan-400/50 dark:border-cyan-500/25 dark:hover:border-cyan-400/50`}
@@ -127,7 +127,7 @@ export default function Skills() {
           </div>
         </Reveal>
 
-        {/* IN PRODUCTION – compact rows, no per-item years */}
+        {/* IN PRODUCTION - compact rows, no per-item years */}
         <Reveal delay={0.1} className="lg:col-span-2">
           <div className={tileCls}>
             <TileHeader
@@ -149,7 +149,7 @@ export default function Skills() {
           </div>
         </Reveal>
 
-        {/* HANDS-ON – lowest density, tag cloud instead of meters */}
+        {/* HANDS-ON - lowest density, tag cloud instead of meters */}
         <Reveal delay={0.15} className="lg:col-span-4">
           <div className={tileCls}>
             <TileHeader

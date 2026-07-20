@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { profile } from "@/lib/data";
 import { contactSchema } from "@/lib/contact-schema";
+import { CONTACT_PREFILL_EVENT } from "@/lib/contact-prefill";
 import { Reveal } from "@/components/ui/Reveal";
 import Magnetic from "@/components/ui/Magnetic";
 
@@ -15,6 +16,27 @@ export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [message, setMessage] = useState("");
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  // CTAs elsewhere on the page ("DISCUSS THIS →") drop their topic in here
+  useEffect(() => {
+    function onPrefill(e: Event) {
+      const topic = (e as CustomEvent<string>).detail;
+      if (!topic) return;
+      setStatus("idle"); // in case a message was just sent
+      setMessage(`I'd like to discuss: ${topic}\n\n`);
+      // let the hash-scroll settle, then focus the caret at the end
+      requestAnimationFrame(() => {
+        const el = messageRef.current;
+        if (!el) return;
+        el.focus({ preventScroll: true });
+        el.setSelectionRange(el.value.length, el.value.length);
+      });
+    }
+    window.addEventListener(CONTACT_PREFILL_EVENT, onPrefill);
+    return () => window.removeEventListener(CONTACT_PREFILL_EVENT, onPrefill);
+  }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -56,6 +78,7 @@ export default function Contact() {
       }
       setStatus("sent");
       form.reset();
+      setMessage(""); // controlled field isn't cleared by form.reset()
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Failed to send");
@@ -90,7 +113,7 @@ export default function Contact() {
               Message sent!
             </p>
             <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-              Thanks for reaching out – I&apos;ll get back to you soon.
+              Thanks for reaching out - I&apos;ll get back to you soon.
             </p>
           </div>
         ) : (
@@ -128,7 +151,10 @@ export default function Contact() {
             </div>
             <div>
               <textarea
+                ref={messageRef}
                 name="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 placeholder="Tell me about your project or role…"
                 rows={5}
                 maxLength={5000}
@@ -139,7 +165,7 @@ export default function Contact() {
                 <p className="mt-1 text-xs text-red-400">{fieldErrors.message}</p>
               )}
             </div>
-            {/* honeypot – hidden from humans, tempting for bots */}
+            {/* honeypot - hidden from humans, tempting for bots */}
             <input
               name="website"
               type="text"

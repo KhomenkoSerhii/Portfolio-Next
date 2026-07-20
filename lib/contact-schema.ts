@@ -13,7 +13,7 @@ export const contactSchema = z.object({
     .trim()
     .min(10, "Message should be at least 10 characters")
     .max(5000, "Message is too long"),
-  // honeypot – humans never see or fill this field
+  // honeypot - humans never see or fill this field
   website: z.literal("").optional(),
 });
 

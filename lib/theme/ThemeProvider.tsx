@@ -34,7 +34,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Read the persisted theme after hydration. We deliberately render the
     // default ("light") on the server + first client paint to match markup,
-    // then correct here — the anti-flash script has already set the real class
+    // then correct here - the anti-flash script has already set the real class
     // on <html>, so there's no visual flash, only a state catch-up.
     const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
     const initial: Theme = stored === "dark" ? "dark" : "light";

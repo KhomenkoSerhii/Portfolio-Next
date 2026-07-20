@@ -1,4 +1,4 @@
-// 8-bit chiptune synthesized with Web Audio – an original melody in the
+// 8-bit chiptune synthesized with Web Audio - an original melody in the
 // spirit of NES-era games (the real Konami themes are copyrighted).
 
 let ctx: AudioContext | null = null;
@@ -44,7 +44,7 @@ function playNote(
   osc.stop(when + dur);
 }
 
-// original 4-bar loop, E minor – lead in eighth notes ([midi, steps]; 0 = rest)
+// original 4-bar loop, E minor - lead in eighth notes ([midi, steps]; 0 = rest)
 const LEAD: [number, number][] = [
   [76, 1], [79, 1], [81, 1], [83, 2], [81, 1], [79, 1], [76, 1],
   [74, 1], [76, 1], [79, 1], [76, 2], [0, 2],
@@ -101,5 +101,5 @@ export function scoreBlip() {
   const c = ensureCtx();
   const now = c.currentTime + 0.01;
   playNote(83, now, 0.4, "square", 0.5); // B5
-  playNote(88, now + 0.07, 0.8, "square", 0.5); // E6 – classic coin jump
+  playNote(88, now + 0.07, 0.8, "square", 0.5); // E6 - classic coin jump
 }

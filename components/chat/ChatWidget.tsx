@@ -43,7 +43,7 @@ export default function ChatWidget() {
       });
       if (res.status === 429) {
         throw new Error(
-          "I'm getting a lot of questions right now – give me a minute and try again."
+          "I'm getting a lot of questions right now - give me a minute and try again."
         );
       }
       if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);

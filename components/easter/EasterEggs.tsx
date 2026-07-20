@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { startGameMusic, stopGameMusic, scoreBlip } from "./retro-audio";
+import { prefillContact } from "@/lib/contact-prefill";
 
 const KONAMI = [
   "ArrowUp",
@@ -123,7 +124,7 @@ export default function EasterEggs() {
             <p className="text-[10px] tracking-widest text-zinc-500">
               {decoded
                 ? "TRANSMISSION DECODED"
-                : "INCOMING TRANSMISSION – CATCH THE SIGNALS"}
+                : "INCOMING TRANSMISSION - CATCH THE SIGNALS"}
             </p>
             <p className="mt-1 flex gap-1 text-lg font-bold">
               {slots.map(({ key, ch, shown }) => (
@@ -145,6 +146,7 @@ export default function EasterEggs() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
                 href="#contact"
+                onClick={() => prefillContact("I decoded the hidden \"HIRE ME\" signal 🛸")}
                 className="mt-2 inline-block rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 px-4 py-1.5 text-xs font-bold text-white"
               >
                 Well… let&apos;s talk →
@@ -168,9 +170,9 @@ export default function EasterEggs() {
               <span className="mx-3 text-cyan-500">·</span>
               SCORE: <span className="font-bold text-cyan-300">{score}</span>
               <span className="mx-3 text-cyan-500">·</span>
-              ARROWS / WASD – MOVE
+              ARROWS / WASD - MOVE
               <span className="mx-3 text-cyan-500">·</span>
-              ESC – EXIT
+              ESC - EXIT
             </div>
           </motion.div>
         )}

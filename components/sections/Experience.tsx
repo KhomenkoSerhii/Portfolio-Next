@@ -7,7 +7,7 @@ import { Reveal, SectionTitle } from "@/components/ui/Reveal";
 export default function Experience() {
   return (
     <section id="experience" className="mx-auto max-w-5xl px-6 py-28">
-      <SectionTitle index="01 – CAREER">Experience</SectionTitle>
+      <SectionTitle index="01 - CAREER">Experience</SectionTitle>
       <div className="relative ml-3 border-l border-zinc-200 dark:border-zinc-800">
         {experience.map((job, i) => (
           <Reveal key={job.company} delay={i * 0.08} className="relative pb-14 pl-10 last:pb-0">
