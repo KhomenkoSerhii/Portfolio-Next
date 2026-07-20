@@ -1,8 +1,19 @@
 @import "tailwindcss";
 
+/* drive `dark:` utilities from a `.dark` class on <html>, not OS preference */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  /* light theme (default) */
+  --background: #ffffff;
+  --foreground: #18181b;
+  --grid-line: rgba(0, 0, 0, 0.04);
+}
+
+.dark {
   --background: #090c0a;
   --foreground: #eaf0ed;
+  --grid-line: rgba(255, 255, 255, 0.025);
 }
 
 @theme inline {
@@ -42,8 +53,8 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
 }

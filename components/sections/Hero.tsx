@@ -55,7 +55,7 @@ export default function Hero() {
         </motion.h2>
         <motion.p
           variants={item}
-          className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-200"
+          className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-200"
         >
           {profile.summary}
         </motion.p>
@@ -73,7 +73,7 @@ export default function Hero() {
               href={profile.links.github}
               target="_blank"
               rel="noreferrer"
-              className="inline-block rounded-full border border-zinc-700 px-6 py-3 font-medium text-zinc-300 transition hover:border-emerald-400 hover:text-white"
+              className="inline-block rounded-full border border-zinc-300 px-6 py-3 font-medium text-zinc-600 transition hover:border-emerald-500 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400 dark:hover:text-white"
             >
               GitHub
             </a>
@@ -83,7 +83,7 @@ export default function Hero() {
               href={profile.links.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="inline-block rounded-full border border-zinc-700 px-6 py-3 font-medium text-zinc-300 transition hover:border-emerald-400 hover:text-white"
+              className="inline-block rounded-full border border-zinc-300 px-6 py-3 font-medium text-zinc-600 transition hover:border-emerald-500 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400 dark:hover:text-white"
             >
               LinkedIn
             </a>

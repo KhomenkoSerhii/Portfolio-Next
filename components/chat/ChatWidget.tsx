@@ -137,10 +137,10 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ type: "spring", stiffness: 300, damping: 26 }}
-            className="fixed bottom-24 right-6 z-50 flex h-[min(34rem,calc(100svh-8rem))] w-[min(24rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/95 shadow-2xl backdrop-blur"
+            className="fixed bottom-24 right-6 z-50 flex h-[min(34rem,calc(100svh-8rem))] w-[min(24rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white/95 shadow-2xl backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95"
           >
             {/* header */}
-            <div className="border-b border-zinc-800 px-5 py-4">
+            <div className="border-b border-zinc-200 px-5 py-4 dark:border-zinc-800">
               <p className="bg-gradient-to-r from-violet-400 via-cyan-300 to-emerald-300 bg-clip-text font-semibold text-transparent">
                 Ask AI about Serhii
               </p>
@@ -153,7 +153,7 @@ export default function ChatWidget() {
             >
               {messages.length === 0 && (
                 <div className="space-y-2">
-                  <p className="mb-3 text-sm text-zinc-400">
+                  <p className="mb-3 text-sm text-zinc-500 dark:text-zinc-400">
                     Hi! I can answer questions about Serhii&apos;s experience,
                     skills, and projects. Try one of these:
                   </p>
@@ -161,7 +161,7 @@ export default function ChatWidget() {
                     <button
                       key={s}
                       onClick={() => send(s)}
-                      className="block w-full rounded-xl border border-zinc-800 bg-zinc-900/60 px-3 py-2 text-left text-sm text-zinc-300 transition hover:border-emerald-500/40 hover:text-white"
+                      className="block w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-sm text-zinc-600 transition hover:border-emerald-500/40 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-300 dark:hover:text-white"
                     >
                       {s}
                     </button>
@@ -173,8 +173,8 @@ export default function ChatWidget() {
                   key={i}
                   className={
                     m.role === "user"
-                      ? "ml-8 rounded-2xl rounded-br-sm bg-emerald-500/15 px-4 py-2.5 text-sm text-emerald-50"
-                      : "mr-8 whitespace-pre-wrap rounded-2xl rounded-bl-sm bg-zinc-900 px-4 py-2.5 text-sm leading-relaxed text-zinc-200"
+                      ? "ml-8 rounded-2xl rounded-br-sm bg-emerald-500/15 px-4 py-2.5 text-sm text-emerald-900 dark:text-emerald-50"
+                      : "mr-8 whitespace-pre-wrap rounded-2xl rounded-bl-sm bg-zinc-100 px-4 py-2.5 text-sm leading-relaxed text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"
                   }
                 >
                   {m.content ||
@@ -196,14 +196,14 @@ export default function ChatWidget() {
                 e.preventDefault();
                 send(input);
               }}
-              className="flex gap-2 border-t border-zinc-800 p-3"
+              className="flex gap-2 border-t border-zinc-200 p-3 dark:border-zinc-800"
             >
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask anything…"
                 maxLength={4000}
-                className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2.5 text-sm text-white placeholder-zinc-600 outline-none transition focus:border-emerald-500/50"
+                className="flex-1 rounded-xl border border-zinc-300 bg-zinc-50 px-3.5 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-emerald-500/50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:placeholder-zinc-600"
               />
               <button
                 type="submit"

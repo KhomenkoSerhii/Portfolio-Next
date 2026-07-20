@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(kill 15599)"
+      "Bash(kill 15599)",
+      "Bash(mkdir -p /Users/serhiikh/Desktop/portfolio/docs/superpowers/specs && ls docs/superpowers/specs 2>/dev/null)"
+    ],
+    "additionalDirectories": [
+      "/Users/serhiikh/Desktop/portfolio/docs/superpowers"
     ]
   }
 }

@@ -211,6 +211,14 @@ export const recommendations = [
       "Serhii was our Founding Frontend engineer at Calyptus. He spent three years with us building the core of the platform. Authentication, payments, onboarding, our points system, admin tooling. He did not join a functioning system, he built it!\n\nWhat stood out most was how consistent he was. We went through a lot of change over those three years, multiple pivots, new integrations, shifting priorities, and he just kept shipping. He never made it dramatic and he never let quality slip.\n\nHe is also genuinely good with AI tooling and always keen to bring new automations and processes into his workflow that can increase output efficiency and quality.\n\nI would recommend Serhii without hesitation. Happy to speak to anyone directly.",
   },
   {
+    name: "Callum Crombie",
+    role: "Co-Founder, Calyptus",
+    relation: "Was senior to Serhii",
+    featured: false,
+    quote:
+      "Serhii worked with us at Calyptus for three years. He was our Lead Frontend Engineer and ultimately built almost everything that we shipped. He writes clean, reliable code, turns tricky designs into polished interfaces, and is just as comfortable untangling legacy code as building new features from scratch. His use of AI was impressive and led to huge speed improvements across the team.\n\nHe's also a great teammate: dependable, communicative, and always ready to help. Any team would be lucky to have him. Recommend him without reservation and happy to speak to anyone that would like a reference.",
+  },
+  {
     name: "Maksym Zaiats",
     role: "Senior SDET · QA Lead, Calyptus",
     relation: "Worked on the same team",

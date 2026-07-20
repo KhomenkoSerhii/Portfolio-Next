@@ -9,7 +9,7 @@ import Magnetic from "@/components/ui/Magnetic";
 type Status = "idle" | "sending" | "sent" | "error";
 
 const inputCls =
-  "w-full rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm text-white placeholder-zinc-600 outline-none transition focus:border-emerald-500/60";
+  "w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-emerald-500/60 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-white dark:placeholder-zinc-600";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
@@ -78,7 +78,7 @@ export default function Contact() {
             <br />
             something
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-zinc-300">
+          <p className="mx-auto mt-5 max-w-xl text-zinc-600 dark:text-zinc-300">
             Open to interesting frontend and AI-product challenges. Drop a
             message below or ping me on Telegram.
           </p>
@@ -86,10 +86,10 @@ export default function Contact() {
 
         {status === "sent" ? (
           <div className="mx-auto mt-12 max-w-xl rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center">
-            <p className="font-display text-2xl font-bold text-emerald-300">
+            <p className="font-display text-2xl font-bold text-emerald-600 dark:text-emerald-300">
               Message sent!
             </p>
-            <p className="mt-2 text-sm text-zinc-400">
+            <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
               Thanks for reaching out – I&apos;ll get back to you soon.
             </p>
           </div>
@@ -164,7 +164,7 @@ export default function Contact() {
                   href={profile.links.telegram}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-block rounded-full border border-zinc-700 px-8 py-3.5 font-medium text-zinc-300 transition hover:border-emerald-400 hover:text-white"
+                  className="inline-block rounded-full border border-zinc-300 px-8 py-3.5 font-medium text-zinc-600 transition hover:border-emerald-500 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400 dark:hover:text-white"
                 >
                   Telegram
                 </a>
@@ -173,12 +173,12 @@ export default function Contact() {
           </form>
         )}
 
-        <footer className="mt-24 space-y-2 border-t border-zinc-900 pt-8 text-center font-mono text-xs text-zinc-600">
+        <footer className="mt-24 space-y-2 border-t border-zinc-200 pt-8 text-center font-mono text-xs text-zinc-500 dark:border-zinc-900 dark:text-zinc-600">
           <p>
             © {new Date().getFullYear()} {profile.name} · Built with Next.js,
             Framer Motion & React Three Fiber
           </p>
-          <p className="text-zinc-700">
+          <p className="text-zinc-400 dark:text-zinc-700">
             PS: three secrets are hidden on this page. one of them is older
             than the web itself.
           </p>
