@@ -91,9 +91,6 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col">
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
         <div className="scroll-progress" aria-hidden />
         <ThemeProvider>
           <MotionConfig reducedMotion="user">{children}</MotionConfig>
