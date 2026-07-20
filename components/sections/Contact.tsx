@@ -6,6 +6,7 @@ import { contactSchema } from "@/lib/contact-schema";
 import { CONTACT_PREFILL_EVENT } from "@/lib/contact-prefill";
 import { Reveal } from "@/components/ui/Reveal";
 import Magnetic from "@/components/ui/Magnetic";
+import SocialLinks from "@/components/ui/SocialLinks";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -37,6 +38,17 @@ export default function Contact() {
     window.addEventListener(CONTACT_PREFILL_EVENT, onPrefill);
     return () => window.removeEventListener(CONTACT_PREFILL_EVENT, onPrefill);
   }, []);
+
+  // validate a single field on blur for immediate, inline feedback
+  function validateField(field: "name" | "email" | "message", value: string) {
+    const res = contactSchema.shape[field].safeParse(value);
+    setFieldErrors((prev) => {
+      const next = { ...prev };
+      if (res.success) delete next[field];
+      else next[field] = res.error.issues[0]?.message ?? "Invalid value";
+      return next;
+    });
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -115,6 +127,9 @@ export default function Contact() {
             <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
               Thanks for reaching out - I&apos;ll get back to you soon.
             </p>
+            <div className="mt-6 flex justify-center">
+              <SocialLinks />
+            </div>
           </div>
         ) : (
           <form
@@ -128,6 +143,7 @@ export default function Contact() {
                   name="name"
                   placeholder="Your name"
                   maxLength={100}
+                  onBlur={(e) => validateField("name", e.target.value)}
                   className={inputCls}
                   aria-invalid={!!fieldErrors.name}
                 />
@@ -141,6 +157,7 @@ export default function Contact() {
                   type="email"
                   placeholder="Your email"
                   maxLength={200}
+                  onBlur={(e) => validateField("email", e.target.value)}
                   className={inputCls}
                   aria-invalid={!!fieldErrors.email}
                 />
@@ -155,6 +172,7 @@ export default function Contact() {
                 name="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onBlur={(e) => validateField("message", e.target.value)}
                 placeholder="Tell me about your project or role…"
                 rows={5}
                 maxLength={5000}
@@ -175,7 +193,7 @@ export default function Contact() {
               className="absolute left-[-9999px] h-0 w-0 opacity-0"
             />
             {error && <p className="text-sm text-red-400">{error}</p>}
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <div className="flex flex-col items-center gap-6 pt-2">
               <Magnetic>
                 <button
                   type="submit"
@@ -185,16 +203,7 @@ export default function Contact() {
                   {status === "sending" ? "Sending…" : "Send message"}
                 </button>
               </Magnetic>
-              <Magnetic>
-                <a
-                  href={profile.links.telegram}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-block rounded-full border border-zinc-300 px-8 py-3.5 font-medium text-zinc-600 transition hover:border-emerald-500 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400 dark:hover:text-white"
-                >
-                  Telegram
-                </a>
-              </Magnetic>
+              <SocialLinks />
             </div>
           </form>
         )}
