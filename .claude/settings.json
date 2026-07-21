@@ -4,7 +4,9 @@
       "Bash(kill 15599)",
       "Bash(mkdir -p /Users/serhiikh/Desktop/portfolio/docs/superpowers/specs && ls docs/superpowers/specs 2>/dev/null)",
       "Bash(node -e \"console.log\\('three', require\\('/Users/serhiikh/Desktop/portfolio/node_modules/three/package.json'\\).version\\); console.log\\('r3f', require\\('/Users/serhiikh/Desktop/portfolio/node_modules/@react-three/fiber/package.json'\\).version\\)\")",
-      "Bash(curl -s https://serhii-khomenko.vercel.app/ -o vercel.html)"
+      "Bash(curl -s https://serhii-khomenko.vercel.app/ -o vercel.html)",
+      "Bash(node -e \"const p=require\\('/Users/serhiikh/Desktop/portfolio/package.json'\\); console.log\\('react', p.dependencies.react\\)\")",
+      "Bash(node -e \"const p=require\\('./package.json'\\); console.log\\(JSON.stringify\\(p.devDependencies,null,1\\)\\)\")"
     ],
     "additionalDirectories": [
       "/Users/serhiikh/Desktop/portfolio/docs/superpowers"
