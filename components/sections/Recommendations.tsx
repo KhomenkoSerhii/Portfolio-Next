@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
 import { profile, recommendations } from "@/lib/data";
 import { Reveal, SectionTitle } from "@/components/ui/Reveal";
 
@@ -46,47 +47,21 @@ export default function Recommendations() {
     Math.max(recommendations.findIndex((r) => r.featured), 0)
   );
   const featured = recommendations[active];
-  const rest = recommendations.filter((_, i) => i !== active);
 
-  // click-and-drag to scroll the strip horizontally with a mouse
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const drag = useRef({ down: false, startX: 0, startScroll: 0, moved: false });
-
-  function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
-    // primary button only; let touch/pen use native scrolling
-    if (e.pointerType !== "mouse" || e.button !== 0) return;
-    const el = scrollerRef.current;
-    if (!el) return;
-    drag.current = {
-      down: true,
-      startX: e.clientX,
-      startScroll: el.scrollLeft,
-      moved: false,
-    };
-  }
-
-  function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
-    const el = scrollerRef.current;
-    if (!drag.current.down || !el) return;
-    const dx = e.clientX - drag.current.startX;
-    if (Math.abs(dx) > 4) drag.current.moved = true;
-    el.scrollLeft = drag.current.startScroll - dx;
-  }
-
-  function endDrag() {
-    drag.current.down = false;
-    // clear the "moved" flag on the next tick so the card's click handler
-    // (which fires right after pointerup) can read it and suppress promotion
-    setTimeout(() => {
-      drag.current.moved = false;
-    }, 0);
-  }
+  // embla powers the small-card strip (smooth drag/swipe, no reflow on click)
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    dragFree: true,
+    containScroll: "trimSnaps",
+  });
+  // tell a real click apart from the end of a drag
+  const downX = useRef(0);
 
   return (
     <section id="recommendations" className="mx-auto max-w-5xl px-6 py-28">
       <SectionTitle index="04 - WHAT PEOPLE SAY">Recommendations</SectionTitle>
 
-      {/* featured quote - content crossfades when a card below is clicked */}
+      {/* featured quote - crossfades when a card below is clicked */}
       <Reveal>
         <figure className="relative min-h-[16rem] border-l-2 border-emerald-400 pl-6 sm:pl-10">
           <span
@@ -114,66 +89,59 @@ export default function Recommendations() {
         </figure>
       </Reveal>
 
-      {/* the rest - horizontal snap strip, click/swipe/drag to read in full above */}
+      {/* small clickable cards - drag/swipe strip; click promotes to featured */}
       <div
-        ref={scrollerRef}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerLeave={endDrag}
-        className="mt-10 -mx-6 flex cursor-grab snap-x snap-mandatory gap-5 overflow-x-auto scroll-px-6 px-6 pb-4 pt-4 scrollbar-none select-none active:cursor-grabbing [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="mt-10 overflow-hidden"
+        ref={emblaRef}
+        onPointerDownCapture={(e) => {
+          downX.current = e.clientX;
+        }}
       >
-        {rest.map((rec) => {
-          const index = recommendations.indexOf(rec);
-          return (
-            <div key={rec.name} className="w-[min(85vw,21rem)] shrink-0 snap-start">
-              <motion.figure
+        <div className="flex gap-5 pt-4">
+          {recommendations.map((rec, index) => {
+            const isActive = index === active;
+            return (
+              <figure
+                key={rec.name}
                 role="button"
                 tabIndex={0}
                 aria-label={`Read ${rec.name}'s recommendation in full`}
-                onClick={() => {
-                  // ignore the click that ends a drag-scroll
-                  if (drag.current.moved) return;
+                aria-pressed={isActive}
+                onClick={(e) => {
+                  // ignore the click that ends a drag
+                  if (Math.abs(e.clientX - downX.current) > 6) return;
                   setActive(index);
+                  emblaApi?.scrollTo(index);
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     setActive(index);
+                    emblaApi?.scrollTo(index);
                   }
                 }}
-                whileHover={{ y: -4 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 300, damping: 24 }}
-                className="flex h-full cursor-pointer flex-col rounded-2xl border border-zinc-200 bg-white p-6 backdrop-blur-md transition-colors hover:border-emerald-500/40 focus-visible:border-emerald-400 focus-visible:outline-none dark:border-zinc-800/80 dark:bg-zinc-950/80"
+                className={`flex min-w-0 flex-[0_0_78%] cursor-pointer flex-col rounded-2xl border bg-white p-6 transition-colors focus-visible:outline-none dark:bg-zinc-950/80 sm:flex-[0_0_46%] lg:flex-[0_0_31%] ${
+                  isActive
+                    ? "border-emerald-500/60 dark:border-emerald-400/50"
+                    : "border-zinc-200 hover:border-emerald-500/40 dark:border-zinc-800/80"
+                }`}
               >
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={rec.name}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex flex-1 flex-col"
-                  >
-                    <blockquote className="flex-1 overflow-hidden text-sm leading-relaxed text-zinc-700 dark:text-zinc-200 [-webkit-box-orient:vertical] [-webkit-line-clamp:6] [display:-webkit-box]">
-                      “{rec.quote}”
-                    </blockquote>
-                    <figcaption className="mt-6 border-t border-zinc-200 pt-5 dark:border-zinc-800/80">
-                      <Author {...rec} />
-                    </figcaption>
-                  </motion.div>
-                </AnimatePresence>
-              </motion.figure>
-            </div>
-          );
-        })}
+                <blockquote className="flex-1 overflow-hidden text-sm leading-relaxed text-zinc-700 dark:text-zinc-200 [-webkit-box-orient:vertical] [-webkit-line-clamp:6] [display:-webkit-box]">
+                  “{rec.quote}”
+                </blockquote>
+                <figcaption className="mt-6 border-t border-zinc-200 pt-5 dark:border-zinc-800/80">
+                  <Author {...rec} />
+                </figcaption>
+              </figure>
+            );
+          })}
+        </div>
       </div>
 
       <Reveal>
         <div className="mt-10 flex flex-col items-center gap-2 text-center">
           <p className="font-mono text-[10px] tracking-widest text-zinc-400 dark:text-zinc-700">
-SWIPE OR CLICK A CARD TO READ IT IN FULL
+            SWIPE OR CLICK A CARD TO READ IT IN FULL
           </p>
           <a
             href={`${profile.links.linkedin}/details/recommendations/`}
