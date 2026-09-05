@@ -16,7 +16,7 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: profile.name,
-  jobTitle: "Software Engineer · Frontend Developer",
+  jobTitle: "Senior Frontend Engineer",
   description: profile.summary,
   url: SITE_URL,
   address: {

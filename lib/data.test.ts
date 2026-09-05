@@ -63,6 +63,13 @@ describe("recommendations", () => {
   it("has exactly one featured recommendation", () => {
     expect(recommendations.filter((r) => r.featured)).toHaveLength(1);
   });
+
+  it("features Dan Jones' LinkedIn recommendation", () => {
+    expect(recommendations[0]).toMatchObject({
+      name: "Dan Jones",
+      featured: true,
+    });
+  });
 });
 
 describe("projects", () => {
