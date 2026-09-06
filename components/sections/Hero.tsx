@@ -2,72 +2,106 @@
 
 import { motion } from "framer-motion";
 import { profile } from "@/lib/data";
-import Magnetic from "@/components/ui/Magnetic";
+import SignalFlow from "@/components/visuals/SignalFlow";
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
+const reveal = {
+  hidden: { opacity: 0, y: 26 },
   show: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
+const metrics = [
+  { value: "7+", label: "years shipping" },
+  { value: "100K+", label: "users served" },
+  { value: "~35%", label: "faster apps" },
+  { value: "AI / UX", label: "current focus" },
+];
+
 export default function Hero() {
   return (
-    <section className="relative flex min-h-svh items-center overflow-hidden">
-      {/* radial glow behind text */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[60rem] w-[60rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-600/10 blur-[120px]"
-      />
+    <section id="about" className="relative min-h-svh overflow-hidden border-b border-[var(--line)] pt-24">
+      <div className="pointer-events-none absolute inset-y-0 left-[7.5%] hidden w-px bg-[var(--line)] xl:block" />
+      <div className="pointer-events-none absolute inset-y-0 right-[7.5%] hidden w-px bg-[var(--line)] xl:block" />
+      <div className="hero-scanline" aria-hidden />
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-20 h-[42%] opacity-45 sm:h-[48%] lg:bottom-8 lg:left-[48%] lg:top-24 lg:h-auto lg:opacity-100">
+        <SignalFlow />
+      </div>
+
       <motion.div
-        variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-auto w-full max-w-5xl px-6"
+        transition={{ staggerChildren: 0.1, delayChildren: 0.08 }}
+        className="section-shell relative z-10 flex min-h-[calc(100svh-6rem)] flex-col"
       >
-        <motion.p
-          variants={item}
-          className="mb-4 font-mono text-sm tracking-widest text-emerald-400"
-        >
-          {profile.location.toUpperCase()}
-        </motion.p>
-        <motion.h1
-          variants={item}
-          className="font-display text-[clamp(2rem,8.5vw,4rem)] font-extrabold uppercase leading-[0.95] tracking-tight sm:text-8xl"
-        >
-          Serhii
-          <br />
-          Khomenko
-        </motion.h1>
-        <motion.h2
-          variants={item}
-          className="mt-5 bg-gradient-to-r from-emerald-300 via-teal-400 to-cyan-400 bg-clip-text font-display text-xl font-bold text-transparent sm:text-2xl"
-        >
-          {profile.role}
-        </motion.h2>
-        <motion.p
-          variants={item}
-          className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-200"
-        >
-          {profile.summary}
-        </motion.p>
-        <motion.div variants={item} className="mt-10 flex flex-wrap gap-4">
-          <Magnetic>
-            <a
-              href="#contact"
-              className="inline-block rounded-full bg-emerald-500 px-6 py-3 font-semibold text-emerald-950 transition hover:bg-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.5)]"
+        <div className="grid min-w-0 flex-1 items-center gap-10 py-14 lg:grid-cols-[1.08fr_0.92fr] lg:py-20">
+          <div className="min-w-0 max-w-4xl">
+            <motion.div variants={reveal} className="mb-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--muted)]">
+              <span className="inline-flex items-center gap-2 text-[var(--accent-strong)]">
+                <span className="pulse-dot h-2 w-2 rounded-full bg-[var(--accent)]" />
+                Available for the right team
+              </span>
+              <span>{profile.location}</span>
+              <span>UTC +03</span>
+            </motion.div>
+
+            <motion.p variants={reveal} className="mb-4 max-w-full font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)] sm:text-xs sm:tracking-[0.22em]">
+              Serhii Khomenko / Senior Frontend Engineer
+            </motion.p>
+
+            <motion.h1 variants={reveal} className="hero-title max-w-[11ch] font-display font-extrabold uppercase">
+              Interfaces
+              <span className="block text-[var(--accent-strong)]">for real</span>
+              complexity.
+            </motion.h1>
+
+            <motion.p variants={reveal} className="mt-8 max-w-xl text-base leading-[1.75] text-[var(--muted)] sm:text-lg">
+              I turn real-time data, AI latency, payments, and dense product
+              logic into fast, dependable interfaces people can actually use.
+            </motion.p>
+
+            <motion.div variants={reveal} className="mt-10 flex flex-wrap items-center gap-4">
+              <a href="#work" className="button-primary">
+                Explore selected work
+                <span aria-hidden>↘</span>
+              </a>
+              <a
+                href={profile.links.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="button-secondary"
+              >
+                LinkedIn ↗
+              </a>
+            </motion.div>
+          </div>
+
+          <motion.div variants={reveal} className="hidden self-end justify-self-end pb-10 lg:block">
+            <div className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--muted)] [writing-mode:vertical-rl]">
+              <span>Complex interface states mapped as live signals</span>
+              <span className="h-16 w-px bg-[var(--accent)]" />
+              <span>SVG / CSS / 2026</span>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div variants={reveal} className="grid grid-cols-2 border-t border-[var(--line)] lg:grid-cols-4">
+          {metrics.map((metric, index) => (
+            <div
+              key={metric.label}
+              className={`py-5 sm:py-7 ${index % 2 ? "border-l" : ""} ${index > 1 ? "border-t lg:border-t-0" : ""} ${index > 0 ? "lg:border-l" : ""} border-[var(--line)] px-4 first:pl-0 lg:px-7`}
             >
-              Get in touch
-            </a>
-          </Magnetic>
+              <p className="font-display text-3xl font-extrabold tracking-[-0.05em] sm:text-4xl">
+                {metric.value}
+              </p>
+              <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.18em] text-[var(--muted)]">
+                {metric.label}
+              </p>
+            </div>
+          ))}
         </motion.div>
       </motion.div>
     </section>

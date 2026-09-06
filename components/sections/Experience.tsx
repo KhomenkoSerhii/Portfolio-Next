@@ -1,56 +1,78 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { experience } from "@/lib/data";
-import { Reveal, SectionTitle } from "@/components/ui/Reveal";
+import { Reveal } from "@/components/ui/Reveal";
 
 export default function Experience() {
   return (
-    <section id="experience" className="mx-auto max-w-5xl px-6 py-28">
-      <SectionTitle index="01 - CAREER">Experience</SectionTitle>
-      <div className="relative ml-3 border-l border-zinc-200 dark:border-zinc-800">
-        {experience.map((job, i) => (
-          <Reveal key={job.company} delay={i * 0.08} className="relative pb-14 pl-10 last:pb-0">
-            {/* timeline dot */}
-            <motion.span
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 300, damping: 18, delay: i * 0.08 }}
-              className="absolute -left-[7px] top-1.5 block h-3.5 w-3.5 rounded-full bg-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.8)]"
-            />
-            <div className="group rounded-2xl border border-zinc-200 bg-white p-6 backdrop-blur transition hover:border-emerald-500/40 hover:bg-zinc-50 dark:border-zinc-800/80 dark:bg-zinc-900/40 dark:hover:bg-zinc-900/70">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">
-                  {job.company}
-                  <span className="ml-2 text-sm font-normal text-zinc-500">
+    <section id="experience" className="section-shell section-pad content-auto">
+      <Reveal>
+        <div className="section-heading">
+          <div>
+            <p className="section-index">03 / EXPERIENCE LOG</p>
+            <h2>Seven years. Four product chapters.</h2>
+          </div>
+          <p className="max-w-md text-base leading-relaxed text-[var(--muted)] md:pt-3">
+            From commerce and internal tools to financial infrastructure and
+            AI-native talent products. Open a chapter for the full build log.
+          </p>
+        </div>
+      </Reveal>
+
+      <div className="mt-14 border-t border-[var(--line-strong)]">
+        {experience.map((job, index) => (
+          <Reveal key={job.company} delay={index * 0.04}>
+            <details className="experience-row group border-b border-[var(--line-strong)]" open={index === 0}>
+              <summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_2.75rem] items-start gap-x-4 gap-y-3 py-7 sm:grid-cols-[7.5rem_minmax(0,1fr)_auto] sm:items-center sm:gap-5 sm:py-9">
+                <span className="col-start-1 row-start-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--muted)] sm:col-start-auto sm:row-start-auto">
+                  {job.period}
+                </span>
+                <span className="col-start-1 row-start-2 min-w-0 sm:col-start-auto sm:row-start-auto">
+                  <span className="block break-words font-display text-3xl font-extrabold uppercase tracking-[-0.045em] sm:text-4xl">
+                    {job.company}
+                  </span>
+                  <span className="mt-1 block break-words text-sm text-[var(--muted)]">
+                    {job.title} · {job.product}
+                  </span>
+                  <span className="mt-2 block font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--muted)] sm:hidden">
                     {job.location}
                   </span>
-                </h3>
-                <span className="font-mono text-sm text-emerald-600 dark:text-emerald-400">{job.period}</span>
-              </div>
-              <p className="mt-1 text-zinc-600 dark:text-zinc-300">
-                {job.title} · {job.product}
-              </p>
-              <ul className="mt-4 space-y-2">
-                {job.highlights.map((h) => (
-                  <li key={h} className="flex gap-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-200">
-                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-emerald-400" />
-                    {h}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {job.stack.map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-full border border-zinc-200 bg-zinc-100 px-3 py-1 font-mono text-xs text-zinc-500 transition group-hover:border-emerald-500/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400"
-                  >
-                    {s}
+                </span>
+                <span className="col-start-2 row-span-2 row-start-1 flex justify-end self-start sm:col-start-auto sm:row-span-1 sm:row-start-auto sm:items-center sm:gap-5 sm:self-auto">
+                  <span className="hidden font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--muted)] sm:inline">
+                    {job.location}
                   </span>
-                ))}
+                  <span className="experience-plus flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--line-strong)] text-xl leading-none transition">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-open:rotate-45">
+                      <path d="M12 4v16M4 12h16" />
+                    </svg>
+                  </span>
+                </span>
+              </summary>
+
+              <div className="grid gap-8 pb-10 sm:pl-[9.5rem] lg:grid-cols-[1fr_16rem] lg:gap-16 lg:pb-14">
+                <ul className="space-y-3">
+                  {job.highlights.map((highlight) => (
+                    <li key={highlight} className="flex gap-4 text-sm leading-[1.7] text-[var(--muted)] sm:text-[15px]">
+                      <span className="mt-[0.7em] h-px w-4 shrink-0 bg-[var(--accent)]" />
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+                <div className="border-l border-[var(--line)] pl-5">
+                  <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--accent-strong)]">
+                    Working stack
+                  </p>
+                  <div className="flex flex-wrap gap-x-3 gap-y-2">
+                    {job.stack.map((item) => (
+                      <span key={item} className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)]">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
+            </details>
           </Reveal>
         ))}
       </div>

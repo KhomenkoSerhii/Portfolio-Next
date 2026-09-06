@@ -13,15 +13,15 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#090c0a",
-          borderRadius: 40,
+          background: "#0b0e0b",
+          borderRadius: 0,
         }}
       >
         <div
           style={{
             fontSize: 84,
             fontWeight: 900,
-            background: "linear-gradient(120deg, #61dafb, #34d399)",
+            background: "linear-gradient(120deg, #d8ff61, #9fc91f)",
             backgroundClip: "text",
             color: "transparent",
             fontFamily: "sans-serif",

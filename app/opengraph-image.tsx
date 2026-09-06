@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Serhii Khomenko - Software Engineer · Frontend Developer";
+export const alt = "Serhii Khomenko - Senior Frontend Engineer";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -13,58 +13,59 @@ export default function OpengraphImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
+          justifyContent: "space-between",
           padding: "80px",
-          background: "#090c0a",
+          background: "#0b0e0b",
           backgroundImage:
-            "radial-gradient(circle at 80% 20%, rgba(97,218,251,0.12), transparent 50%), radial-gradient(circle at 20% 80%, rgba(52,211,153,0.12), transparent 50%)",
+            "linear-gradient(rgba(201,244,61,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(201,244,61,0.06) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
           fontFamily: "sans-serif",
         }}
       >
         <div
           style={{
-            fontSize: 26,
-            letterSpacing: 6,
-            color: "#34d399",
-            marginBottom: 24,
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+            fontSize: 20,
+            letterSpacing: 5,
+            color: "#c9f43d",
           }}
         >
-          LVIV, UKRAINE
+          <span>SERHII KHOMENKO</span>
+          <span>LVIV / REMOTE</span>
         </div>
-        <div
-          style={{
-            fontSize: 96,
-            fontWeight: 900,
-            color: "#eaf0ed",
-            lineHeight: 1.02,
-            textTransform: "uppercase",
-          }}
-        >
-          Serhii Khomenko
-        </div>
-        <div
-          style={{
-            marginTop: 28,
-            fontSize: 40,
-            fontWeight: 700,
-            background: "linear-gradient(90deg, #61dafb, #2dd4bf, #34d399)",
-            backgroundClip: "text",
-            color: "transparent",
-          }}
-        >
-          Software Engineer · Frontend Developer
-        </div>
-        <div
-          style={{
-            marginTop: 36,
-            fontSize: 28,
-            color: "#a1a1aa",
-            maxWidth: 900,
-            lineHeight: 1.4,
-          }}
-        >
-          React / TypeScript · AI-powered product features · 7+ years across
-          fintech, Web3, and eCommerce
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              maxWidth: 1040,
+              fontSize: 102,
+              fontWeight: 900,
+              color: "#eeefe8",
+              lineHeight: 0.86,
+              letterSpacing: "-6px",
+              textTransform: "uppercase",
+            }}
+          >
+            Interfaces for real
+            <span style={{ color: "#c9f43d" }}> complexity.</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 50,
+              paddingTop: 22,
+              borderTop: "1px solid rgba(238,239,232,0.24)",
+              fontSize: 24,
+              color: "#9aa096",
+            }}
+          >
+            <span>Senior Frontend Engineer</span>
+            <span>React · Next.js · TypeScript · AI/LLM UX</span>
+          </div>
         </div>
       </div>
     ),

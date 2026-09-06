@@ -8,7 +8,7 @@ type ChatMessage = { role: "user" | "assistant"; content: string };
 const SUGGESTIONS = [
   "What is Serhii's experience with AI/LLM features?",
   "What do his colleagues say about him?",
-  "I heard there are secrets on this page…",
+  "Which roles would be the best fit for Serhii?",
 ];
 
 export default function ChatWidget() {
@@ -75,22 +75,11 @@ export default function ChatWidget() {
       {/* floating toggle button */}
       <motion.button
         onClick={() => setOpen((v) => !v)}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.94 }}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
         aria-label={open ? "Close chat" : "Ask AI about Serhii"}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full text-white"
+        className="action-button fixed bottom-5 right-5 z-50 flex h-13 w-13 items-center justify-center shadow-[6px_6px_0_rgba(0,0,0,0.22)] sm:bottom-6 sm:right-6"
       >
-        {/* expanding pulse rings (hidden while open) */}
-        {!open && (
-          <>
-            <span className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 [animation:pulse-ring_2.4s_ease-out_infinite]" />
-            <span className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 [animation:pulse-ring_2.4s_ease-out_1.2s_infinite]" />
-          </>
-        )}
-        {/* soft glow */}
-        <span className="absolute inset-0 rounded-full bg-[linear-gradient(120deg,#a855f7,#61dafb)] opacity-60 blur-lg" />
-        {/* animated gradient face: violet -> React cyan -> emerald */}
-        <span className="absolute inset-0 rounded-full bg-[linear-gradient(120deg,#a855f7,#7c6cf6,#61dafb,#34d399,#a855f7)] bg-[length:300%_300%] [animation:gradient-shift_5s_ease_infinite]" />
         <span className="relative">
           {open ? (
             <svg
@@ -120,12 +109,9 @@ export default function ChatWidget() {
             </svg>
           )}
         </span>
-        {/* AI sparkle badge */}
         {!open && (
-          <span className="absolute -right-0.5 -top-0.5 text-cyan-200 [animation:sparkle-twinkle_1.8s_ease-in-out_infinite]">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4L12 2z" />
-            </svg>
+          <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center bg-[#c9f43d] font-mono text-[7px] font-bold text-[#121510]">
+            AI
           </span>
         )}
       </motion.button>
@@ -137,13 +123,14 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ type: "spring", stiffness: 300, damping: 26 }}
-            className="fixed bottom-24 right-6 z-50 flex h-[min(34rem,calc(100svh-8rem))] w-[min(24rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white/95 shadow-2xl backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95"
+            className="fixed bottom-22 right-5 z-50 flex h-[min(34rem,calc(100svh-7rem))] w-[min(25rem,calc(100vw-2.5rem))] flex-col overflow-hidden border border-[var(--line-strong)] bg-[var(--background)]/96 shadow-2xl backdrop-blur-xl sm:bottom-24 sm:right-6"
           >
             {/* header */}
-            <div className="border-b border-zinc-200 px-5 py-4 dark:border-zinc-800">
-              <p className="bg-gradient-to-r from-violet-400 via-cyan-300 to-emerald-300 bg-clip-text font-semibold text-transparent">
-                Ask AI about Serhii
+            <div className="flex items-center justify-between border-b border-[var(--line-strong)] px-5 py-4">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--foreground)]">
+                Portfolio intelligence
               </p>
+              <span className="flex items-center gap-2 font-mono text-[8px] uppercase tracking-[0.16em] text-[var(--muted)]"><span className="pulse-dot h-1.5 w-1.5 bg-[var(--accent)]" />Online</span>
             </div>
 
             {/* messages */}
@@ -153,7 +140,7 @@ export default function ChatWidget() {
             >
               {messages.length === 0 && (
                 <div className="space-y-2">
-                  <p className="mb-3 text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="mb-4 text-sm leading-relaxed text-[var(--muted)]">
                     Hi! I can answer questions about Serhii&apos;s experience,
                     skills, and projects. Try one of these:
                   </p>
@@ -161,7 +148,7 @@ export default function ChatWidget() {
                     <button
                       key={s}
                       onClick={() => send(s)}
-                      className="block w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-sm text-zinc-600 transition hover:border-emerald-500/40 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-300 dark:hover:text-white"
+                      className="block w-full border border-[var(--line)] bg-[var(--surface)] px-3 py-2.5 text-left text-sm text-[var(--muted)] transition hover:border-[var(--accent-strong)] hover:text-[var(--foreground)]"
                     >
                       {s}
                     </button>
@@ -173,16 +160,16 @@ export default function ChatWidget() {
                   key={i}
                   className={
                     m.role === "user"
-                      ? "ml-8 rounded-2xl rounded-br-sm bg-emerald-500/15 px-4 py-2.5 text-sm text-emerald-900 dark:text-emerald-50"
-                      : "mr-8 whitespace-pre-wrap rounded-2xl rounded-bl-sm bg-zinc-100 px-4 py-2.5 text-sm leading-relaxed text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"
+                      ? "ml-8 border border-[var(--accent-strong)] bg-[var(--accent-soft)] px-4 py-2.5 text-sm"
+                      : "mr-8 whitespace-pre-wrap border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-sm leading-relaxed"
                   }
                 >
                   {m.content ||
                     (loading && i === messages.length - 1 ? (
                       <span className="inline-flex gap-1">
-                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-emerald-400 [animation-delay:0ms]" />
-                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-emerald-400 [animation-delay:120ms]" />
-                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-emerald-400 [animation-delay:240ms]" />
+                        <span className="h-1.5 w-1.5 animate-bounce bg-[var(--accent)] [animation-delay:0ms]" />
+                        <span className="h-1.5 w-1.5 animate-bounce bg-[var(--accent)] [animation-delay:120ms]" />
+                        <span className="h-1.5 w-1.5 animate-bounce bg-[var(--accent)] [animation-delay:240ms]" />
                       </span>
                     ) : null)}
                 </div>
@@ -196,19 +183,19 @@ export default function ChatWidget() {
                 e.preventDefault();
                 send(input);
               }}
-              className="flex gap-2 border-t border-zinc-200 p-3 dark:border-zinc-800"
+              className="flex gap-2 border-t border-[var(--line-strong)] p-3"
             >
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask anything…"
                 maxLength={4000}
-                className="flex-1 rounded-xl border border-zinc-300 bg-zinc-50 px-3.5 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-emerald-500/50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:placeholder-zinc-600"
+                className="min-w-0 flex-1 border border-[var(--line-strong)] bg-transparent px-3.5 py-2.5 text-sm outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--accent-strong)]"
               />
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
-                className="rounded-xl bg-emerald-500 px-4 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-40"
+                className="action-button px-4 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] transition disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Send
               </button>

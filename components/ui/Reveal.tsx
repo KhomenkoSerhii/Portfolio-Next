@@ -14,10 +14,10 @@ export function Reveal({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}
@@ -34,13 +34,13 @@ export function SectionTitle({
 }) {
   return (
     <Reveal>
-      <div className="mb-14">
+      <div className="mb-14 border-b border-[var(--line)] pb-8 sm:mb-16">
         {index && (
-          <p className="mb-2 font-mono text-sm tracking-widest text-emerald-400">
+          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--accent-strong)]">
             {index}
           </p>
         )}
-        <h2 className="font-display text-4xl font-bold uppercase tracking-tight sm:text-6xl">
+        <h2 className="max-w-4xl font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
           {children}
         </h2>
       </div>

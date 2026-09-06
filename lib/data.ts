@@ -318,6 +318,61 @@ export type Project = {
   stack: string[];
 };
 
+export type CaseStudy = {
+  index: string;
+  name: string;
+  eyebrow: string;
+  description: string;
+  outcome: string;
+  outcomeLabel: string;
+  secondaryMetric: string;
+  secondaryLabel: string;
+  stack: string[];
+  accent: "lime" | "cyan" | "orange";
+};
+
+export const caseStudies: CaseStudy[] = [
+  {
+    index: "01",
+    name: "Calyptus AI Talent Platform",
+    eyebrow: "FRONTEND OWNERSHIP · AI PRODUCT UX",
+    description:
+      "The core product experience for a video-first talent platform: real-time candidate dashboards, ranking and matching flows, automated profile parsing, Web3 onboarding, Stripe billing, and the component architecture shared by internal tools.",
+    outcome: "100K+",
+    outcomeLabel: "users served",
+    secondaryMetric: "~35%",
+    secondaryLabel: "faster application",
+    stack: ["React", "TypeScript", "Socket.IO", "LLM APIs", "Stripe", "Web3"],
+    accent: "lime",
+  },
+  {
+    index: "02",
+    name: "Insurance Search System",
+    eyebrow: "INFORMATION ARCHITECTURE · PERFORMANCE",
+    description:
+      "A scalable discovery experience built around advanced filtering, sorting, faceted navigation, third-party data sources, and clear API contracts between frontend and backend indexing systems.",
+    outcome: "25-35%",
+    outcomeLabel: "faster initial load",
+    secondaryMetric: "~20%",
+    secondaryLabel: "faster responses",
+    stack: ["React", "TypeScript", "Contentful", "Auth0", "REST APIs", "AWS"],
+    accent: "cyan",
+  },
+  {
+    index: "03",
+    name: "Crypto Payment Infrastructure",
+    eyebrow: "REAL-TIME DATA · FINANCIAL UX",
+    description:
+      "A transaction-heavy dashboard for wallets, payment providers, and blockchain interactions, backed by scalable Redux state and resilient data flows designed for high-load periods.",
+    outcome: "~30%",
+    outcomeLabel: "lower UI latency",
+    secondaryMetric: "~20%",
+    secondaryLabel: "fewer payment errors",
+    stack: ["React", "Redux", "TypeScript", "Web3", "Solidity", "REST APIs"],
+    accent: "orange",
+  },
+];
+
 export const projects: Project[] = [
   {
     name: "Browser Extension",

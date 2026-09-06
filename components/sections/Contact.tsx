@@ -4,14 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { profile } from "@/lib/data";
 import { contactSchema } from "@/lib/contact-schema";
 import { CONTACT_PREFILL_EVENT } from "@/lib/contact-prefill";
-import { Reveal } from "@/components/ui/Reveal";
-import Magnetic from "@/components/ui/Magnetic";
 import SocialLinks from "@/components/ui/SocialLinks";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-const inputCls =
-  "w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-emerald-500/60 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-white dark:placeholder-zinc-600";
+const inputClass =
+  "mt-2 w-full border border-white/20 bg-white/[0.045] px-4 py-3.5 text-base text-[#f4f7ed] outline-none transition-[border-color,background-color,box-shadow] placeholder:text-white/35 hover:border-white/35 focus:border-[#c9f43d] focus:bg-white/[0.075] focus:shadow-[0_0_0_1px_#c9f43d]";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
@@ -20,205 +18,188 @@ export default function Contact() {
   const [message, setMessage] = useState("");
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
-  // CTAs elsewhere on the page ("DISCUSS THIS →") drop their topic in here
   useEffect(() => {
-    function onPrefill(e: Event) {
-      const topic = (e as CustomEvent<string>).detail;
+    function onPrefill(event: Event) {
+      const topic = (event as CustomEvent<string>).detail;
       if (!topic) return;
-      setStatus("idle"); // in case a message was just sent
+      setStatus("idle");
       setMessage(`I'd like to discuss: ${topic}\n\n`);
-      // let the hash-scroll settle, then focus the caret at the end
       requestAnimationFrame(() => {
-        const el = messageRef.current;
-        if (!el) return;
-        el.focus({ preventScroll: true });
-        el.setSelectionRange(el.value.length, el.value.length);
+        const textarea = messageRef.current;
+        if (!textarea) return;
+        textarea.focus({ preventScroll: true });
+        textarea.setSelectionRange(textarea.value.length, textarea.value.length);
       });
     }
+
     window.addEventListener(CONTACT_PREFILL_EVENT, onPrefill);
     return () => window.removeEventListener(CONTACT_PREFILL_EVENT, onPrefill);
   }, []);
 
-  // validate a single field on blur for immediate, inline feedback
   function validateField(field: "name" | "email" | "message", value: string) {
-    const res = contactSchema.shape[field].safeParse(value);
-    setFieldErrors((prev) => {
-      const next = { ...prev };
-      if (res.success) delete next[field];
-      else next[field] = res.error.issues[0]?.message ?? "Invalid value";
+    const result = contactSchema.shape[field].safeParse(value);
+    setFieldErrors((previous) => {
+      const next = { ...previous };
+      if (result.success) delete next[field];
+      else next[field] = result.error.issues[0]?.message ?? "Invalid value";
       return next;
     });
   }
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (status === "sending") return;
 
-    const form = e.currentTarget;
-    const fd = new FormData(form);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const data = {
-      name: String(fd.get("name") ?? ""),
-      email: String(fd.get("email") ?? ""),
-      message: String(fd.get("message") ?? ""),
-      website: String(fd.get("website") ?? ""),
+      name: String(formData.get("name") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      message: String(formData.get("message") ?? ""),
+      website: String(formData.get("website") ?? ""),
     };
-
-    // client-side validation with the same zod schema the server uses
     const parsed = contactSchema.safeParse(data);
+
     if (!parsed.success) {
-      const errs: Record<string, string> = {};
+      const errors: Record<string, string> = {};
       for (const issue of parsed.error.issues) {
         const key = String(issue.path[0] ?? "form");
-        if (!errs[key]) errs[key] = issue.message;
+        if (!errors[key]) errors[key] = issue.message;
       }
-      setFieldErrors(errs);
+      setFieldErrors(errors);
       return;
     }
 
     setFieldErrors({});
     setError(null);
     setStatus("sending");
+
     try {
-      const res = await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsed.data),
       });
-      if (!res.ok) {
-        const body = await res.json().catch(() => null);
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
         throw new Error(body?.error ?? "Failed to send");
       }
       setStatus("sent");
       form.reset();
-      setMessage(""); // controlled field isn't cleared by form.reset()
-    } catch (err) {
+      setMessage("");
+    } catch (submitError) {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Failed to send");
+      setError(submitError instanceof Error ? submitError.message : "Failed to send");
     }
   }
 
   return (
-    <section id="contact" className="relative mx-auto max-w-5xl px-6 pb-20 pt-28">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[30rem] w-[min(50rem,95vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-600/10 blur-[100px]"
-      />
-      <Reveal className="relative">
-        <div className="text-center">
-          <p className="font-mono text-sm tracking-widest text-emerald-400">
-            WHAT&apos;S NEXT?
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-extrabold uppercase tracking-tight sm:text-6xl">
-            Let&apos;s build
-            <br />
-            something
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-zinc-600 dark:text-zinc-300">
-            Open to interesting frontend and AI-product challenges. Drop a
-            message below or ping me on Telegram.
-          </p>
-        </div>
+    <section id="contact" className="relative overflow-hidden border-t border-[var(--line-strong)] bg-[var(--accent)] text-[#11150d]">
+      <div className="pointer-events-none absolute -right-12 -top-24 font-display text-[22rem] font-extrabold leading-none text-black/[0.045]" aria-hidden>
+        @
+      </div>
 
-        {status === "sent" ? (
-          <div className="mx-auto mt-12 max-w-xl rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center">
-            <p className="font-display text-2xl font-bold text-emerald-600 dark:text-emerald-300">
-              Message sent!
+      <div className="section-shell section-pad relative">
+        <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-black/55">
+              06 / START A CONVERSATION
             </p>
-            <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-              Thanks for reaching out - I&apos;ll get back to you soon.
+            <h2 className="mt-5 max-w-[8ch] font-display text-6xl font-extrabold uppercase leading-[0.87] tracking-[-0.065em] sm:text-7xl lg:text-8xl">
+              Bring me the hard part.
+            </h2>
+            <p className="mt-8 max-w-md text-base leading-relaxed text-black/65">
+              Open to senior frontend roles and selected product work involving
+              AI UX, real-time systems, architecture, or performance.
             </p>
-            <div className="mt-6 flex justify-center">
+            <div className="mt-10">
               <SocialLinks />
             </div>
           </div>
-        ) : (
-          <form
-            onSubmit={onSubmit}
-            noValidate
-            className="mx-auto mt-12 max-w-xl space-y-4"
-          >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <input
-                  name="name"
-                  placeholder="Your name"
-                  maxLength={100}
-                  onBlur={(e) => validateField("name", e.target.value)}
-                  className={inputCls}
-                  aria-invalid={!!fieldErrors.name}
-                />
-                {fieldErrors.name && (
-                  <p className="mt-1 text-xs text-red-400">{fieldErrors.name}</p>
-                )}
+
+          <div className="border border-black/35 bg-[#11150d] p-5 text-[#f4f7ed] shadow-[14px_14px_0_rgba(17,21,13,0.14)] sm:p-8 lg:p-10">
+            {status === "sent" ? (
+              <div className="flex min-h-[25rem] flex-col justify-center">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#c9f43d]">Transmission received</p>
+                <p className="mt-5 font-display text-5xl font-extrabold uppercase tracking-[-0.05em]">Message sent!</p>
+                <p className="mt-4 max-w-md text-white/65">Thanks for reaching out. I’ll get back to you soon.</p>
               </div>
-              <div>
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="Your email"
-                  maxLength={200}
-                  onBlur={(e) => validateField("email", e.target.value)}
-                  className={inputCls}
-                  aria-invalid={!!fieldErrors.email}
-                />
-                {fieldErrors.email && (
-                  <p className="mt-1 text-xs text-red-400">{fieldErrors.email}</p>
-                )}
-              </div>
-            </div>
-            <div>
-              <textarea
-                ref={messageRef}
-                name="message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onBlur={(e) => validateField("message", e.target.value)}
-                placeholder="Tell me about your project or role…"
-                rows={5}
-                maxLength={5000}
-                className={`${inputCls} resize-y`}
-                aria-invalid={!!fieldErrors.message}
-              />
-              {fieldErrors.message && (
-                <p className="mt-1 text-xs text-red-400">{fieldErrors.message}</p>
-              )}
-            </div>
-            {/* honeypot - hidden from humans, tempting for bots */}
-            <input
-              name="website"
-              type="text"
-              tabIndex={-1}
-              autoComplete="off"
-              aria-hidden
-              className="absolute left-[-9999px] h-0 w-0 opacity-0"
-            />
-            {error && <p className="text-sm text-red-400">{error}</p>}
-            <div className="flex flex-col items-center gap-6 pt-2">
-              <Magnetic>
+            ) : (
+              <form onSubmit={onSubmit} noValidate className="space-y-6">
+                <div className="flex items-center justify-between border-b border-white/15 pb-4">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/55">
+                    Contact form / 01
+                  </p>
+                  <span className="flex items-center gap-2 font-mono text-[8px] uppercase tracking-[0.16em] text-[#c9f43d]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#c9f43d]" /> Ready
+                  </span>
+                </div>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <label className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/65">
+                    Your name
+                    <input
+                      name="name"
+                      placeholder="Your name"
+                      maxLength={100}
+                      onBlur={(event) => validateField("name", event.target.value)}
+                      className={inputClass}
+                      aria-invalid={Boolean(fieldErrors.name)}
+                    />
+                    {fieldErrors.name ? <span className="mt-2 block normal-case tracking-normal text-red-300">{fieldErrors.name}</span> : null}
+                  </label>
+                  <label className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/65">
+                    Your email
+                    <input
+                      name="email"
+                      type="email"
+                      placeholder="Your email"
+                      maxLength={200}
+                      onBlur={(event) => validateField("email", event.target.value)}
+                      className={inputClass}
+                      aria-invalid={Boolean(fieldErrors.email)}
+                    />
+                    {fieldErrors.email ? <span className="mt-2 block normal-case tracking-normal text-red-300">{fieldErrors.email}</span> : null}
+                  </label>
+                </div>
+
+                <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-white/65">
+                  Context
+                  <textarea
+                    ref={messageRef}
+                    name="message"
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
+                    onBlur={(event) => validateField("message", event.target.value)}
+                    placeholder="Tell me about your project or role…"
+                    rows={6}
+                    maxLength={5000}
+                    className={`${inputClass} min-h-40 resize-y`}
+                    aria-invalid={Boolean(fieldErrors.message)}
+                  />
+                  {fieldErrors.message ? <span className="mt-2 block normal-case tracking-normal text-red-300">{fieldErrors.message}</span> : null}
+                </label>
+
+                <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden className="absolute left-[-9999px] h-0 w-0 opacity-0" />
+                {error ? <p className="text-sm text-red-300">{error}</p> : null}
+
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="inline-block rounded-full bg-emerald-500 px-8 py-3.5 font-semibold text-emerald-950 transition hover:bg-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="action-button mt-2 inline-flex w-full items-center justify-between px-6 py-4 font-mono text-xs uppercase tracking-[0.17em] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-60"
                 >
                   {status === "sending" ? "Sending…" : "Send message"}
+                  <span>↗</span>
                 </button>
-              </Magnetic>
-              <SocialLinks />
-            </div>
-          </form>
-        )}
+              </form>
+            )}
+          </div>
+        </div>
 
-        <footer className="mt-24 space-y-2 border-t border-zinc-200 pt-8 text-center font-mono text-xs text-zinc-500 dark:border-zinc-900 dark:text-zinc-600">
-          <p>
-            © {new Date().getFullYear()} {profile.name} · Built with Next.js,
-            Framer Motion & React Three Fiber
-          </p>
-          <p className="text-zinc-400 dark:text-zinc-700">
-            PS: three secrets are hidden on this page. one of them is older
-            than the web itself.
-          </p>
+        <footer className="mt-20 flex flex-col gap-3 border-t border-black/20 pt-6 font-mono text-[9px] uppercase tracking-[0.16em] text-black/55 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} {profile.name}</p>
+          <p>Next.js · TypeScript · Built in Lviv</p>
         </footer>
-      </Reveal>
+      </div>
     </section>
   );
 }

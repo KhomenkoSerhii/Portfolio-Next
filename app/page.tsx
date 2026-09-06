@@ -3,13 +3,11 @@ import Experience from "@/components/sections/Experience";
 import Skills from "@/components/sections/Skills";
 import Projects from "@/components/sections/Projects";
 import Recommendations from "@/components/sections/Recommendations";
-import Services from "@/components/sections/Services";
+import GitHubActivity from "@/components/sections/GitHubActivity";
 import Contact from "@/components/sections/Contact";
-import ChatWidget from "@/components/chat/ChatWidget";
-import SceneMount from "@/components/three/SceneMount";
 import Navbar from "@/components/layout/Navbar";
-import EasterEggs from "@/components/easter/EasterEggs";
 import { profile, experience } from "@/lib/data";
+import { getGitHubActivity, githubUsername } from "@/lib/github";
 import { SITE_URL } from "@/lib/site";
 
 const personJsonLd = {
@@ -41,26 +39,27 @@ const personJsonLd = {
   ],
 };
 
-export default function Home() {
+export default async function Home() {
+  const activity = await getGitHubActivity();
+
   return (
     <main id="main">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c"),
+        }}
       />
-      <SceneMount />
       <Navbar />
       <div id="page-content">
         <Hero />
+        <Projects />
+        <GitHubActivity activity={activity} username={githubUsername} />
         <Experience />
         <Skills />
-        <Projects />
         <Recommendations />
-        <Services />
         <Contact />
       </div>
-      <ChatWidget />
-      <EasterEggs />
     </main>
   );
 }

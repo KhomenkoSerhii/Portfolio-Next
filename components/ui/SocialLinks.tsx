@@ -21,7 +21,7 @@ const SOCIALS = [
 
 export default function SocialLinks() {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2">
       {SOCIALS.map((s) => (
         <Magnetic key={s.label}>
           <a
@@ -29,7 +29,7 @@ export default function SocialLinks() {
             target="_blank"
             rel="noreferrer"
             aria-label={s.label}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 transition hover:border-emerald-500 hover:text-emerald-500 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400 dark:hover:text-emerald-400"
+            className="button-secondary social-link"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d={s.path} />
