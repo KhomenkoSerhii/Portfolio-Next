@@ -20,7 +20,7 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 /** localStorage key + default kept in sync with the anti-flash script in layout.tsx */
 export const THEME_STORAGE_KEY = "theme";
-const DEFAULT_THEME: Theme = "light";
+const DEFAULT_THEME: Theme = "dark";
 
 function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle("dark", theme === "dark");
@@ -39,11 +39,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Read the persisted theme after hydration. We deliberately render the
-    // default ("light") on the server + first client paint to match markup,
+    // default ("dark") on the server + first client paint to match markup,
     // then correct here — the anti-flash script has already set the real class
     // on <html>, so there's no visual flash, only a state catch-up.
     const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
-    const initial: Theme = stored === "dark" ? "dark" : "light";
+    const initial: Theme = stored === "light" ? "light" : "dark";
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(initial);
     applyTheme(initial);
