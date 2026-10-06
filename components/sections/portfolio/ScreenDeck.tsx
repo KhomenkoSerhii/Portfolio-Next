@@ -123,7 +123,10 @@ export function ScreenDeck({
         </div>
       </div>
 
-      <ol className="grid gap-px border-y border-[var(--line)] sm:grid-cols-5">
+      <ol
+        className="grid gap-px border-y border-[var(--line)] sm:[grid-template-columns:repeat(var(--count),minmax(0,1fr))]"
+        style={{ "--count": screens.length } as React.CSSProperties}
+      >
         {screens.map((screen, index) => {
           const current = index === active;
           return (

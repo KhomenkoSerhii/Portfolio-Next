@@ -102,7 +102,7 @@ describe("works", () => {
       expect(w.year).toMatch(/^\d{4}/);
       expect(w.stack.length).toBeGreaterThan(0);
       expect(["freelance", "product", "side"]).toContain(w.kind);
-      expect(w.image).toMatch(/^\/works\/[\w./-]+\.(png|jpe?g|webp|avif)$/);
+      expect(w.screens.length).toBeGreaterThan(0);
       if (w.url) expect(w.url).toMatch(/^https?:\/\//);
     }
   });
@@ -113,7 +113,7 @@ describe("works", () => {
 
   it("gives every tour screen a local image, a route, a caption and real pixel sizes", () => {
     for (const w of works) {
-      const screens = w.screens ?? [];
+      const screens = w.screens;
       for (const s of screens) {
         expect(s.src).toMatch(/^\/works\/[\w./-]+\.(png|jpe?g|webp|avif)$/);
         expect(s.path).toMatch(/^\//);

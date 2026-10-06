@@ -6,12 +6,15 @@ import type { Work } from "@/lib/data";
 const work: Work = {
   name: "Acme Studio",
   url: "https://acme.example.com",
-  image: "/works/acme.png",
   role: "Design to production, Next.js build",
   description: "Marketing site with a headless CMS and a booking flow.",
   stack: ["Next.js", "TypeScript"],
   kind: "freelance",
   year: "2025",
+  screens: [
+    { src: "/works/acme/home.jpg", title: "Home", path: "/", caption: "Landing.", width: 1600, height: 1000 },
+    { src: "/works/acme/book.jpg", title: "Booking", path: "/book", caption: "Booking flow.", width: 1600, height: 2400 },
+  ],
 };
 
 describe("Portfolio", () => {
@@ -20,20 +23,32 @@ describe("Portfolio", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("renders a card with screenshot, details and a live link", () => {
+  it("shows a client site as a screen deck with details, a site tour and a live link", () => {
     render(<Portfolio works={[work]} />);
     expect(screen.getByRole("heading", { name: "Acme Studio" })).toBeInTheDocument();
-    expect(screen.getByAltText("Acme Studio website screenshot")).toBeInTheDocument();
+    expect(screen.getByAltText("Acme Studio: Home screen")).toBeInTheDocument();
     expect(screen.getByText("+ Next.js")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Open site tour" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Visit Acme Studio/ })).toHaveAttribute(
       "href",
       "https://acme.example.com"
     );
   });
 
+  it("uses the site's host in the deck's address bar", () => {
+    render(<Portfolio works={[work]} />);
+    expect(screen.getAllByText("acme.example.com", { exact: false }).length).toBeGreaterThan(0);
+  });
+
   it("omits the live link when the work has no url", () => {
     render(<Portfolio works={[{ ...work, url: undefined }]} />);
     expect(screen.queryByRole("link", { name: /Visit/ })).not.toBeInTheDocument();
+  });
+
+  it("labels the tour after the kind of work", () => {
+    render(<Portfolio works={[work]} />);
+    fireEvent.click(screen.getByRole("button", { name: "Open site tour" }));
+    expect(screen.getByRole("dialog", { name: /Acme Studio \/ Site tour/ })).toBeInTheDocument();
   });
 
   describe("product showcase", () => {
