@@ -9,17 +9,17 @@ export default function Experience() {
       <Reveal>
         <div className="section-heading">
           <div>
-            <p className="section-index">03 / EXPERIENCE LOG</p>
-            <h2>Seven years. Four product chapters.</h2>
+            <p className="section-index">02 / EXPERIENCE</p>
+            <h2>Seven years across four products.</h2>
           </div>
           <p className="max-w-md text-base leading-relaxed text-[var(--muted)] md:pt-3">
-            From commerce and internal tools to financial infrastructure and
-            AI-native talent products. Open a chapter for the full build log.
+            From eCommerce and internal tools to payment infrastructure and an
+            AI talent platform, on both sides of the API. Open a role for details.
           </p>
         </div>
       </Reveal>
 
-      <div className="mt-14 border-t border-[var(--line-strong)]">
+      <div className="mt-10 border-t border-[var(--line-strong)]">
         {experience.map((job, index) => (
           <Reveal key={job.company} delay={index * 0.04}>
             <details className="experience-row group border-b border-[var(--line-strong)]" open={index === 0}>

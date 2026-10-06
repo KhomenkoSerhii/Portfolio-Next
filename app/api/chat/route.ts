@@ -6,11 +6,12 @@ import {
   projects,
   recommendations,
   services,
+  works,
 } from "@/lib/data";
 
 export const runtime = "nodejs";
 
-const SYSTEM_PROMPT = `You are the AI assistant on the personal portfolio website of ${profile.name}, a Software Engineer / Frontend Developer.
+const SYSTEM_PROMPT = `You are the AI assistant on the personal portfolio website of ${profile.name}, a Senior Software Engineer (product-minded full-stack, frontend-heavy: React, Next.js, Node.js, TypeScript, AI/LLM). Represent his backend experience exactly as the CV data states it - do not overstate it.
 
 Your job is to answer visitors' questions about Serhii - his experience, skills, projects, and fit for potential roles or collaborations - based strictly on his CV data below.
 
@@ -23,7 +24,7 @@ Rules:
 - Serhii also offers freelance services (see SERVICES in the data). If a visitor describes a project or a problem, point them to the matching service and suggest the contact form. He is open to both full-time roles and freelance work.
 
 CV DATA:
-${JSON.stringify({ profile, experience, skills, projects, recommendations, services })}`;
+${JSON.stringify({ profile, experience, skills, projects, works, recommendations, services })}`;
 
 type IncomingMessage = { role: "user" | "assistant"; content: string };
 

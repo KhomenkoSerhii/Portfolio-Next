@@ -35,8 +35,11 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   keywords: [
     "Serhii Khomenko",
-    "Frontend Developer",
-    "Software Engineer",
+    "Senior Software Engineer",
+    "Full-Stack Engineer",
+    "Product Engineer",
+    "Frontend Engineer",
+    "Node.js",
     "React",
     "TypeScript",
     "Next.js",
@@ -88,7 +91,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} dark h-full antialiased`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* browser extensions (popup/ad blockers) rewrite inline head scripts before hydration */}
+        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col">
         <div className="scroll-progress" aria-hidden />

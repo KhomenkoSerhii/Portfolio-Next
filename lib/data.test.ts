@@ -6,6 +6,7 @@ import {
   recommendations,
   projects,
   services,
+  works,
 } from "@/lib/data";
 
 describe("profile", () => {
@@ -82,6 +83,25 @@ describe("projects", () => {
       expect(p.description).toBeTruthy();
       expect(p.stack.length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("works", () => {
+  it("each work has required fields, a local screenshot, and a valid link", () => {
+    for (const w of works) {
+      expect(w.name).toBeTruthy();
+      expect(w.role).toBeTruthy();
+      expect(w.description).toBeTruthy();
+      expect(w.year).toMatch(/^\d{4}/);
+      expect(w.stack.length).toBeGreaterThan(0);
+      expect(["freelance", "product", "side"]).toContain(w.kind);
+      expect(w.image).toMatch(/^\/works\/[\w.-]+\.(png|jpe?g|webp|avif)$/);
+      if (w.url) expect(w.url).toMatch(/^https?:\/\//);
+    }
+  });
+
+  it("has unique names", () => {
+    expect(new Set(works.map((w) => w.name)).size).toBe(works.length);
   });
 });
 

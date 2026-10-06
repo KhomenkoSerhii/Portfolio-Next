@@ -11,21 +11,21 @@ const capabilities = [
   },
   {
     index: "B",
-    title: "AI product UX",
-    copy: "Streaming model responses, progress and failure states, automated parsing, matching, and interfaces that make uncertain output feel dependable.",
-    tools: "LLM APIs · Streaming UX · Prompt design · Claude · OpenAI",
+    title: "Backend & APIs",
+    copy: "Node.js REST APIs, business logic, MongoDB data integrations, payments, and third-party services, deployed to AWS through CI/CD.",
+    tools: "Node.js · REST · MongoDB · GraphQL · Stripe · AWS · CI/CD",
   },
   {
     index: "C",
-    title: "Real-time systems",
-    copy: "Live dashboards and high-frequency interfaces with predictable state, reconnection behaviour, and clear feedback under latency.",
-    tools: "Socket.IO · WebSocket · REST · Live state · Sentry",
+    title: "AI product UX",
+    copy: "LLM-powered matching, search, and parsing wired to OpenAI APIs, with streaming responses, progress and failure states that make uncertain output dependable.",
+    tools: "OpenAI API · Streaming UX · Prompt design · Claude Code",
   },
   {
     index: "D",
-    title: "Performance delivery",
-    copy: "Bundle strategy, rendering audits, lazy loading, CI/CD, and measurement-led optimisation tied to business outcomes.",
-    tools: "Vite · Webpack · Testing Library · AWS · CI/CD",
+    title: "Real-time & performance",
+    copy: "Socket.IO flows with reconnection handling, plus bundle strategy, lazy loading, and measurement-led optimisation tied to business outcomes.",
+    tools: "Socket.IO · Vite · Webpack · Sentry · Testing Library",
   },
 ] as const;
 
@@ -33,13 +33,13 @@ const stack = [
   "REACT",
   "TYPESCRIPT",
   "NEXT.JS",
-  "AI / LLM",
+  "NODE.JS",
+  "REST / GRAPHQL",
+  "MONGODB",
   "SOCKET.IO",
-  "TANSTACK QUERY",
-  "WEB3",
+  "AI / LLM",
   "STRIPE",
-  "TESTING",
-  "CI / CD",
+  "AWS / CI-CD",
 ];
 
 export default function Skills() {
@@ -49,20 +49,20 @@ export default function Skills() {
         <Reveal>
           <div className="section-heading border-white/15">
             <div>
-              <p className="section-index text-lime-300">04 / CAPABILITIES</p>
-              <h2>I work where interface, data, and latency collide.</h2>
+              <p className="section-index text-lime-300">03 / CAPABILITIES</p>
+              <h2>Interface, API, and data. End to end.</h2>
             </div>
             <p className="max-w-md text-base leading-relaxed text-white/55 md:pt-3">
-              Senior frontend work is less about drawing screens and more
-              about making complex systems legible, resilient, and fast.
+              Frontend is where I go deepest. Owning the API and data work
+              behind it is what lets me ship whole features, not just screens.
             </p>
           </div>
         </Reveal>
 
-        <div className="mt-14 grid border-l border-t border-white/15 md:grid-cols-2 2xl:grid-cols-4">
+        <div className="mt-10 grid border-l border-t border-white/15 md:grid-cols-2 2xl:grid-cols-4">
           {capabilities.map((capability, index) => (
-            <Reveal key={capability.title} delay={index * 0.05}>
-              <article className="capability-cell flex min-h-[20rem] min-w-0 flex-col border-b border-r border-white/15 p-5 sm:min-h-[22rem] sm:p-8 2xl:p-6">
+            <Reveal key={capability.title} delay={index * 0.05} className="h-full">
+              <article className="capability-cell flex h-full min-h-[16rem] min-w-0 flex-col border-b border-r border-white/15 p-5 sm:min-h-[17rem] sm:p-8 2xl:p-6">
                 <div className="flex items-center justify-between font-mono text-[10px] tracking-[0.2em] text-white/40">
                   <span>/{capability.index}</span>
                   <span>0{index + 1}</span>

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { profile } from "@/lib/data";
-import SignalFlow from "@/components/visuals/SignalFlow";
+import StackLayers from "@/components/visuals/StackLayers";
 
 const reveal = {
   hidden: { opacity: 0, y: 26 },
@@ -17,7 +17,7 @@ const metrics = [
   { value: "7+", label: "years shipping" },
   { value: "100K+", label: "users served" },
   { value: "~35%", label: "faster apps" },
-  { value: "AI / UX", label: "current focus" },
+  { value: "UI+API", label: "full-stack delivery" },
 ];
 
 export default function Hero() {
@@ -27,8 +27,8 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-y-0 right-[7.5%] hidden w-px bg-[var(--line)] xl:block" />
       <div className="hero-scanline" aria-hidden />
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-20 h-[42%] opacity-45 sm:h-[48%] lg:bottom-8 lg:left-[48%] lg:top-24 lg:h-auto lg:opacity-100">
-        <SignalFlow />
+      <div className="pointer-events-none absolute bottom-28 right-0 top-24 hidden w-[46%] lg:block">
+        <StackLayers />
       </div>
 
       <motion.div
@@ -37,36 +37,41 @@ export default function Hero() {
         transition={{ staggerChildren: 0.1, delayChildren: 0.08 }}
         className="section-shell relative z-10 flex min-h-[calc(100svh-6rem)] flex-col"
       >
-        <div className="grid min-w-0 flex-1 items-center gap-10 py-14 lg:grid-cols-[1.08fr_0.92fr] lg:py-20">
+        <div className="grid min-w-0 flex-1 items-center gap-10 py-14 lg:py-20">
           <div className="min-w-0 max-w-4xl">
-            <motion.div variants={reveal} className="mb-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--muted)]">
-              <span className="inline-flex items-center gap-2 text-[var(--accent-strong)]">
-                <span className="pulse-dot h-2 w-2 rounded-full bg-[var(--accent)]" />
-                Available for the right team
+            <motion.p variants={reveal} className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--muted)] sm:text-xs">
+              <span className="inline-flex items-center gap-2.5 text-[var(--foreground)]">
+                <span className="pulse-dot h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden />
+                {profile.name}
               </span>
-              <span>{profile.location}</span>
-              <span>UTC +03</span>
-            </motion.div>
-
-            <motion.p variants={reveal} className="mb-4 max-w-full font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)] sm:text-xs sm:tracking-[0.22em]">
-              Serhii Khomenko / Senior Frontend Engineer
+              <span>{profile.location} · Remote EMEA</span>
             </motion.p>
 
             <motion.h1 variants={reveal} className="hero-title max-w-[11ch] font-display font-extrabold uppercase">
-              Interfaces
-              <span className="block text-[var(--accent-strong)]">for real</span>
-              complexity.
+              Senior
+              <span className="block text-[var(--accent-strong)]">Software</span>
+              Engineer.
             </motion.h1>
 
-            <motion.p variants={reveal} className="mt-8 max-w-xl text-base leading-[1.75] text-[var(--muted)] sm:text-lg">
-              I turn real-time data, AI latency, payments, and dense product
-              logic into fast, dependable interfaces people can actually use.
+            <motion.p variants={reveal} className="mt-7 max-w-2xl font-mono text-[10px] uppercase leading-[1.9] tracking-[0.16em] text-[var(--foreground)] sm:text-xs">
+              Product-minded full-stack, frontend-heavy
+              <span className="block text-[var(--muted)]">
+                React · Next.js · Node.js · TypeScript · AI/LLM
+              </span>
+            </motion.p>
+
+            <motion.p variants={reveal} className="mt-6 max-w-lg text-base leading-[1.7] text-[var(--muted)] sm:text-lg">
+              I build whole features, from the React interface to the Node.js
+              API behind it.
             </motion.p>
 
             <motion.div variants={reveal} className="mt-10 flex flex-wrap items-center gap-4">
               <a href="#work" className="button-primary">
-                Explore selected work
+                View work
                 <span aria-hidden>↘</span>
+              </a>
+              <a href={profile.cvUrl} download className="button-secondary">
+                Download CV ↓
               </a>
               <a
                 href={profile.links.linkedin}
@@ -79,13 +84,6 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          <motion.div variants={reveal} className="hidden self-end justify-self-end pb-10 lg:block">
-            <div className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--muted)] [writing-mode:vertical-rl]">
-              <span>Complex interface states mapped as live signals</span>
-              <span className="h-16 w-px bg-[var(--accent)]" />
-              <span>SVG / CSS / 2026</span>
-            </div>
-          </motion.div>
         </div>
 
         <motion.div variants={reveal} className="grid grid-cols-2 border-t border-[var(--line)] lg:grid-cols-4">

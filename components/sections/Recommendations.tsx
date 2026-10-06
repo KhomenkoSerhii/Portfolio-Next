@@ -30,8 +30,8 @@ export default function Recommendations() {
       <Reveal>
         <div className="section-heading">
           <div>
-            <p className="section-index">05 / PEER SIGNAL</p>
-            <h2>Trusted when the work gets difficult.</h2>
+            <p className="section-index">04 / REFERENCES</p>
+            <h2>What the people I shipped with say.</h2>
           </div>
           <div className="max-w-md md:pt-3">
             <p className="text-base leading-relaxed text-[var(--muted)]">

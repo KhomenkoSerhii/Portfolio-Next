@@ -87,7 +87,7 @@ function AiMatchingDiagram({ study }: { study: CaseStudy }) {
             <div className="mt-3 flex items-center gap-2.5">
               <span className="grid h-8 w-8 place-items-center rounded-full bg-[var(--line)] font-mono text-[8px]">SK</span>
               <div className="min-w-0">
-                <span className="block text-[10px] font-semibold sm:text-xs">Senior Frontend Engineer</span>
+                <span className="block text-[10px] font-semibold sm:text-xs">Senior Software Engineer</span>
                 <span className="font-mono text-[7px] text-[var(--muted)]">REMOTE · 6+ YEARS</span>
               </div>
             </div>
@@ -217,23 +217,23 @@ export default function Projects() {
       <Reveal>
         <div className="section-heading">
           <div>
-            <p className="section-index">01 / SELECTED SYSTEMS</p>
-            <h2>Built where the edge cases live.</h2>
+            <p className="section-index">01 / CASE STUDIES</p>
+            <h2>Production systems, measured outcomes.</h2>
           </div>
           <p className="max-w-md text-base leading-relaxed text-[var(--muted)] md:pt-3">
-            Not gallery pieces. Production systems shaped by latency, changing
-            requirements, real users, and measurable outcomes.
+            Three products I built across the stack: an AI talent platform,
+            an insurance search portal, and crypto payment infrastructure.
           </p>
         </div>
       </Reveal>
 
-      <div className="mt-14 border-t border-[var(--line)]">
+      <div className="mt-10 border-t border-[var(--line)]">
         {caseStudies.map((study, index) => {
           const accent = accentStyles[study.accent];
           const reverse = index % 2 === 1;
 
           return (
-            <Reveal key={study.name} className="border-b border-[var(--line)] py-12 sm:py-16 lg:py-20">
+            <Reveal key={study.name} className="border-b border-[var(--line)] py-10 sm:py-12 lg:py-14">
               <article className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
                 <div className={`min-w-0 lg:col-span-7 ${reverse ? "lg:order-2" : ""}`}>
                   <ProductDiagram study={study} />

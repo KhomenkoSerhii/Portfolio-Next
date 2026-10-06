@@ -1,7 +1,27 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
+import dynamic from "next/dynamic";
 import type { ContributionDay, GitHubActivityData } from "@/lib/github";
+
+// three.js only loads when the 3D view actually renders
+const ContributionSkyline = dynamic(
+  () => import("@/components/three/ContributionSkyline"),
+  {
+    ssr: false,
+    loading: () => <div className="h-[180px] sm:h-[300px]" />,
+  }
+);
+
+type View = "3d" | "grid";
+
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(onChange: () => void) {
+  const query = window.matchMedia(REDUCED_MOTION);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
 
 const FIRST_CONTRIBUTION_YEAR = 2019;
 const monthFormatter = new Intl.DateTimeFormat("en", { month: "short" });
@@ -88,6 +108,14 @@ export default function GitHubActivity({
   >({ [currentYear]: activity });
   const [loadingYear, setLoadingYear] = useState<number | null>(null);
   const [failedYears, setFailedYears] = useState<Record<number, boolean>>({});
+  // reduced-motion visitors get the flat grid unless they pick 3D themselves
+  const reducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION).matches,
+    () => false
+  );
+  const [chosenView, setView] = useState<View | null>(null);
+  const view: View = chosenView ?? (reducedMotion ? "grid" : "3d");
 
   const selectedActivity = activityByYear[selectedYear];
   const days = useMemo(
@@ -133,7 +161,7 @@ export default function GitHubActivity({
     <section id="activity" className="section-shell section-pad content-auto">
       <div className="section-heading">
         <div>
-          <p className="section-index">02 / BUILD RHYTHM</p>
+          <p className="section-index">05 / GITHUB ACTIVITY</p>
           <h2>Shipping leaves a trace.</h2>
         </div>
         <div className="max-w-md md:pt-3">
@@ -178,12 +206,31 @@ export default function GitHubActivity({
                   </p>
                 </div>
               </div>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+              <div role="group" aria-label="Calendar view" className="flex border border-[var(--line-strong)]">
+                {(["3d", "grid"] as const).map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    aria-pressed={view === option}
+                    onClick={() => setView(option)}
+                    className={`min-h-9 px-3 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
+                      view === option
+                        ? "bg-[var(--accent)] text-[#11150d]"
+                        : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                    }`}
+                  >
+                    {option === "3d" ? "3D" : "Grid"}
+                  </button>
+                ))}
+              </div>
               <div className="flex items-center gap-2 font-mono text-[8px] uppercase tracking-[0.12em] text-[var(--muted)] sm:text-[9px] sm:tracking-[0.16em]">
                 <span>Less</span>
                 {[0, 1, 2, 3, 4].map((level) => (
                   <span key={level} className={`contribution-day level-${level}`} />
                 ))}
                 <span>More</span>
+              </div>
               </div>
             </div>
 
@@ -202,7 +249,9 @@ export default function GitHubActivity({
               }`}
               aria-busy={isLoading}
             >
-              {days.length > 0 ? (
+              {days.length > 0 && view === "3d" ? (
+                <ContributionSkyline days={days} />
+              ) : days.length > 0 ? (
                 <div className="min-w-[760px]">
                   <div className="mb-2 grid grid-cols-12 gap-3 px-1 font-mono text-[9px] tracking-[0.16em] text-[var(--muted)]">
                     {labels.map((label, index) => (
