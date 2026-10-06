@@ -378,26 +378,24 @@ export type WorkScreen = {
   height: number;
 };
 
-// shipped work shown in the portfolio; screenshots live in public/works (16:10 cover).
-// works with screens get the showcase deck and a full product tour.
+// shipped work shown in the portfolio; screenshots live in public/works/<name>/.
+// every work is shown as a screen deck with a full tour; the first screen is the cover.
 export type Work = {
   name: string;
   url?: string;
   host?: string;
-  image: string;
   role: string;
   description: string;
   stack: string[];
   kind: "freelance" | "product" | "side";
   year: string;
-  screens?: WorkScreen[];
+  screens: WorkScreen[];
 };
 
 export const works: Work[] = [
   {
     name: "Calyptus",
     host: "calyptus.co",
-    image: "/works/calyptus/candidate-pool.png",
     role: "Founding frontend engineer · employer and candidate apps, Node.js API work",
     description:
       "Video-based AI talent platform used by 100+ companies. I built the React/TypeScript product end to end: AI matching and search, candidate review, assessments, onboarding and payments, plus the API and real-time pieces behind them.",
@@ -449,6 +447,117 @@ export const works: Work[] = [
           "The candidate side: inline-editable profile, completion meter, work preferences, and Autopilot that applies to matching roles automatically.",
         width: 1926,
         height: 2776,
+      },
+    ],
+  },  {
+    name: "Fintech IQ",
+    url: "https://fintech-iq-zeta.vercel.app/",
+    role: "Multi-page website · build and deployment",
+    description:
+      "Seven-page site for a Swiss-regulated digital asset intermediary: OTC execution, crypto-fiat exchange and settlement. A restrained dark design that makes a compliance-heavy service easy to follow, with product-style interface visuals instead of stock imagery.",
+    stack: ["Next.js", "React", "CSS", "Vercel"],
+    kind: "freelance",
+    year: "2026",
+    screens: [
+      {
+        src: "/works/fintech-iq/home.jpg",
+        title: "Home",
+        path: "/",
+        caption:
+          "Hero with a settlement-dashboard visual, a four-step settlement status strip, and cards that route to every section of the site.",
+        width: 2160,
+        height: 3242,
+      },
+      {
+        src: "/works/fintech-iq/services.jpg",
+        title: "Services",
+        path: "/services",
+        caption:
+          "A settlement desk mockup above nine service rows, each with its eligibility note, plus supported assets and settlement currencies.",
+        width: 2160,
+        height: 6572,
+      },
+      {
+        src: "/works/fintech-iq/how-it-works.jpg",
+        title: "How it works",
+        path: "/how-it-works",
+        caption:
+          "Five-step process from onboarding to monitoring as an accordion, paired with a process-control panel for the current step.",
+        width: 2160,
+        height: 2751,
+      },
+      {
+        src: "/works/fintech-iq/compliance.jpg",
+        title: "Compliance",
+        path: "/compliance",
+        caption:
+          "Regulatory standing, an eight-part compliance framework grid, and an FAQ that answers the hard questions before onboarding.",
+        width: 2160,
+        height: 5186,
+      },
+      {
+        src: "/works/fintech-iq/contact.jpg",
+        title: "Contact",
+        path: "/contact",
+        caption: "Request form for institutional clients with a service picker, followed by the Zug office.",
+        width: 2160,
+        height: 4353,
+      },
+    ],
+  },
+  {
+    name: "Alloris",
+    url: "https://www.allorisone.com/",
+    role: "Landing page · build and deployment",
+    description:
+      "Landing page for a quantitative strategy execution company: editorial serif typography, product and security sections, an FAQ, and a validated inquiry form. A fast static build with no framework overhead.",
+    stack: ["HTML", "CSS", "JavaScript", "Netlify"],
+    kind: "freelance",
+    year: "2026",
+    screens: [
+      {
+        src: "/works/alloris/hero.jpg",
+        title: "Hero",
+        path: "/",
+        caption:
+          "Editorial serif headline and a three-point strip (strategy, access, custody) that frames the offer before the first scroll.",
+        width: 2160,
+        height: 1257,
+      },
+      {
+        src: "/works/alloris/what-we-do.jpg",
+        title: "What we do",
+        path: "/#what-we-do",
+        caption:
+          "Numbered capability cards and a custody explainer that make a complex product readable in one pass.",
+        width: 2160,
+        height: 2360,
+      },
+      {
+        src: "/works/alloris/security.jpg",
+        title: "Security",
+        path: "/#security",
+        caption:
+          "The performance-fee model and the client-side control story, told with short lists and a highlighted callout.",
+        width: 2160,
+        height: 1689,
+      },
+      {
+        src: "/works/alloris/research.jpg",
+        title: "Research",
+        path: "/#research",
+        caption:
+          "Dark research section with a generative wave visual and the four principles behind how strategies are validated.",
+        width: 2160,
+        height: 1398,
+      },
+      {
+        src: "/works/alloris/contact.jpg",
+        title: "FAQ & contact",
+        path: "/#contact",
+        caption: "FAQ accordion, an inquiry form with client-side validation, and the three office locations.",
+        width: 2160,
+        height: 3852,
       },
     ],
   },

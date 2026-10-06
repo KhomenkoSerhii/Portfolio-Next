@@ -70,6 +70,7 @@ function Minimap({
 
 export function ProductTour({
   name,
+  label = "Product tour",
   host,
   screens,
   index,
@@ -77,6 +78,7 @@ export function ProductTour({
   onClose,
 }: {
   name: string;
+  label?: string;
   host: string;
   screens: WorkScreen[];
   index: number;
@@ -172,7 +174,7 @@ export function ProductTour({
           id="product-tour-title"
           className="min-w-0 truncate font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]"
         >
-          <span className="text-[var(--accent-strong)]">{name}</span> / Product tour
+          <span className="text-[var(--accent-strong)]">{name}</span> / {label}
         </h2>
         <div className="flex items-center gap-5">
           <span className="font-mono text-[10px] tracking-[0.18em] text-[var(--muted)]">{counter}</span>
