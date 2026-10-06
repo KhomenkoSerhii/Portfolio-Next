@@ -7,6 +7,7 @@ import {
   projects,
   services,
   works,
+  pullQuote,
 } from "@/lib/data";
 
 describe("profile", () => {
@@ -61,6 +62,12 @@ describe("recommendations", () => {
     }
   });
 
+  it("pull quote is a verbatim excerpt of its author's recommendation", () => {
+    const source = recommendations.find((r) => r.name === pullQuote.author);
+    expect(source).toBeDefined();
+    expect(source?.quote).toContain(`${pullQuote.lead} ${pullQuote.punch}`);
+  });
+
   it("has exactly one featured recommendation", () => {
     expect(recommendations.filter((r) => r.featured)).toHaveLength(1);
   });
@@ -95,13 +102,28 @@ describe("works", () => {
       expect(w.year).toMatch(/^\d{4}/);
       expect(w.stack.length).toBeGreaterThan(0);
       expect(["freelance", "product", "side"]).toContain(w.kind);
-      expect(w.image).toMatch(/^\/works\/[\w.-]+\.(png|jpe?g|webp|avif)$/);
+      expect(w.image).toMatch(/^\/works\/[\w./-]+\.(png|jpe?g|webp|avif)$/);
       if (w.url) expect(w.url).toMatch(/^https?:\/\//);
     }
   });
 
   it("has unique names", () => {
     expect(new Set(works.map((w) => w.name)).size).toBe(works.length);
+  });
+
+  it("gives every tour screen a local image, a route, a caption and real pixel sizes", () => {
+    for (const w of works) {
+      const screens = w.screens ?? [];
+      for (const s of screens) {
+        expect(s.src).toMatch(/^\/works\/[\w./-]+\.(png|jpe?g|webp|avif)$/);
+        expect(s.path).toMatch(/^\//);
+        expect(s.title).toBeTruthy();
+        expect(s.caption).toBeTruthy();
+        expect(s.width).toBeGreaterThan(0);
+        expect(s.height).toBeGreaterThan(0);
+      }
+      expect(new Set(screens.map((s) => s.src)).size).toBe(screens.length);
+    }
   });
 });
 

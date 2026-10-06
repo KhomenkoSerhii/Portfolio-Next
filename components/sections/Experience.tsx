@@ -9,7 +9,7 @@ export default function Experience() {
       <Reveal>
         <div className="section-heading">
           <div>
-            <p className="section-index">02 / EXPERIENCE</p>
+            <p className="section-index">01 / EXPERIENCE</p>
             <h2>Seven years across four products.</h2>
           </div>
           <p className="max-w-md text-base leading-relaxed text-[var(--muted)] md:pt-3">

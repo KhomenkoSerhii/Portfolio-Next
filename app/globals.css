@@ -350,10 +350,6 @@ button:disabled,
   color: var(--accent-strong);
 }
 
-.system-visual {
-  perspective: 1000px;
-  box-shadow: 0 24px 70px rgba(10, 13, 10, 0.08);
-}
 
 
 .terrain-fallback {
@@ -631,6 +627,13 @@ body.bursting #page-content {
 @media (max-width: 639px) {
   body::before {
     background-size: 48px 48px;
+  }
+
+  /* the wide display face eats a phone screen at desktop sizes */
+  .section-heading h2 {
+    max-width: none;
+    font-size: clamp(1.6rem, 7.2vw, 2.1rem);
+    line-height: 1;
   }
 
   .contribution-calendar {

@@ -18,33 +18,64 @@ const routes = [
 ] as const;
 
 export default function StackLayers() {
+  const stageRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
 
-  // tilt toward the cursor; the resting pose is the isometric view
+  // tilt toward the cursor, and split the stack into its three layers while the
+  // pointer is over the visual. The hero copy sits above this element, so hover is
+  // tested against the stage's fixed box: it never moves, so the split can't flicker.
   useEffect(() => {
+    const stage = stageRef.current;
     const scene = sceneRef.current;
-    if (!scene || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!stage || !scene) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      stage.dataset.open = "true";
+      return;
+    }
 
     let frame = 0;
-    const onMove = (event: PointerEvent) => {
+    let pointer: { x: number; y: number } | null = null;
+
+    const update = () => {
+      if (!pointer) {
+        stage.dataset.open = "false";
+        return;
+      }
+      const box = stage.getBoundingClientRect();
+      const inside =
+        pointer.x >= box.left && pointer.x <= box.right && pointer.y >= box.top && pointer.y <= box.bottom;
+      stage.dataset.open = String(inside);
+      scene.style.setProperty("--rx", `${58 - (pointer.y / window.innerHeight - 0.5) * 10}deg`);
+      scene.style.setProperty("--rz", `${-36 + (pointer.x / window.innerWidth - 0.5) * 14}deg`);
+    };
+    const schedule = () => {
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const nx = event.clientX / window.innerWidth - 0.5;
-        const ny = event.clientY / window.innerHeight - 0.5;
-        scene.style.setProperty("--rx", `${58 - ny * 10}deg`);
-        scene.style.setProperty("--rz", `${-36 + nx * 14}deg`);
-      });
+      frame = requestAnimationFrame(update);
+    };
+    const onMove = (event: PointerEvent) => {
+      pointer = { x: event.clientX, y: event.clientY };
+      schedule();
+    };
+    const onLeave = () => {
+      pointer = null;
+      schedule();
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("blur", onLeave);
+    document.documentElement.addEventListener("mouseleave", onLeave);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("blur", onLeave);
+      document.documentElement.removeEventListener("mouseleave", onLeave);
     };
   }, []);
 
   return (
-    <div className={styles.stage} aria-hidden>
+    <div ref={stageRef} className={styles.stage} aria-hidden>
       <div ref={sceneRef} className={styles.scene}>
         <div className={`${styles.layer} ${styles.data}`}>
           <span className={styles.tag}>03 / Data & services</span>
@@ -138,6 +169,7 @@ export default function StackLayers() {
       </div>
 
       <div className={styles.legend}>
+        <span className={styles.hint}>Hover · expand the stack</span>
         <span className={styles.req}>request</span>
         <span className={styles.res}>response</span>
       </div>

@@ -326,6 +326,13 @@ export const recommendations = [
   },
 ];
 
+// short excerpt shown right under the hero; must stay a verbatim part of that person's quote
+export const pullQuote = {
+  author: "Angus Crombie",
+  lead: "He spent three years with us building the core of the platform. Authentication, payments, onboarding, our points system, admin tooling.",
+  punch: "He did not join a functioning system, he built it!",
+};
+
 export type Project = {
   name: string;
   tag: string;
@@ -333,61 +340,6 @@ export type Project = {
   description: string;
   stack: string[];
 };
-
-export type CaseStudy = {
-  index: string;
-  name: string;
-  eyebrow: string;
-  description: string;
-  outcome: string;
-  outcomeLabel: string;
-  secondaryMetric: string;
-  secondaryLabel: string;
-  stack: string[];
-  accent: "lime" | "cyan" | "orange";
-};
-
-export const caseStudies: CaseStudy[] = [
-  {
-    index: "01",
-    name: "Calyptus AI Talent Platform",
-    eyebrow: "FRONTEND OWNERSHIP · AI PRODUCT UX",
-    description:
-      "The core product experience for a video-first talent platform: real-time candidate dashboards, ranking and matching flows, automated profile parsing, Web3 onboarding, Stripe billing, and the component architecture shared by internal tools.",
-    outcome: "100K+",
-    outcomeLabel: "users served",
-    secondaryMetric: "~35%",
-    secondaryLabel: "faster application",
-    stack: ["React", "TypeScript", "Socket.IO", "LLM APIs", "Stripe", "Web3"],
-    accent: "lime",
-  },
-  {
-    index: "02",
-    name: "Insurance Search System",
-    eyebrow: "INFORMATION ARCHITECTURE · PERFORMANCE",
-    description:
-      "A scalable discovery experience built around advanced filtering, sorting, faceted navigation, third-party data sources, and clear API contracts between frontend and backend indexing systems.",
-    outcome: "25-35%",
-    outcomeLabel: "faster initial load",
-    secondaryMetric: "~20%",
-    secondaryLabel: "faster responses",
-    stack: ["React", "TypeScript", "Contentful", "Auth0", "REST APIs", "AWS"],
-    accent: "cyan",
-  },
-  {
-    index: "03",
-    name: "Crypto Payment Infrastructure",
-    eyebrow: "REAL-TIME DATA · FINANCIAL UX",
-    description:
-      "A transaction-heavy dashboard for wallets, payment providers, and blockchain interactions, backed by scalable Redux state and resilient data flows designed for high-load periods.",
-    outcome: "~30%",
-    outcomeLabel: "lower UI latency",
-    secondaryMetric: "~20%",
-    secondaryLabel: "fewer payment errors",
-    stack: ["React", "Redux", "TypeScript", "Web3", "Solidity", "REST APIs"],
-    accent: "orange",
-  },
-];
 
 export const projects: Project[] = [
   {
@@ -416,19 +368,91 @@ export const projects: Project[] = [
   },
 ];
 
-// shipped sites shown in the portfolio grid; screenshots live in public/works (16:10)
+// one screen of a product tour; width/height are the screenshot's real pixels
+export type WorkScreen = {
+  src: string;
+  title: string;
+  path: string;
+  caption: string;
+  width: number;
+  height: number;
+};
+
+// shipped work shown in the portfolio; screenshots live in public/works (16:10 cover).
+// works with screens get the showcase deck and a full product tour.
 export type Work = {
   name: string;
   url?: string;
+  host?: string;
   image: string;
   role: string;
   description: string;
   stack: string[];
   kind: "freelance" | "product" | "side";
   year: string;
+  screens?: WorkScreen[];
 };
 
-export const works: Work[] = [];
+export const works: Work[] = [
+  {
+    name: "Calyptus",
+    host: "calyptus.co",
+    image: "/works/calyptus/candidate-pool.png",
+    role: "Founding frontend engineer · employer and candidate apps, Node.js API work",
+    description:
+      "Video-based AI talent platform used by 100+ companies. I built the React/TypeScript product end to end: AI matching and search, candidate review, assessments, onboarding and payments, plus the API and real-time pieces behind them.",
+    stack: ["React", "TypeScript", "TanStack Query", "Socket.IO", "OpenAI API", "Stripe", "Node.js"],
+    kind: "product",
+    year: "2023 - 2026",
+    screens: [
+      {
+        src: "/works/calyptus/candidate-pool.png",
+        title: "Candidate pool",
+        path: "/company/candidate-pool",
+        caption:
+          "AI-ranked matches for each role. Natural-language search, a Best fit / Strict toggle, and live progress while the model re-scores candidates in batches.",
+        width: 2286,
+        height: 1432,
+      },
+      {
+        src: "/works/calyptus/candidate-drawer.png",
+        title: "Candidate review",
+        path: "/company/candidate-pool/profile",
+        caption:
+          "Full profile in a side drawer: interview, AI fluency and experience scores, work history and portfolio, without losing your place in the pool.",
+        width: 2178,
+        height: 3092,
+      },
+      {
+        src: "/works/calyptus/saved-search.png",
+        title: "Saved search",
+        path: "/company/saved-search",
+        caption:
+          "Twenty-plus filters across skills, scores, salary and location, kept as removable chips and saved as reusable search templates.",
+        width: 1354,
+        height: 1634,
+      },
+      {
+        src: "/works/calyptus/assessments.png",
+        title: "Assessments",
+        path: "/company/assessments",
+        caption:
+          "AI fluency and skills tests per role: custom or AI-suggested tasks, sent to candidates in one click, with tested and pending counts.",
+        width: 2216,
+        height: 1562,
+      },
+      {
+        src: "/works/calyptus/candidate-profile.png",
+        title: "Candidate profile",
+        path: "/profile",
+        caption:
+          "The candidate side: inline-editable profile, completion meter, work preferences, and Autopilot that applies to matching roles automatically.",
+        width: 1926,
+        height: 2776,
+      },
+    ],
+  },
+];
 
 // services - flagship cards + compact secondary list
 export const services = {

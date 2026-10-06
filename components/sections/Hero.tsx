@@ -16,7 +16,7 @@ const reveal = {
 const metrics = [
   { value: "7+", label: "years shipping" },
   { value: "100K+", label: "users served" },
-  { value: "~35%", label: "faster apps" },
+  { value: "35%", label: "faster apps" },
   { value: "UI+API", label: "full-stack delivery" },
 ];
 
@@ -66,7 +66,7 @@ export default function Hero() {
             </motion.p>
 
             <motion.div variants={reveal} className="mt-10 flex flex-wrap items-center gap-4">
-              <a href="#work" className="button-primary">
+              <a href="#portfolio" className="button-primary">
                 View work
                 <span aria-hidden>↘</span>
               </a>
