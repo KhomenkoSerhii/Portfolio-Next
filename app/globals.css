@@ -123,7 +123,7 @@ button:disabled,
 }
 
 .section-pad {
-  padding-block: clamp(6rem, 11vw, 10rem);
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
 }
 
 .section-heading {
@@ -137,11 +137,11 @@ button:disabled,
 }
 
 .section-heading h2 {
-  max-width: 12ch;
+  max-width: 18ch;
   font-family: var(--font-syne), sans-serif;
-  font-size: clamp(2.6rem, 6.4vw, 5.8rem);
+  font-size: clamp(2.1rem, 4.4vw, 3.9rem);
   font-weight: 800;
-  line-height: 0.93;
+  line-height: 0.96;
   letter-spacing: -0.065em;
   text-transform: uppercase;
 }
@@ -692,7 +692,7 @@ body.bursting #page-content {
 
 @media (min-width: 640px) {
   .hero-title {
-    font-size: clamp(4.5rem, 9.2vw, 8.4rem);
+    font-size: clamp(4.2rem, 7vw, 6.4rem);
   }
 }
 

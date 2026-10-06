@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Serhii Khomenko - Senior Frontend Engineer";
+export const alt = "Serhii Khomenko - Senior Software Engineer";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -63,7 +63,7 @@ export default function OpengraphImage() {
               color: "#9aa096",
             }}
           >
-            <span>Senior Frontend Engineer</span>
+            <span>Senior Software Engineer</span>
             <span>React · Next.js · TypeScript · AI/LLM UX</span>
           </div>
         </div>

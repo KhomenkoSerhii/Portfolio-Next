@@ -17,7 +17,7 @@ const metrics = [
   { value: "7+", label: "years shipping" },
   { value: "100K+", label: "users served" },
   { value: "~35%", label: "faster apps" },
-  { value: "AI / UX", label: "current focus" },
+  { value: "UI+API", label: "full-stack delivery" },
 ];
 
 export default function Hero() {
@@ -45,28 +45,39 @@ export default function Hero() {
                 Available for the right team
               </span>
               <span>{profile.location}</span>
-              <span>UTC +03</span>
+              <span>Remote · EMEA</span>
             </motion.div>
 
             <motion.p variants={reveal} className="mb-4 max-w-full font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)] sm:text-xs sm:tracking-[0.22em]">
-              Serhii Khomenko / Senior Frontend Engineer
+              {profile.name}
             </motion.p>
 
             <motion.h1 variants={reveal} className="hero-title max-w-[11ch] font-display font-extrabold uppercase">
-              Interfaces
-              <span className="block text-[var(--accent-strong)]">for real</span>
-              complexity.
+              Senior
+              <span className="block text-[var(--accent-strong)]">Software</span>
+              Engineer.
             </motion.h1>
 
-            <motion.p variants={reveal} className="mt-8 max-w-xl text-base leading-[1.75] text-[var(--muted)] sm:text-lg">
-              I turn real-time data, AI latency, payments, and dense product
-              logic into fast, dependable interfaces people can actually use.
+            <motion.p variants={reveal} className="mt-7 max-w-2xl font-mono text-[10px] uppercase leading-[1.9] tracking-[0.16em] text-[var(--foreground)] sm:text-xs">
+              Product-minded full-stack, frontend-heavy
+              <span className="block text-[var(--muted)]">
+                React · Next.js · Node.js · TypeScript · AI/LLM
+              </span>
+            </motion.p>
+
+            <motion.p variants={reveal} className="mt-6 max-w-xl text-base leading-[1.75] text-[var(--muted)] sm:text-lg">
+              I build products end to end: React interfaces, the Node.js APIs
+              behind them, payments, real-time flows, and AI features that hold
+              up in production.
             </motion.p>
 
             <motion.div variants={reveal} className="mt-10 flex flex-wrap items-center gap-4">
               <a href="#work" className="button-primary">
-                Explore selected work
+                View work
                 <span aria-hidden>↘</span>
+              </a>
+              <a href={profile.cvUrl} download className="button-secondary">
+                Download CV ↓
               </a>
               <a
                 href={profile.links.linkedin}

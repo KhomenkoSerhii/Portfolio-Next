@@ -35,8 +35,11 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   keywords: [
     "Serhii Khomenko",
-    "Frontend Developer",
-    "Software Engineer",
+    "Senior Software Engineer",
+    "Full-Stack Engineer",
+    "Product Engineer",
+    "Frontend Engineer",
+    "Node.js",
     "React",
     "TypeScript",
     "Next.js",

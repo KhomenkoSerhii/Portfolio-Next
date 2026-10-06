@@ -1,10 +1,12 @@
 export const profile = {
   name: "Serhii Khomenko",
+  title: "Senior Software Engineer",
   role:
-    "Senior Frontend Engineer · React · Next.js · TypeScript · AI/LLM Product UX · Remote",
+    "Senior Software Engineer · Product-minded Full-Stack (Frontend-heavy) · React · Next.js · Node.js · TypeScript · AI/LLM · Remote",
   location: "Lviv, Ukraine",
   summary:
-    "Software Engineer at Calyptus building the core frontend of an AI talent platform - from real-time candidate dashboards and video and ranking interfaces to Web3 wallet onboarding and Stripe billing. I design frontend architecture and component systems, optimise performance and CI/CD, and use AI-assisted development to ship fast, reliable, production-grade UX.",
+    "Frontend-focused Software Engineer with 7+ years of product development experience and practical backend experience with Node.js, REST APIs, MongoDB, GraphQL, and Socket.IO. I build end-to-end features across React and TypeScript applications, backend business logic, third-party integrations, payments, real-time workflows, AWS deployments, and CI/CD - in fintech, Web3, eCommerce, and AI-powered products for distributed EU and US teams.",
+  cvUrl: "/cv/Serhii_Khomenko_Software_Engineer.pdf",
   links: {
     linkedin: "https://linkedin.com/in/serhiikhomenko",
     telegram: "https://t.me/KhSerhii",
@@ -32,6 +34,7 @@ export const experience: Job[] = [
     stack: [
       "React",
       "TypeScript",
+      "Node.js",
       "Vite",
       "Redux Toolkit",
       "TanStack Query",
@@ -39,24 +42,27 @@ export const experience: Job[] = [
       "Styled Components",
       "Tailwind CSS",
       "REST APIs",
+      "OpenAI API",
       "Wagmi",
       "Viem",
       "RainbowKit",
       "Stripe",
       "Testing Library",
       "Sentry",
+      "AWS",
       "CI/CD",
       "AI-assisted development",
     ],
     highlights: [
       "Owned and built the full React/TypeScript front-end architecture serving 100k+ users, adopted by leading Web3 companies",
-      "Integrated LLM-powered candidate-job matching, smart search, and automated profile parsing, removing manual profile review from the workflow",
+      "Contributed to Node.js backend tasks supporting product features, including API integrations, business logic, and real-time Socket.IO flows",
+      "Integrated LLM-powered candidate-job matching, smart search, and automated profile parsing with backend and OpenAI APIs, removing manual profile review from the workflow",
       "Designed UX for streaming AI responses: incremental rendering, progress states, and graceful fallbacks for model latency and errors",
       "Improved application performance by ~35% through code splitting, lazy loading, and optimised real-time updates",
       "Built a scalable component architecture with shadcn/Radix that standardised the UI and sped up feature delivery across internal and customer-facing dashboards",
       "Built internal dashboards and admin tools for platform operations, user management, and Stripe payment workflows",
       "Set up and maintained CI/CD pipelines and AWS deployments, streamlining releases and improving delivery reliability",
-      "Delivered core matching, profile, and real-time WebSocket features that drive user engagement and retention",
+      "Delivered real-time matching and profile features with resilient loading, error, and reconnection handling across client-server flows",
       "Use Cursor, Claude, and Copilot daily for prompt-driven development and workflow automation, partnering with backend and product teams to improve AI output surfaced in the UI",
     ],
   },
@@ -71,8 +77,8 @@ export const experience: Job[] = [
       "Built a scalable search system with advanced filtering, sorting, and faceted navigation, improving content discoverability",
       "Reduced initial load time by ~25-35% and response times by ~20% through lazy loading and bundle optimisation",
       "Defined API contracts and aligned frontend-backend interactions for efficient data indexing and search accuracy",
-      "Integrated third-party data sources to enrich search results and increase the relevance of displayed information",
-      "Delivered a responsive, mobile-first UI with a consistent experience across devices",
+      "Integrated 5+ third-party data sources to enrich search results and increase the relevance of displayed information",
+      "Delivered a responsive, mobile-first UI with secure Auth0-based access flows",
     ],
   },
   {
@@ -83,8 +89,8 @@ export const experience: Job[] = [
     product: "Crypto & Payment Infrastructure",
     stack: ["React", "Redux", "TypeScript", "web3", "Solidity", "REST APIs", "Jest"],
     highlights: [
-      "Contributed to a crypto payments dashboard enabling users to manage transactions, wallets, and payment flows in a unified interface",
-      "Integrated multiple payment providers and blockchain interactions, improving transaction success and reducing payment processing errors by ~20%",
+      "Integrated payment providers, REST APIs, wallets, and blockchain interactions, reducing payment processing errors by ~20%",
+      "Built a crypto payments dashboard enabling users to manage transactions, wallets, and payment flows in a unified interface",
       "Architected scalable Redux state management for high-frequency transaction data with improved reliability and maintainability",
       "Reduced UI latency by ~30% under high load and ensured stable operation during peak transaction periods",
       "Collaborated with backend and blockchain teams on API contracts and consistent data flow across systems",
@@ -97,12 +103,12 @@ export const experience: Job[] = [
     period: "Oct 2019 - Feb 2021",
     title: "Front End Developer",
     product: "Corporate Management App & Online Store",
-    stack: ["React", "JavaScript", "Node.js", "REST APIs", "MongoDB", "SASS"],
+    stack: ["Node.js", "JavaScript", "React", "REST APIs", "MongoDB", "SASS"],
     highlights: [
+      "Built and maintained Node.js REST APIs, business logic, and MongoDB data integrations for the HR and eCommerce modules",
       "Developed and scaled core HR modules including Leave, Timesheets, Attendance, and Reporting for daily internal operations",
       "Improved performance across key workflows by ~25%, resolved critical production issues, and delivered responsive UI architecture for desktop and mobile",
-      "Built e-commerce product listings, cart, and checkout flows, contributing to improved conversion rates",
-      "Worked as a Node.js backend developer, building REST APIs, business logic, and data integrations for the HR and e-commerce products",
+      "Built product listings, cart, checkout, and related API integrations that lifted conversion by ~15%",
       "Created a reusable UI component library that accelerated feature delivery and improved maintainability",
       "Delivered account management for a gaming platform, an internal admin dashboard, and a real-time mobile chat experience",
     ],
@@ -130,6 +136,7 @@ export const skills: { group: string; items: string[] }[] = [
       "Redux",
       "TypeScript",
       "JavaScript",
+      "Node.js",
       "React Hooks",
       "Git",
       "Webpack",
@@ -152,7 +159,16 @@ export const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "Backend",
-    items: ["Node.js", "MongoDB", "GraphQL", "Apollo", "REST APIs", "WebSocket"],
+    items: [
+      "Node.js",
+      "REST APIs",
+      "MongoDB",
+      "GraphQL",
+      "Apollo",
+      "Socket.IO",
+      "API integrations",
+      "Business logic",
+    ],
   },
   {
     group: "DevOps",
@@ -399,6 +415,20 @@ export const projects: Project[] = [
     stack: ["React Native", "WebSocket", "Live Presence"],
   },
 ];
+
+// shipped sites shown in the portfolio grid; screenshots live in public/works (16:10)
+export type Work = {
+  name: string;
+  url?: string;
+  image: string;
+  role: string;
+  description: string;
+  stack: string[];
+  kind: "freelance" | "product" | "side";
+  year: string;
+};
+
+export const works: Work[] = [];
 
 // services - flagship cards + compact secondary list
 export const services = {

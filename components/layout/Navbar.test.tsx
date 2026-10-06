@@ -18,27 +18,27 @@ describe("theme toggle", () => {
     document.documentElement.classList.remove("dark");
   });
 
-  it("defaults to light and offers to switch to dark", async () => {
+  it("defaults to dark and offers to switch to light", async () => {
     renderNavbar();
     expect(
-      await screen.findByRole("button", { name: /switch to dark theme/i })
+      await screen.findByRole("button", { name: /switch to light theme/i })
     ).toBeInTheDocument();
-    expect(document.documentElement).not.toHaveClass("dark");
+    expect(document.documentElement).toHaveClass("dark");
   });
 
-  it("toggles to dark, persists the choice, and flips the label", async () => {
+  it("toggles to light, persists the choice, and flips the label", async () => {
     const user = userEvent.setup();
     renderNavbar();
 
     const toggle = await screen.findByRole("button", {
-      name: /switch to dark theme/i,
+      name: /switch to light theme/i,
     });
     await user.click(toggle);
 
-    expect(localStorage.getItem("theme")).toBe("dark");
-    expect(document.documentElement).toHaveClass("dark");
+    expect(localStorage.getItem("theme")).toBe("light");
+    expect(document.documentElement).not.toHaveClass("dark");
     expect(
-      screen.getByRole("button", { name: /switch to light theme/i })
+      screen.getByRole("button", { name: /switch to dark theme/i })
     ).toBeInTheDocument();
   });
 });

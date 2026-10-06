@@ -29,11 +29,12 @@ Visual identity stays (dark/lime palette, display font, grid background, case-st
 ### Density
 - `.section-heading h2`: from `clamp(2.6rem, 6.4vw, 5.8rem)` down to roughly `clamp(2.1rem, 4.4vw, 3.9rem)`, with `max-width` widened so headings fit in 1-2 lines.
 - `.section-pad`: from `clamp(6rem, 11vw, 10rem)` to roughly `clamp(4.5rem, 8vw, 7.5rem)`.
-- Shorter section headlines. Target: ~30% shorter page.
+- Shorter section headlines, tighter spacing in case studies and capability cards. (Measured: 9602px → 9268px at 1440 wide; most of the remaining height is the case-study mockups and the expanded first role, kept on purpose.)
 
 ### Section order and nav
 Order: Hero → Work (case studies) → Portfolio → Experience → Capabilities → Reviews → Activity → Contact.
 Nav: Work, Portfolio (only when there are entries), Experience, Skills, Reviews, Contact. Activity stays on the page but leaves the nav.
+Section indexes: Work 01, Portfolio 01B (a sub-part of Work, so numbering has no gap while Portfolio is hidden), Experience 02, Capabilities 03, References 04, Activity 05, Contact 06.
 
 ### Capabilities
 There are four cards:

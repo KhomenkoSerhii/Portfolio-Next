@@ -2,6 +2,7 @@ import Hero from "@/components/sections/Hero";
 import Experience from "@/components/sections/Experience";
 import Skills from "@/components/sections/Skills";
 import Projects from "@/components/sections/Projects";
+import Portfolio from "@/components/sections/Portfolio";
 import Recommendations from "@/components/sections/Recommendations";
 import GitHubActivity from "@/components/sections/GitHubActivity";
 import Contact from "@/components/sections/Contact";
@@ -14,7 +15,7 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: profile.name,
-  jobTitle: "Senior Frontend Engineer",
+  jobTitle: profile.title,
   description: profile.summary,
   url: SITE_URL,
   address: {
@@ -32,9 +33,13 @@ const personJsonLd = {
     "TypeScript",
     "Next.js",
     "JavaScript",
+    "Node.js",
+    "REST APIs",
+    "MongoDB",
+    "Socket.IO",
+    "Full-stack development",
     "LLM integration",
     "Prompt engineering",
-    "Node.js",
     "Web3",
   ],
 };
@@ -54,10 +59,11 @@ export default async function Home() {
       <div id="page-content">
         <Hero />
         <Projects />
-        <GitHubActivity activity={activity} username={githubUsername} />
+        <Portfolio />
         <Experience />
         <Skills />
         <Recommendations />
+        <GitHubActivity activity={activity} username={githubUsername} />
         <Contact />
       </div>
     </main>

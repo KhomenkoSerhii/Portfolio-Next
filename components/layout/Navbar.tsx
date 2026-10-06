@@ -3,15 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "@/lib/theme/ThemeProvider";
+import { works } from "@/lib/data";
 
-const links = [
+const allLinks = [
   { href: "#work", id: "work", label: "Work" },
-  { href: "#activity", id: "activity", label: "Activity" },
+  { href: "#portfolio", id: "portfolio", label: "Portfolio" },
   { href: "#experience", id: "experience", label: "Experience" },
-  { href: "#capabilities", id: "capabilities", label: "Capabilities" },
+  { href: "#capabilities", id: "capabilities", label: "Skills" },
   { href: "#reviews", id: "reviews", label: "Reviews" },
   { href: "#contact", id: "contact", label: "Contact" },
 ] as const;
+
+// the portfolio section renders nothing until it has entries, so hide its link too
+const links = allLinks.filter((link) => link.id !== "portfolio" || works.length > 0);
 
 function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
@@ -114,7 +118,7 @@ export default function Navbar() {
             SK
           </span>
           <span className="hidden font-mono text-[9px] uppercase leading-[1.35] tracking-[0.16em] text-[var(--muted)] xl:block">
-            Senior frontend
+            Senior software
             <br />
             engineer
           </span>

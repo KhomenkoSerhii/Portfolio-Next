@@ -103,14 +103,15 @@ export default function Contact() {
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-black/55">
-              06 / START A CONVERSATION
+              06 / CONTACT
             </p>
-            <h2 className="mt-5 max-w-[8ch] font-display text-6xl font-extrabold uppercase leading-[0.87] tracking-[-0.065em] sm:text-7xl lg:text-8xl">
+            <h2 className="mt-5 max-w-[8ch] font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-[-0.06em] sm:text-6xl lg:text-7xl">
               Bring me the hard part.
             </h2>
             <p className="mt-8 max-w-md text-base leading-relaxed text-black/65">
-              Open to senior frontend roles and selected product work involving
-              AI UX, real-time systems, architecture, or performance.
+              Open to senior software engineering roles, full-time or contract:
+              full-stack (frontend-heavy), product, and AI-powered work. Remote
+              from Lviv, overlapping CET.
             </p>
             <div className="mt-10">
               <SocialLinks />

@@ -133,7 +133,7 @@ export default function GitHubActivity({
     <section id="activity" className="section-shell section-pad content-auto">
       <div className="section-heading">
         <div>
-          <p className="section-index">02 / BUILD RHYTHM</p>
+          <p className="section-index">05 / GITHUB ACTIVITY</p>
           <h2>Shipping leaves a trace.</h2>
         </div>
         <div className="max-w-md md:pt-3">
