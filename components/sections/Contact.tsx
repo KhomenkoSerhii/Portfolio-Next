@@ -105,7 +105,7 @@ export default function Contact() {
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-black/55">
               06 / CONTACT
             </p>
-            <h2 className="mt-5 max-w-[8ch] font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-[-0.06em] sm:text-6xl lg:text-7xl">
+            <h2 className="mt-5 max-w-[8ch] font-display text-4xl font-extrabold uppercase leading-[0.9] tracking-[-0.06em] sm:text-6xl lg:text-7xl">
               Bring me the hard part.
             </h2>
             <p className="mt-8 max-w-md text-base leading-relaxed text-black/65">

@@ -1,8 +1,8 @@
 import Hero from "@/components/sections/Hero";
 import Experience from "@/components/sections/Experience";
 import Skills from "@/components/sections/Skills";
-import Projects from "@/components/sections/Projects";
 import Portfolio from "@/components/sections/Portfolio";
+import PullQuote from "@/components/sections/PullQuote";
 import Recommendations from "@/components/sections/Recommendations";
 import GitHubActivity from "@/components/sections/GitHubActivity";
 import Contact from "@/components/sections/Contact";
@@ -58,9 +58,9 @@ export default async function Home() {
       <Navbar />
       <div id="page-content">
         <Hero />
-        <Projects />
-        <Portfolio />
+        <PullQuote />
         <Experience />
+        <Portfolio />
         <Skills />
         <Recommendations />
         <GitHubActivity activity={activity} username={githubUsername} />

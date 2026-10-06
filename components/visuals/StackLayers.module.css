@@ -24,6 +24,7 @@
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   border: 1px solid var(--line-strong);
   background: color-mix(in srgb, var(--surface) 55%, transparent);
   font-family: var(--font-geist-mono), monospace;
@@ -50,8 +51,9 @@
   color: var(--muted);
 }
 
+/* collapsed: one thin slab at mid height; [data-open] spreads it into three layers */
 .data {
-  transform: translateZ(0);
+  transform: translateZ(140px);
 }
 
 .api {
@@ -59,13 +61,21 @@
 }
 
 .ui {
-  transform: translateZ(300px);
+  transform: translateZ(160px);
   border-color: var(--accent);
   box-shadow: 0 0 60px -10px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
 .ui .tag {
   color: var(--accent-strong);
+}
+
+.stage[data-open="true"] .data {
+  transform: translateZ(0);
+}
+
+.stage[data-open="true"] .ui {
+  transform: translateZ(300px);
 }
 
 /* UI layer: a small product screen */
@@ -238,7 +248,17 @@
     color-mix(in srgb, var(--accent) 70%, transparent)
   );
   transform-origin: top;
+  transform: translate3d(var(--x), var(--y), 150px) rotateX(90deg) scaleY(0);
+  opacity: 0;
+  transition:
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease;
+}
+
+.stage[data-open="true"] .wire {
   transform: translate3d(var(--x), var(--y), 0) rotateX(90deg);
+  opacity: 1;
+  transition-delay: 0.2s;
 }
 
 .packet {
@@ -251,6 +271,12 @@
   animation: travel-down var(--dur, 2.6s) cubic-bezier(0.45, 0, 0.55, 1) infinite;
   animation-delay: var(--delay, 0s);
   opacity: 0;
+}
+
+/* packets only travel once the layers are apart */
+.stage:not([data-open="true"]) .packet {
+  animation: none;
+  visibility: hidden;
 }
 
 .response {
@@ -286,7 +312,18 @@
   white-space: nowrap;
 }
 
-.legend span::before {
+.stage[data-open="true"] .hint,
+.stage:not([data-open="true"]) .req,
+.stage:not([data-open="true"]) .res {
+  display: none;
+}
+
+.hint {
+  color: var(--accent-strong);
+}
+
+.legend .req::before,
+.legend .res::before {
   content: "";
   display: inline-block;
   width: 7px;
@@ -309,7 +346,9 @@
     animation: none;
   }
 
-  .scene {
+  .scene,
+  .layer,
+  .wire {
     transition: none;
   }
 }

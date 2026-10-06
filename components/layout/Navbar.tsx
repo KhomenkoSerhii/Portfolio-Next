@@ -6,9 +6,8 @@ import { useTheme } from "@/lib/theme/ThemeProvider";
 import { works } from "@/lib/data";
 
 const allLinks = [
-  { href: "#work", id: "work", label: "Work" },
-  { href: "#portfolio", id: "portfolio", label: "Portfolio" },
   { href: "#experience", id: "experience", label: "Experience" },
+  { href: "#portfolio", id: "portfolio", label: "Portfolio" },
   { href: "#capabilities", id: "capabilities", label: "Skills" },
   { href: "#reviews", id: "reviews", label: "Reviews" },
   { href: "#contact", id: "contact", label: "Contact" },
