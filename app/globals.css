@@ -182,6 +182,9 @@ button:disabled,
   --action-fill: var(--action);
   --action-text: var(--action-ink);
   --action-border: var(--action-edge);
+  /* always-visible edge, plus a fading tail that leads into the bright head */
+  --action-border-base: rgba(17, 21, 13, 0.85);
+  --action-border-tail: rgba(255, 255, 255, 0.5);
   --action-surface: linear-gradient(var(--action-fill), var(--action-fill));
   isolation: isolate;
   overflow: hidden;
@@ -190,21 +193,21 @@ button:disabled,
     var(--action-surface) padding-box,
     conic-gradient(
         from var(--action-border-angle),
-        transparent 0deg 98deg,
-        var(--action-border) 106deg,
-        #ffffff 112deg,
-        var(--action-border) 118deg,
-        transparent 126deg 278deg,
-        var(--action-border) 286deg,
-        #ffffff 292deg,
-        var(--action-border) 298deg,
-        transparent 306deg 360deg
+        var(--action-border-base) 0deg 40deg,
+        var(--action-border-tail) 92deg,
+        var(--action-border) 108deg,
+        #ffffff 114deg,
+        var(--action-border-base) 122deg 220deg,
+        var(--action-border-tail) 272deg,
+        var(--action-border) 288deg,
+        #ffffff 294deg,
+        var(--action-border-base) 302deg 360deg
       )
       border-box;
   background-position: 0% 50%, center;
   background-size: 100% 100%, auto;
   color: var(--action-text);
-  animation: action-border-chase 4.6s linear infinite;
+  animation: action-border-chase 3.2s linear infinite;
 }
 
 .button-primary,
@@ -249,8 +252,9 @@ button:disabled,
   --action-fill: #0d100d;
   --action-surface: linear-gradient(#0d100d, #0d100d);
   --action-text: var(--paper);
-  --action-border: rgba(255, 255, 255, 0.72);
-  box-shadow: inset 0 0 0 1px rgba(240, 239, 232, 0.12);
+  --action-border: var(--accent-strong);
+  --action-border-base: color-mix(in srgb, var(--foreground) 16%, transparent);
+  --action-border-tail: color-mix(in srgb, var(--accent-strong) 45%, transparent);
 }
 
 .button-primary:hover,
@@ -261,7 +265,7 @@ button:disabled,
 .button-primary:hover,
 .button-secondary:hover,
 .action-button:hover {
-  animation-duration: 3.4s;
+  animation-duration: 2.2s;
 }
 
 .button-primary:hover,
@@ -272,9 +276,8 @@ button:disabled,
 .button-secondary:hover {
   --action-fill: #171c13;
   --action-surface: linear-gradient(#171c13, #171c13);
-  --action-border: rgba(255, 255, 255, 0.9);
+  --action-border-base: color-mix(in srgb, var(--foreground) 26%, transparent);
   color: var(--paper);
-  box-shadow: inset 0 0 0 1px rgba(240, 239, 232, 0.18);
 }
 
 .button-primary:focus-visible,
@@ -352,53 +355,6 @@ button:disabled,
   box-shadow: 0 24px 70px rgba(10, 13, 10, 0.08);
 }
 
-.signal-visual {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  color: var(--foreground);
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    black 12%,
-    black 92%,
-    transparent 100%
-  );
-}
-
-.signal-route {
-  fill: none;
-  stroke: var(--line-strong);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-
-.signal-route-live {
-  stroke: var(--accent-strong);
-  stroke-width: 1.6;
-  stroke-dasharray: 2 12;
-  stroke-linecap: square;
-  animation: signal-route-flow 7s linear infinite;
-}
-
-.signal-delay-2 {
-  animation-delay: -2.2s;
-}
-
-.signal-delay-3 {
-  animation-delay: -4.4s;
-}
-
-.signal-core-orbit {
-  transform-origin: 380px 285px;
-  animation: signal-orbit 28s linear infinite;
-}
-
-.signal-core-dot {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: signal-core-pulse 2.4s ease-in-out infinite;
-}
 
 .terrain-fallback {
   position: absolute;
@@ -591,30 +547,6 @@ button:disabled,
   70%,
   100% {
     box-shadow: 0 0 0 8px transparent;
-  }
-}
-
-@keyframes signal-route-flow {
-  to {
-    stroke-dashoffset: -100;
-  }
-}
-
-@keyframes signal-orbit {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes signal-core-pulse {
-  0%,
-  100% {
-    opacity: 0.65;
-    transform: scale(0.82);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.18);
   }
 }
 

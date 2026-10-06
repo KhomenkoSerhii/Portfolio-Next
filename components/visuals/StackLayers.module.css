@@ -1,0 +1,315 @@
+.stage {
+  position: relative;
+  height: 100%;
+  min-height: 34rem;
+  perspective: 1400px;
+  perspective-origin: 50% 30%;
+}
+
+.scene {
+  --rx: 58deg;
+  --rz: -36deg;
+  position: absolute;
+  left: 62%;
+  top: 60%;
+  width: 360px;
+  height: 360px;
+  margin: -180px 0 0 -180px;
+  transform-style: preserve-3d;
+  transform: scale(0.76) rotateX(var(--rx)) rotateZ(var(--rz));
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  font-family: var(--font-geist-mono), monospace;
+  text-transform: uppercase;
+}
+
+.layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.6;
+}
+
+.tag {
+  position: absolute;
+  left: 16px;
+  top: 13px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.data {
+  transform: translateZ(0);
+}
+
+.api {
+  transform: translateZ(150px);
+}
+
+.ui {
+  transform: translateZ(300px);
+  border-color: var(--accent);
+  box-shadow: 0 0 60px -10px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.ui .tag {
+  color: var(--accent-strong);
+}
+
+/* UI layer: a small product screen */
+.app {
+  position: absolute;
+  inset: 42px 18px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr auto;
+  gap: 9px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--background) 70%, transparent);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.card strong {
+  font-family: var(--font-syne), sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--foreground);
+}
+
+.card i {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  height: 3px;
+  max-width: calc(100% - 20px);
+  background: var(--accent);
+}
+
+.card.hot {
+  grid-row: span 2;
+  border-color: var(--accent);
+}
+
+.card.hot strong {
+  font-size: 34px;
+  color: var(--accent-strong);
+}
+
+.liveDot {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.cta {
+  grid-column: 2;
+  justify-self: end;
+  padding: 7px 10px;
+  background: var(--accent);
+  color: #11150d;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+/* API layer: endpoints */
+.routes {
+  position: absolute;
+  inset: 44px 18px 18px;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.route {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--background) 60%, transparent);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--foreground);
+}
+
+.route em {
+  font-style: normal;
+  color: var(--accent-strong);
+}
+
+.note {
+  color: var(--muted);
+}
+
+.status {
+  color: var(--accent-strong);
+}
+
+/* data layer: collections + external services */
+.tables {
+  position: absolute;
+  inset: 44px 18px 96px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.table {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--line-strong);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--foreground);
+}
+
+.table i {
+  display: block;
+  height: 4px;
+  background: var(--line-strong);
+}
+
+.table i:nth-child(3) {
+  width: 70%;
+}
+
+.services {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.services span {
+  padding: 6px 9px;
+  border: 1px solid var(--line-strong);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+/* vertical wires and travelling packets */
+.wire,
+.packet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+}
+
+.wire {
+  width: 2px;
+  height: 300px;
+  background: linear-gradient(
+    color-mix(in srgb, var(--accent) 25%, transparent),
+    color-mix(in srgb, var(--accent) 70%, transparent)
+  );
+  transform-origin: top;
+  transform: translate3d(var(--x), var(--y), 0) rotateX(90deg);
+}
+
+.packet {
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 14px 3px color-mix(in srgb, var(--accent) 70%, transparent);
+  animation: travel-down var(--dur, 2.6s) cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation-delay: var(--delay, 0s);
+  opacity: 0;
+}
+
+.response {
+  animation-name: travel-up;
+  background: var(--foreground);
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+
+@keyframes travel-down {
+  0% { transform: translate3d(var(--x), var(--y), 300px); opacity: 0; }
+  10%, 90% { opacity: 1; }
+  100% { transform: translate3d(var(--x), var(--y), 0); opacity: 0; }
+}
+
+@keyframes travel-up {
+  0% { transform: translate3d(var(--x), var(--y), 0); opacity: 0; }
+  10%, 90% { opacity: 1; }
+  100% { transform: translate3d(var(--x), var(--y), 300px); opacity: 0; }
+}
+
+.legend {
+  position: absolute;
+  left: 62%;
+  bottom: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  transform: translateX(-50%);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.legend span::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.req::before {
+  background: var(--accent);
+}
+
+.res::before {
+  background: var(--foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .packet {
+    animation: none;
+  }
+
+  .scene {
+    transition: none;
+  }
+}
