@@ -277,11 +277,11 @@ export function ProductTour({
             {screen.caption}
           </p>
 
-          <div className="flex shrink-0 items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <div className="flex shrink-0 items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.16em] sm:gap-4">
             <button
               type="button"
               onClick={() => go(-1)}
-              className="transition-colors hover:text-[var(--accent-strong)]"
+              className="flex min-h-11 flex-1 items-center justify-center border border-[var(--line-strong)] px-4 text-[11px] text-[var(--foreground)] transition-colors hover:border-[var(--accent-strong)] hover:text-[var(--accent-strong)] active:bg-[var(--accent-soft)] sm:min-h-0 sm:flex-none sm:border-0 sm:px-0 sm:text-[10px] sm:active:bg-transparent"
             >
               ← Prev
             </button>
@@ -291,7 +291,7 @@ export function ProductTour({
             <button
               type="button"
               onClick={() => go(1)}
-              className="transition-colors hover:text-[var(--accent-strong)]"
+              className="flex min-h-11 flex-1 items-center justify-center bg-[var(--accent)] px-4 text-[11px] text-[#11150d] transition-colors active:opacity-80 sm:min-h-0 sm:flex-none sm:bg-transparent sm:px-0 sm:text-[10px] sm:text-[var(--foreground)] sm:hover:text-[var(--accent-strong)] sm:active:opacity-100"
             >
               Next →
             </button>
