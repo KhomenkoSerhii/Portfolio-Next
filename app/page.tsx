@@ -4,11 +4,9 @@ import Skills from "@/components/sections/Skills";
 import Portfolio from "@/components/sections/Portfolio";
 import PullQuote from "@/components/sections/PullQuote";
 import Recommendations from "@/components/sections/Recommendations";
-import GitHubActivity from "@/components/sections/GitHubActivity";
 import Contact from "@/components/sections/Contact";
 import Navbar from "@/components/layout/Navbar";
 import { profile, experience } from "@/lib/data";
-import { getGitHubActivity, githubUsername } from "@/lib/github";
 import { SITE_URL } from "@/lib/site";
 
 const personJsonLd = {
@@ -23,7 +21,7 @@ const personJsonLd = {
     addressLocality: "Lviv",
     addressCountry: "UA",
   },
-  sameAs: [profile.links.linkedin, profile.links.github, profile.links.telegram],
+  sameAs: [profile.links.linkedin, profile.links.telegram],
   worksFor: {
     "@type": "Organization",
     name: experience[0].company,
@@ -44,9 +42,7 @@ const personJsonLd = {
   ],
 };
 
-export default async function Home() {
-  const activity = await getGitHubActivity();
-
+export default function Home() {
   return (
     <main id="main">
       <script
@@ -63,7 +59,6 @@ export default async function Home() {
         <Portfolio />
         <Skills />
         <Recommendations />
-        <GitHubActivity activity={activity} username={githubUsername} />
         <Contact />
       </div>
     </main>
