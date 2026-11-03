@@ -45,8 +45,8 @@ export default function OpengraphImage() {
               letterSpacing: "-4px",
             }}
           >
-            Interfaces for real
-            <span style={{ color: "#0847f7" }}> complexity.</span>
+            From zero to
+            <span style={{ color: "#0847f7" }}> 100k+ users.</span>
           </div>
           <div
             style={{
@@ -59,8 +59,8 @@ export default function OpengraphImage() {
               color: "#03092d",
             }}
           >
-            <span>Senior Software Engineer</span>
-            <span>React · Next.js · TypeScript · AI/LLM UX</span>
+            <span>Senior Software Engineer, founding frontend at Calyptus</span>
+            <span>React · Node.js · AI/LLM</span>
           </div>
         </div>
       </div>

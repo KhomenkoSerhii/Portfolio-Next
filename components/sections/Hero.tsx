@@ -16,8 +16,8 @@ const reveal = {
 const metrics = [
   { value: "7+", label: "years shipping" },
   { value: "100K+", label: "users served" },
-  { value: "35%", label: "faster apps" },
-  { value: "UI+API", label: "full-stack delivery", small: true },
+  { value: "100+", label: "companies on the platform" },
+  { value: "0 to 1", label: "Calyptus frontend, from zero", small: true },
 ];
 
 export default function Hero() {
@@ -54,8 +54,9 @@ export default function Hero() {
               React, Next.js, Node.js, TypeScript, AI/LLM
             </motion.p>
             <motion.p variants={reveal} className="mt-5 max-w-lg text-lg leading-snug sm:text-xl">
-              I build whole features, from the React interface to the Node.js
-              API behind it.
+              I built the Calyptus frontend from zero and worked on the Node.js
+              API behind it. Three years on, it serves 100k+ users and 100+
+              companies.
             </motion.p>
 
             <motion.div variants={reveal} className="mt-7 flex flex-wrap items-center gap-3">
