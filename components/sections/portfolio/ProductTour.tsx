@@ -288,7 +288,7 @@ export function ProductTour({
             <button
               type="button"
               onClick={() => go(1)}
-              className="flex min-h-11 flex-1 items-center justify-center bg-[var(--accent)] px-4 text-[#0e0e0e] transition-colors active:opacity-80 sm:min-h-0 sm:flex-none sm:bg-transparent sm:px-0 sm:text-[var(--foreground)] sm:hover:text-[var(--accent-strong)] sm:active:opacity-100"
+              className="flex min-h-11 flex-1 items-center justify-center bg-[var(--accent)] px-4 text-[var(--accent-ink)] transition-colors active:opacity-80 sm:min-h-0 sm:flex-none sm:bg-transparent sm:px-0 sm:text-[var(--foreground)] sm:hover:text-[var(--accent-strong)] sm:active:opacity-100"
             >
               Next →
             </button>

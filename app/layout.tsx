@@ -6,9 +6,9 @@ import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import "./globals.css";
 
-// Runs before hydration. The server renders light by default; an explicitly
-// saved dark preference adds the class before the first paint.
-const themeScript = `(function(){try{if(localStorage.getItem("theme")==="dark"){document.documentElement.classList.add("dark")}}catch(e){}})();`;
+// Runs before hydration. The server renders Blue Hour by default; an explicitly
+// saved light or dark preference swaps the class before the first paint.
+const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){var c=document.documentElement.classList;c.remove("blue-hour");if(t==="dark"){c.add("dark")}}}catch(e){}})();`;
 
 // wdth axis drives the expanded headlines (font-stretch: 125%)
 const monaSans = Mona_Sans({
@@ -79,7 +79,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${monaSans.variable} h-full antialiased`}
+      className={`${monaSans.variable} blue-hour h-full antialiased`}
     >
       <head>
         {/* browser extensions (popup/ad blockers) rewrite inline head scripts before hydration */}

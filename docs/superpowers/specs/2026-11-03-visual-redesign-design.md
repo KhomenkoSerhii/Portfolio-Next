@@ -14,7 +14,10 @@ Remove the generic AI-generated look from the site and make light the default th
 - `.on-accent` and `.on-ink` hold the orange and black sections to one palette in both themes.
 
 ## Theme
-Light is the default. Dark stays available through the toggle and is restored from `localStorage`. The default lives in `lib/theme/ThemeProvider.tsx` and the anti-flash script in `app/layout.tsx`.
+Blue Hour is the default. Light and Dark stay available in the theme menu and are restored from `localStorage`. The default lives in `lib/theme/ThemeProvider.tsx` and the anti-flash script in `app/layout.tsx`.
+
+## Blue Hour theme
+The default theme. It uses the Calyptus product palette, weighted to blue: navy `#03092d`, royal `#0c30ad`, electric `#0847f7`, sky `#6db3ff`, as a gradient on the quote, contact and first metric blocks, the primary buttons, the headline and the section rules. Button border animations are sky blue. Green `#02b140` is only the live status dots. Surfaces that differ per theme go through `--accent-ink`, `--accent-surface` and `--signal`.
 
 ## Animations
 Every existing animation stays and only changes colour: button border chase, gradient sweep, hover lifts, reveals, the 3D stack, the pulse dot, the scanline, scroll progress, the capability cell hover. This overrides the mockup, which dropped them.

@@ -94,7 +94,7 @@ export default function Skills() {
             {stack.map((item) => (
               <li
                 key={item}
-                className="display border-2 border-white/25 px-3 py-2 text-lg leading-none transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-[#0e0e0e] sm:px-4 sm:py-3 sm:text-2xl"
+                className="display border-2 border-white/25 px-3 py-2 text-lg leading-none transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--accent-ink)] sm:px-4 sm:py-3 sm:text-2xl"
               >
                 {item}
               </li>

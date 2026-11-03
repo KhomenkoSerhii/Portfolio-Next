@@ -18,6 +18,9 @@
   --accent: #f2401b;
   --accent-strong: #b02c0d;
   --accent-soft: rgba(242, 64, 27, 0.1);
+  --accent-ink: #0e0e0e;
+  --accent-surface: var(--accent);
+  --signal: var(--accent);
   --action-edge: #ffd8ca;
   --button-solid: #0e0e0e;
   --button-solid-hover: #2a2a28;
@@ -44,6 +47,43 @@
   --paper: #efefeb;
 }
 
+/* Blue Hour: navy through royal to sky, built from the Calyptus product palette. Green is kept for the live status dot only. */
+.blue-hour {
+  --background: #f3f6ff;
+  --foreground: #03092d;
+  --surface: #ffffff;
+  --line: rgba(12, 48, 173, 0.16);
+  --line-strong: rgba(12, 48, 173, 0.4);
+  --muted: #4a5578;
+  --accent: #0847f7;
+  --accent-strong: #0c30ad;
+  --accent-soft: rgba(8, 71, 247, 0.1);
+  --accent-ink: #ffffff;
+  --accent-surface: var(--blue-hour-gradient);
+  --signal: #02b140;
+  --action-edge: #9fd0ff;
+  --button-solid: #03092d;
+  --button-solid-hover: #0c30ad;
+  --button-solid-ink: #ffffff;
+  --ink: #03092d;
+  --paper: #ffffff;
+  --blue-hour-gradient: linear-gradient(252deg, #2a66ff 0%, #0847f7 40%, #0c30ad 68%, #03092d 100%);
+}
+
+.blue-hour .button-primary,
+.blue-hour .action-button {
+  --action-surface: linear-gradient(115deg, #2a66ff 0%, #0847f7 38%, #0c30ad 72%, #03092d 100%);
+  --action-text: #ffffff;
+  --action-border: #9fd0ff;
+  --action-border-base: rgba(3, 9, 45, 0.85);
+  color: #ffffff;
+}
+
+.blue-hour .button-secondary {
+  --action-border: #6db3ff;
+  --action-border-tail: rgba(109, 179, 255, 0.5);
+}
+
 /* the black section stays black in both themes */
 .on-ink {
   --foreground: #efefeb;
@@ -65,6 +105,79 @@
   --button-solid-ink: #efefeb;
   background: var(--accent);
   color: #0e0e0e;
+}
+
+/* blue on navy is unreadable, so anything on the navy surfaces switches to sky */
+.blue-hour .on-ink,
+.blue-hour .nav-bar {
+  --accent: #6db3ff;
+  --accent-strong: #9fd0ff;
+  --accent-ink: #03092d;
+  --accent-surface: #6db3ff;
+}
+
+.blue-hour .on-ink {
+  --foreground: #ffffff;
+  background:
+    radial-gradient(70% 60% at 100% 0%, rgba(8, 71, 247, 0.6), transparent 70%),
+    radial-gradient(50% 50% at 0% 100%, rgba(12, 48, 173, 0.45), transparent 70%),
+    var(--ink);
+  color: #ffffff;
+}
+
+.blue-hour .on-accent {
+  --foreground: #ffffff;
+  --muted: #e6ecff;
+  --line: rgba(255, 255, 255, 0.28);
+  --line-strong: rgba(255, 255, 255, 0.6);
+  --accent-strong: #ffffff;
+  --button-solid: #ffffff;
+  --button-solid-hover: #d6e4ff;
+  --button-solid-ink: #03092d;
+  background:
+    radial-gradient(45% 60% at 100% 0%, rgba(124, 196, 255, 0.3), transparent 70%),
+    var(--blue-hour-gradient);
+  color: #ffffff;
+}
+
+.blue-hour #about {
+  background:
+    radial-gradient(60% 70% at 92% 12%, rgba(109, 179, 255, 0.42), transparent 70%),
+    radial-gradient(45% 50% at 55% 100%, rgba(8, 71, 247, 0.1), transparent 70%);
+}
+
+/* the padding keeps descenders inside the box the gradient is clipped to */
+.blue-hour .hero-title {
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+  background: linear-gradient(100deg, #03092d 0%, #0c30ad 48%, #0847f7 78%, #1f7ae0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.blue-hour .section-heading {
+  border-image: linear-gradient(90deg, #03092d 0%, #0847f7 55%, #6db3ff 100%) 1;
+}
+
+.blue-hour .on-ink .section-heading {
+  border-image: linear-gradient(90deg, #ffffff 0%, #6db3ff 60%, #0847f7 100%) 1;
+}
+
+.blue-hour .on-ink .section-heading h2 span {
+  background: linear-gradient(90deg, #6db3ff, #bfe0ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.blue-hour .scroll-progress {
+  background: linear-gradient(90deg, #0847f7, #6db3ff);
+}
+
+.accent-fill {
+  background: var(--accent-surface);
+  color: var(--accent-ink);
 }
 
 @theme inline {
@@ -97,7 +210,7 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: #0e0e0e;
+  color: var(--accent-ink);
 }
 
 section[id],
@@ -471,14 +584,14 @@ button:disabled,
 
 .experience-row[open] .experience-plus {
   border-color: var(--accent);
-  background: var(--accent);
-  color: #0e0e0e;
+  background: var(--accent-surface);
+  color: var(--accent-ink);
 }
 
 .experience-row:not([open]) > summary:hover .experience-plus {
   border-color: var(--accent-strong);
-  background: var(--accent);
-  color: #0e0e0e;
+  background: var(--accent-surface);
+  color: var(--accent-ink);
 }
 
 .capability-cell {
@@ -505,7 +618,7 @@ button:disabled,
 }
 
 .capability-cell:hover::after {
-  color: rgba(242, 64, 27, 0.2);
+  color: color-mix(in srgb, var(--accent) 20%, transparent);
   transform: rotate(18deg) scale(1.08);
 }
 
@@ -515,7 +628,7 @@ button:disabled,
 }
 
 .pulse-dot {
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal) 50%, transparent);
   animation: signal-pulse 2.2s ease-out infinite;
 }
 
@@ -549,7 +662,7 @@ button:disabled,
 
 @keyframes signal-pulse {
   0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal) 45%, transparent);
   }
   70%,
   100% {
@@ -630,6 +743,11 @@ body.bursting #page-content {
 }
 
 @media (max-width: 639px) {
+  /* text fills the width here, so the sky glow would sit behind it */
+  .blue-hour .on-accent {
+    background: var(--blue-hour-gradient);
+  }
+
   .section-heading h2 {
     max-width: none;
     font-size: clamp(1.75rem, 8vw, 2.25rem);

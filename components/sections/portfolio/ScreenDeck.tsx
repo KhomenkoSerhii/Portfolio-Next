@@ -104,7 +104,7 @@ export function ScreenDeck({
                       type="button"
                       onClick={() => onOpen(index)}
                       aria-label={`Open ${name} product tour at ${screen.title}`}
-                      className="absolute bottom-3 right-3 bg-[var(--accent)] px-3 py-1.5 text-sm font-bold text-[#0e0e0e] outline-offset-2 transition-transform hover:-translate-y-0.5"
+                      className="accent-fill absolute bottom-3 right-3 px-3 py-1.5 text-sm font-bold outline-offset-2 transition-transform hover:-translate-y-0.5"
                     >
                       Open tour
                     </button>

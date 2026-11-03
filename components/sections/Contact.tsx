@@ -9,7 +9,7 @@ import SocialLinks from "@/components/ui/SocialLinks";
 type Status = "idle" | "sending" | "sent" | "error";
 
 const inputClass =
-  "mt-2 w-full border border-white/30 bg-white/[0.06] px-4 py-3.5 text-base font-normal text-[#efefeb] outline-none transition-[border-color,background-color,box-shadow] placeholder:text-white/55 hover:border-white/50 focus:border-[var(--accent)] focus:bg-white/[0.09] focus:shadow-[0_0_0_1px_var(--accent)]";
+  "mt-2 w-full border border-white/30 bg-white/[0.06] px-4 py-3.5 text-base font-normal text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow] placeholder:text-white/55 hover:border-white/50 focus:border-[var(--accent)] focus:bg-white/[0.09] focus:shadow-[0_0_0_1px_var(--accent)]";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
@@ -111,7 +111,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="bg-[#0e0e0e] p-5 text-[#efefeb] sm:p-8 lg:p-10">
+          <div className="on-ink p-5 sm:p-8 lg:p-10">
             {status === "sent" ? (
               <div className="flex min-h-[25rem] flex-col justify-center">
                 <p className="display text-5xl text-[var(--accent)]">Message sent!</p>
@@ -179,7 +179,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <footer className="mt-20 flex flex-col gap-2 border-t-4 border-[#0e0e0e] pt-5 text-base font-semibold sm:flex-row sm:items-center sm:justify-between">
+        <footer className="mt-20 flex flex-col gap-2 border-t-4 border-[var(--foreground)] pt-5 text-base font-semibold sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} {profile.name}</p>
           <p>Next.js, TypeScript. Built in Lviv.</p>
         </footer>
