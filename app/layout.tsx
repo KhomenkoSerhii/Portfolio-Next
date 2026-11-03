@@ -1,29 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Syne } from "next/font/google";
+import { Mona_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { MotionConfig } from "framer-motion";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import "./globals.css";
 
-// Runs before hydration. The server renders dark by default; an explicitly
-// saved light preference removes the class before the first paint.
-const themeScript = `(function(){try{if(localStorage.getItem("theme")==="light"){document.documentElement.classList.remove("dark")}}catch(e){}})();`;
+// Runs before hydration. The server renders light by default; an explicitly
+// saved dark preference adds the class before the first paint.
+const themeScript = `(function(){try{if(localStorage.getItem("theme")==="dark"){document.documentElement.classList.add("dark")}}catch(e){}})();`;
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// wdth axis drives the expanded headlines (font-stretch: 125%)
+const monaSans = Mona_Sans({
+  variable: "--font-mona",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const syne = Syne({
-  variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  axes: ["wdth"],
 });
 
 export const metadata: Metadata = {
@@ -88,7 +79,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} dark h-full antialiased`}
+      className={`${monaSans.variable} h-full antialiased`}
     >
       <head>
         {/* browser extensions (popup/ad blockers) rewrite inline head scripts before hydration */}

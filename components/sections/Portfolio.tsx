@@ -25,7 +25,7 @@ function Stack({ items }: { items: string[] }) {
   return (
     <div className="flex flex-wrap gap-x-3 gap-y-1.5">
       {items.map((item) => (
-        <span key={item} className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)]">
+        <span key={item} className="text-sm font-medium text-[var(--muted)]">
           + {item}
         </span>
       ))}
@@ -47,16 +47,16 @@ function Showcase({ work, flip }: { work: Work; flip: boolean }) {
       }`}
     >
       <div className={`min-w-0 ${flip ? "lg:order-2" : ""}`}>
-        <div className="flex items-center gap-4 font-mono text-[9px] uppercase tracking-[0.18em] text-[var(--muted)]">
-          <span className="text-[var(--accent-strong)]">{kindLabel[work.kind]}</span>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-medium text-[var(--muted)]">
+          <span className="font-bold text-[var(--accent-strong)]">{kindLabel[work.kind]}</span>
           <span>{work.year}</span>
           <span>{work.screens.length} screens</span>
         </div>
-        <h3 className="mt-4 font-display text-3xl font-extrabold uppercase leading-[0.95] tracking-[-0.05em] sm:text-5xl">
+        <h3 className="display mt-3 text-4xl leading-[0.98] sm:text-5xl">
           {work.name}
         </h3>
-        <p className="mt-4 text-sm text-[var(--foreground)]/80">{work.role}</p>
-        <p className="mt-4 max-w-md text-sm leading-[1.75] text-[var(--muted)]">{work.description}</p>
+        <p className="mt-4 text-base font-semibold">{work.role}</p>
+        <p className="mt-3 max-w-md text-base leading-snug text-[var(--muted)]">{work.description}</p>
         <div className="mt-6">
           <Stack items={work.stack} />
         </div>
@@ -70,7 +70,7 @@ function Showcase({ work, flip }: { work: Work; flip: boolean }) {
               target="_blank"
               rel="noreferrer"
               aria-label={`Visit ${work.name} (opens in a new tab)`}
-              className="text-link font-mono text-[10px] uppercase tracking-[0.16em] transition-colors hover:text-[var(--accent-strong)]"
+              className="text-link"
             >
               Visit site ↗
             </a>
@@ -109,14 +109,13 @@ export default function Portfolio({ works = allWorks }: { works?: Work[] }) {
   if (works.length === 0) return null;
 
   return (
-    <section id="portfolio" className="section-shell section-pad content-auto">
+    <section id="portfolio" className="section-shell section-pad">
       <Reveal>
         <div className="section-heading">
           <div>
-            <p className="section-index">02 / PORTFOLIO</p>
             <h2>Real screens from products I shipped.</h2>
           </div>
-          <p className="max-w-md text-base leading-relaxed text-[var(--muted)] md:pt-3">
+          <p className="max-w-md text-lg leading-snug text-[var(--muted)]">
             Products and client sites I built from design to deployment. Open a
             tour and look at the details yourself.
           </p>

@@ -5,71 +5,59 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export default function Experience() {
   return (
-    <section id="experience" className="section-shell section-pad content-auto">
+    <section id="experience" className="section-shell section-pad">
       <Reveal>
         <div className="section-heading">
-          <div>
-            <p className="section-index">01 / EXPERIENCE</p>
-            <h2>Seven years across four products.</h2>
-          </div>
-          <p className="max-w-md text-base leading-relaxed text-[var(--muted)] md:pt-3">
+          <h2>Seven years across four products.</h2>
+          <p className="max-w-md text-lg leading-snug text-[var(--muted)]">
             From eCommerce and internal tools to payment infrastructure and an
             AI talent platform, on both sides of the API. Open a role for details.
           </p>
         </div>
       </Reveal>
 
-      <div className="mt-10 border-t border-[var(--line-strong)]">
+      <div>
         {experience.map((job, index) => (
           <Reveal key={job.company} delay={index * 0.04}>
-            <details className="experience-row group border-b border-[var(--line-strong)]" open={index === 0}>
-              <summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_2.75rem] items-start gap-x-4 gap-y-3 py-7 sm:grid-cols-[7.5rem_minmax(0,1fr)_auto] sm:items-center sm:gap-5 sm:py-9">
-                <span className="col-start-1 row-start-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--muted)] sm:col-start-auto sm:row-start-auto">
+            <details
+              className={`experience-row group ${index > 0 ? "border-t-4 border-[var(--foreground)]" : ""}`}
+              open={index === 0}
+            >
+              <summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_2.75rem] items-start gap-x-4 gap-y-2 py-6 sm:py-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_auto] lg:items-center lg:gap-8">
+                <span className="display col-start-1 row-start-2 text-2xl leading-none sm:text-3xl lg:col-start-auto lg:row-start-auto lg:text-[2.5rem]">
                   {job.period}
                 </span>
-                <span className="col-start-1 row-start-2 min-w-0 sm:col-start-auto sm:row-start-auto">
-                  <span className="block break-words font-display text-3xl font-extrabold uppercase tracking-[-0.045em] sm:text-4xl">
+                <span className="col-start-1 row-start-1 min-w-0 lg:col-start-auto lg:row-start-auto">
+                  <span className="block break-words text-2xl font-bold tracking-[-0.02em] sm:text-3xl">
                     {job.company}
                   </span>
-                  <span className="mt-1 block break-words text-sm text-[var(--muted)]">
-                    {job.title} · {job.product}
-                  </span>
-                  <span className="mt-2 block font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--muted)] sm:hidden">
-                    {job.location}
+                  <span className="mt-1 block break-words text-base text-[var(--muted)]">
+                    {job.title}. {job.location}. {job.product}
                   </span>
                 </span>
-                <span className="col-start-2 row-span-2 row-start-1 flex justify-end self-start sm:col-start-auto sm:row-span-1 sm:row-start-auto sm:items-center sm:gap-5 sm:self-auto">
-                  <span className="hidden font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--muted)] sm:inline">
-                    {job.location}
-                  </span>
-                  <span className="experience-plus flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--line-strong)] text-xl leading-none transition">
-                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-open:rotate-45">
+                <span className="col-start-2 row-span-2 row-start-1 flex justify-end lg:col-start-auto lg:row-span-1 lg:row-start-auto">
+                  <span className="experience-plus flex h-10 w-10 shrink-0 items-center justify-center border-2 border-[var(--foreground)] text-xl leading-none transition">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="transition-transform group-open:rotate-45">
                       <path d="M12 4v16M4 12h16" />
                     </svg>
                   </span>
                 </span>
               </summary>
 
-              <div className="grid gap-8 pb-10 sm:pl-[9.5rem] lg:grid-cols-[1fr_16rem] lg:gap-16 lg:pb-14">
-                <ul className="space-y-3">
+              <div className="pb-10 lg:pb-14">
+                <ul className="grid gap-x-10 border-t border-[var(--line-strong)] md:grid-cols-2">
                   {job.highlights.map((highlight) => (
-                    <li key={highlight} className="flex gap-4 text-sm leading-[1.7] text-[var(--muted)] sm:text-[15px]">
-                      <span className="mt-[0.7em] h-px w-4 shrink-0 bg-[var(--accent)]" />
+                    <li key={highlight} className="border-b border-[var(--line)] py-4 text-base leading-snug">
                       {highlight}
                     </li>
                   ))}
                 </ul>
-                <div className="border-l border-[var(--line)] pl-5">
-                  <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--accent-strong)]">
-                    Working stack
-                  </p>
-                  <div className="flex flex-wrap gap-x-3 gap-y-2">
-                    {job.stack.map((item) => (
-                      <span key={item} className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)]">
-                        {item}
-                      </span>
-                    ))}
-                  </div>
+                <div className="mt-6 flex flex-wrap gap-1.5">
+                  {job.stack.map((item) => (
+                    <span key={item} className="bg-[var(--button-solid)] px-2.5 py-1 text-sm font-semibold text-[var(--button-solid-ink)]">
+                      {item}
+                    </span>
+                  ))}
                 </div>
               </div>
             </details>

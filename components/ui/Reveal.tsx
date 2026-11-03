@@ -36,11 +36,11 @@ export function SectionTitle({
     <Reveal>
       <div className="mb-14 border-b border-[var(--line)] pb-8 sm:mb-16">
         {index && (
-          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--accent-strong)]">
+          <p className="mb-3 text-base font-bold text-[var(--accent-strong)]">
             {index}
           </p>
         )}
-        <h2 className="max-w-4xl font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
+        <h2 className="display max-w-4xl text-4xl leading-[0.98] sm:text-6xl lg:text-7xl">
           {children}
         </h2>
       </div>

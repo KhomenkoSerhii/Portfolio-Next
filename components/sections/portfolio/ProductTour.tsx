@@ -38,7 +38,7 @@ function Minimap({
 
   return (
     <div className="hidden w-[92px] shrink-0 border-l border-[var(--line)] bg-[var(--surface)] p-2.5 sm:block">
-      <p className="mb-2 font-mono text-[8px] uppercase tracking-[0.16em] text-[var(--muted)]">Map</p>
+      <p className="mb-2 text-xs font-semibold text-[var(--muted)]">Map</p>
       <div
         className="relative cursor-ns-resize touch-none select-none"
         onPointerDown={(event) => {
@@ -172,17 +172,17 @@ export function ProductTour({
       <header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-[var(--line)] px-4 sm:px-6">
         <h2
           id="product-tour-title"
-          className="min-w-0 truncate font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]"
+          className="min-w-0 truncate text-[15px] font-medium text-[var(--muted)]"
         >
-          <span className="text-[var(--accent-strong)]">{name}</span> / {label}
+          <span className="font-bold text-[var(--foreground)]">{name}</span> / {label}
         </h2>
         <div className="flex items-center gap-5">
-          <span className="font-mono text-[10px] tracking-[0.18em] text-[var(--muted)]">{counter}</span>
+          <span className="text-sm font-medium tabular-nums text-[var(--muted)]">{counter}</span>
           <button
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="font-mono text-[10px] uppercase tracking-[0.16em] transition-colors hover:text-[var(--accent-strong)]"
+            className="text-[15px] font-semibold transition-colors hover:text-[var(--accent-strong)]"
           >
             Close <span aria-hidden>✕</span>
           </button>
@@ -205,11 +205,8 @@ export function ProductTour({
                     }`}
                   >
                     {current ? <span aria-hidden className="absolute inset-y-0 left-0 w-0.5 bg-[var(--accent)]" /> : null}
-                    <span className="flex items-baseline gap-3 font-mono text-[10px] uppercase tracking-[0.16em]">
-                      <span className={current ? "text-[var(--accent-strong)]" : "text-[var(--muted)]"}>
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className={current ? "" : "text-[var(--muted)]"}>{item.title}</span>
+                    <span className={`block text-[15px] font-semibold ${current ? "" : "text-[var(--muted)]"}`}>
+                      {item.title}
                     </span>
                     {current ? (
                       <span className="mt-3 block text-sm leading-[1.65] text-[var(--muted)]">{item.caption}</span>
@@ -229,7 +226,7 @@ export function ProductTour({
                 <span className="h-2 w-2 rounded-full bg-[var(--line-strong)]" />
                 <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
               </span>
-              <span className="min-w-0 flex-1 truncate border border-[var(--line)] bg-[var(--background)] px-3 py-1 font-mono text-[10px] tracking-[0.08em] text-[var(--muted)]">
+              <span className="min-w-0 flex-1 truncate border border-[var(--line)] bg-[var(--background)] px-3 py-1 text-xs text-[var(--muted)]">
                 {host}
                 <span className="text-[var(--foreground)]">{screen.path}</span>
               </span>
@@ -271,27 +268,27 @@ export function ProductTour({
           </div>
 
           <p className="text-sm leading-[1.65] text-[var(--muted)] lg:hidden">
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--foreground)]">
-              {screen.title} ·{" "}
+            <span className="font-semibold text-[var(--foreground)]">
+              {screen.title}.{" "}
             </span>
             {screen.caption}
           </p>
 
-          <div className="flex shrink-0 items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.16em] sm:gap-4">
+          <div className="flex shrink-0 items-center justify-between gap-3 text-sm font-semibold sm:gap-4">
             <button
               type="button"
               onClick={() => go(-1)}
-              className="flex min-h-11 flex-1 items-center justify-center border border-[var(--line-strong)] px-4 text-[11px] text-[var(--foreground)] transition-colors hover:border-[var(--accent-strong)] hover:text-[var(--accent-strong)] active:bg-[var(--accent-soft)] sm:min-h-0 sm:flex-none sm:border-0 sm:px-0 sm:text-[10px] sm:active:bg-transparent"
+              className="flex min-h-11 flex-1 items-center justify-center border border-[var(--line-strong)] px-4 text-[var(--foreground)] transition-colors hover:border-[var(--accent-strong)] hover:text-[var(--accent-strong)] active:bg-[var(--accent-soft)] sm:min-h-0 sm:flex-none sm:border-0 sm:px-0 sm:active:bg-transparent"
             >
               ← Prev
             </button>
-            <span className="hidden text-[var(--muted)] sm:inline">
+            <span className="hidden font-normal text-[var(--muted)] sm:inline">
               {view.tall ? "Scroll inside the screen · " : ""}← → to switch · Esc to close
             </span>
             <button
               type="button"
               onClick={() => go(1)}
-              className="flex min-h-11 flex-1 items-center justify-center bg-[var(--accent)] px-4 text-[11px] text-[#11150d] transition-colors active:opacity-80 sm:min-h-0 sm:flex-none sm:bg-transparent sm:px-0 sm:text-[10px] sm:text-[var(--foreground)] sm:hover:text-[var(--accent-strong)] sm:active:opacity-100"
+              className="flex min-h-11 flex-1 items-center justify-center bg-[var(--accent)] px-4 text-[#0e0e0e] transition-colors active:opacity-80 sm:min-h-0 sm:flex-none sm:bg-transparent sm:px-0 sm:text-[var(--foreground)] sm:hover:text-[var(--accent-strong)] sm:active:opacity-100"
             >
               Next →
             </button>
