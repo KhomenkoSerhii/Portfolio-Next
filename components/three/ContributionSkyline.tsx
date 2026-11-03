@@ -25,6 +25,7 @@ const LOOK_AT = new THREE.Vector3(0, 0.35, 0.2);
 const palettes = {
   dark: { tile: "#1c221b", levels: ["#1c221b", "#3f5a1d", "#6e9a24", "#a6dc32", "#d7ff55"] },
   light: { tile: "#d6d3c7", levels: ["#d6d3c7", "#b9d77a", "#8fbf2c", "#6a9a12", "#4a7000"] },
+  "blue-hour": { tile: "#d6dcfa", levels: ["#d6dcfa", "#aab9f2", "#6db3ff", "#2a66ff", "#0c30ad"] },
 } as const;
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
@@ -201,7 +202,7 @@ export default function ContributionSkyline({ days }: { days: SkylineDay[] }) {
         <FitCamera width={columns * SPACING} />
         <ambientLight intensity={theme === "dark" ? 0.9 : 1.4} />
         <directionalLight position={[-4, 8, 6]} intensity={2.2} />
-        <pointLight position={[4, 3, 3]} intensity={8} distance={12} color="#c8f542" />
+        <pointLight position={[4, 3, 3]} intensity={8} distance={12} color={theme === "blue-hour" ? "#2a66ff" : "#c8f542"} />
         <Labels stacks={stacks} columns={columns} />
         <Cubes
           stacks={stacks}

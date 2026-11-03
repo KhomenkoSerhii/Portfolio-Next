@@ -15,7 +15,7 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "80px",
-          background: "#efefeb",
+          background: "#f3f6ff",
           fontFamily: "sans-serif",
         }}
       >
@@ -26,7 +26,7 @@ export default function OpengraphImage() {
             width: "100%",
             fontSize: 28,
             fontWeight: 700,
-            color: "#0e0e0e",
+            color: "#03092d",
           }}
         >
           <span>Serhii Khomenko</span>
@@ -40,13 +40,13 @@ export default function OpengraphImage() {
               maxWidth: 1040,
               fontSize: 102,
               fontWeight: 900,
-              color: "#0e0e0e",
+              color: "#03092d",
               lineHeight: 0.95,
               letterSpacing: "-4px",
             }}
           >
             Interfaces for real
-            <span style={{ color: "#f2401b" }}> complexity.</span>
+            <span style={{ color: "#0847f7" }}> complexity.</span>
           </div>
           <div
             style={{
@@ -54,9 +54,9 @@ export default function OpengraphImage() {
               justifyContent: "space-between",
               marginTop: 50,
               paddingTop: 22,
-              borderTop: "6px solid #0e0e0e",
+              borderTop: "6px solid #03092d",
               fontSize: 26,
-              color: "#0e0e0e",
+              color: "#03092d",
             }}
           >
             <span>Senior Software Engineer</span>

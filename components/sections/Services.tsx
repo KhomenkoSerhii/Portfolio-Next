@@ -54,20 +54,20 @@ function ServiceIcon({ icon }: { icon: IconKey }) {
 
 const accents = {
   ai: {
-    text: "text-cyan-500 dark:text-cyan-400",
-    border: "border-cyan-500/25 hover:border-cyan-400/50 dark:border-cyan-500/25 dark:hover:border-cyan-400/50",
-    dot: "bg-cyan-400",
-    glow: "bg-cyan-500/10",
-    icon: "text-cyan-500 dark:text-cyan-300",
-    link: "text-cyan-600 hover:text-cyan-500 dark:text-cyan-300 dark:hover:text-cyan-200",
+    text: "text-[var(--accent-strong)]",
+    border: "border-[var(--line)] hover:border-[var(--accent)]",
+    dot: "bg-[var(--accent)]",
+    glow: "bg-[var(--accent-soft)]",
+    icon: "text-[var(--accent-strong)]",
+    link: "text-[var(--accent-strong)] hover:text-[var(--accent)]",
   },
   default: {
-    text: "text-emerald-500 dark:text-emerald-400",
-    border: "border-zinc-200 hover:border-emerald-500/40 dark:border-zinc-800/80",
-    dot: "bg-emerald-400",
-    glow: "bg-emerald-500/10",
-    icon: "text-emerald-500 dark:text-emerald-400",
-    link: "text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300",
+    text: "text-[var(--accent-strong)]",
+    border: "border-[var(--line)] hover:border-[var(--accent)]",
+    dot: "bg-[var(--accent)]",
+    glow: "bg-[var(--accent-soft)]",
+    icon: "text-[var(--accent-strong)]",
+    link: "text-[var(--accent-strong)] hover:text-[var(--accent)]",
   },
 } as const;
 
@@ -83,7 +83,7 @@ function Bullets({
       {bullets.map((b) => (
         <li
           key={b}
-          className="flex gap-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-200"
+          className="flex gap-3 text-sm leading-relaxed text-[var(--foreground)]"
         >
           <span className={`mt-1.5 h-1 w-1 shrink-0 rounded-full ${dot}`} />
           {b}
@@ -100,7 +100,7 @@ export default function Services() {
   return (
     <section id="services" className="mx-auto max-w-5xl px-6 py-28">
       <SectionTitle index="05 - SERVICES">What I can do for you</SectionTitle>
-      <p className="-mt-8 mb-12 max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="-mt-8 mb-12 max-w-2xl text-sm text-[var(--muted)]">
         {services.intro}
       </p>
 
@@ -109,7 +109,7 @@ export default function Services() {
         <motion.div
           whileHover={{ y: -4 }}
           transition={{ type: "spring", stiffness: 300, damping: 22 }}
-          className={`relative overflow-hidden rounded-3xl border bg-white p-7 backdrop-blur-md transition-colors sm:p-9 dark:bg-zinc-950/80 ${heroAccent.border}`}
+          className={`relative overflow-hidden rounded-3xl border bg-[var(--surface)] p-7 backdrop-blur-md transition-colors sm:p-9 ${heroAccent.border}`}
         >
           <div
             aria-hidden
@@ -125,10 +125,10 @@ export default function Services() {
                   {hero.tag}
                 </p>
               </div>
-              <h3 className="mt-4 font-display text-3xl font-bold uppercase tracking-tight text-zinc-900 sm:text-4xl dark:text-white">
+              <h3 className="mt-4 font-display text-3xl font-bold uppercase tracking-tight text-[var(--foreground)] sm:text-4xl">
                 {hero.title}
               </h3>
-              <p className="mt-3 text-base italic text-zinc-500 dark:text-zinc-400">
+              <p className="mt-3 text-base italic text-[var(--muted)]">
                 {hero.tagline}
               </p>
               <a
@@ -153,7 +153,7 @@ export default function Services() {
               <motion.div
                 whileHover={{ y: -4 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                className={`flex h-full flex-col rounded-2xl border bg-white p-7 backdrop-blur-md transition-colors dark:bg-zinc-950/80 ${a.border}`}
+                className={`flex h-full flex-col rounded-2xl border bg-[var(--surface)] p-7 backdrop-blur-md transition-colors ${a.border}`}
               >
                 <div className="flex items-start justify-between">
                   <span className={a.icon}>
@@ -168,10 +168,10 @@ export default function Services() {
                 <p className={`mt-4 font-mono text-[10px] tracking-widest ${a.text}`}>
                   {s.tag}
                 </p>
-                <h3 className="mt-2 font-display text-xl font-bold uppercase tracking-tight text-zinc-900 dark:text-white">
+                <h3 className="mt-2 font-display text-xl font-bold uppercase tracking-tight text-[var(--foreground)]">
                   {s.title}
                 </h3>
-                <p className="mt-2 text-sm italic text-zinc-500 dark:text-zinc-400">
+                <p className="mt-2 text-sm italic text-[var(--muted)]">
                   {s.tagline}
                 </p>
                 <div className="mt-5 flex-1">
@@ -192,7 +192,7 @@ export default function Services() {
 
       {/* everything else - compact pill cloud (blurb on hover) */}
       <Reveal>
-        <p className="mb-4 mt-14 font-mono text-[10px] tracking-widest text-zinc-500">
+        <p className="mb-4 mt-14 font-mono text-[10px] tracking-widest text-[var(--muted)]">
           ALSO AVAILABLE
         </p>
         <div className="flex flex-wrap gap-2.5">
@@ -200,9 +200,9 @@ export default function Services() {
             <span
               key={s.title}
               title={s.blurb}
-              className="group inline-flex cursor-default items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-4 py-1.5 text-sm font-medium text-zinc-700 transition hover:border-emerald-500/40 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:text-white"
+              className="group inline-flex cursor-default items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--surface)] px-4 py-1.5 text-sm font-medium text-[var(--foreground)] transition hover:border-[var(--accent)]"
             >
-              <span className="h-1 w-1 shrink-0 rounded-full bg-emerald-400 transition group-hover:scale-150" />
+              <span className="h-1 w-1 shrink-0 rounded-full bg-[var(--accent)] transition group-hover:scale-150" />
               {s.title}
             </span>
           ))}

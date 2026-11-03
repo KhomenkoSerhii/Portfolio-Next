@@ -15,39 +15,46 @@ function renderNavbar() {
 describe("theme toggle", () => {
   beforeEach(() => {
     localStorage.removeItem("theme");
-    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.remove("dark", "blue-hour");
   });
 
-  it("defaults to light and offers to switch to dark", async () => {
+  it("defaults to Blue Hour and offers all colour themes", async () => {
     renderNavbar();
-    expect(
-      await screen.findByRole("button", { name: /switch to dark theme/i })
-    ).toBeInTheDocument();
-    expect(document.documentElement).not.toHaveClass("dark");
+    const user = userEvent.setup();
+    await user.click(await screen.findByRole("button", { name: /choose colour theme/i }));
+    expect(screen.getByRole("menuitemradio", { name: "Blue Hour" })).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByRole("menuitemradio", { name: "Light" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitemradio", { name: "Dark" })).toBeInTheDocument();
+    expect(document.documentElement).toHaveClass("blue-hour");
   });
 
   it("restores a saved dark preference", async () => {
     localStorage.setItem("theme", "dark");
     renderNavbar();
-    expect(
-      await screen.findByRole("button", { name: /switch to light theme/i })
-    ).toBeInTheDocument();
+    const user = userEvent.setup();
+    await user.click(await screen.findByRole("button", { name: /choose colour theme/i }));
+    expect(screen.getByRole("menuitemradio", { name: "Dark" })).toHaveAttribute("aria-checked", "true");
     expect(document.documentElement).toHaveClass("dark");
+    expect(document.documentElement).not.toHaveClass("blue-hour");
   });
 
-  it("toggles to dark, persists the choice, and flips the label", async () => {
+  it("selects Light, persists the choice, and drops the theme classes", async () => {
     const user = userEvent.setup();
     renderNavbar();
 
-    const toggle = await screen.findByRole("button", {
-      name: /switch to dark theme/i,
-    });
-    await user.click(toggle);
+    await user.click(await screen.findByRole("button", { name: /choose colour theme/i }));
+    await user.click(screen.getByRole("menuitemradio", { name: "Light" }));
 
-    expect(localStorage.getItem("theme")).toBe("dark");
-    expect(document.documentElement).toHaveClass("dark");
-    expect(
-      screen.getByRole("button", { name: /switch to light theme/i })
-    ).toBeInTheDocument();
+    expect(localStorage.getItem("theme")).toBe("light");
+    expect(document.documentElement).not.toHaveClass("blue-hour");
+    expect(document.documentElement).not.toHaveClass("dark");
+  });
+
+  it("falls back to Blue Hour for a value saved under the old theme name", async () => {
+    localStorage.setItem("theme", "calyptus");
+    renderNavbar();
+    const user = userEvent.setup();
+    await user.click(await screen.findByRole("button", { name: /choose colour theme/i }));
+    expect(screen.getByRole("menuitemradio", { name: "Blue Hour" })).toHaveAttribute("aria-checked", "true");
   });
 });

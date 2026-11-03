@@ -34,7 +34,7 @@ export default function Hero() {
         <div className="relative z-10 pt-10 lg:pt-8">
           <motion.p variants={reveal} className="flex flex-wrap items-center gap-x-4 gap-y-1 text-base font-medium">
             <span className="inline-flex items-center gap-2.5 font-bold">
-              <span className="pulse-dot h-2.5 w-2.5 rounded-full bg-[var(--accent)]" aria-hidden />
+              <span className="pulse-dot h-2.5 w-2.5 rounded-full bg-[var(--signal)]" aria-hidden />
               {profile.name}
             </span>
             <span className="text-[var(--muted)]">{profile.location}, remote EMEA</span>
@@ -87,7 +87,7 @@ export default function Hero() {
               key={metric.label}
               className={`min-w-0 border-t-4 px-4 pb-6 pt-5 lg:px-5 ${
                 index === 0
-                  ? "border-[var(--accent)] bg-[var(--accent)] text-[#0e0e0e]"
+                  ? "accent-fill border-[var(--accent)]"
                   : "border-[var(--foreground)]"
               }`}
             >
