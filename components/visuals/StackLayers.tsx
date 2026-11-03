@@ -78,7 +78,7 @@ export default function StackLayers() {
     <div ref={stageRef} className={styles.stage} aria-hidden>
       <div ref={sceneRef} className={styles.scene}>
         <div className={`${styles.layer} ${styles.data}`}>
-          <span className={styles.tag}>03 / Data & services</span>
+          <span className={styles.tag}>Data & services</span>
           <div className={styles.tables}>
             {["users", "jobs", "payments"].map((name) => (
               <div key={name} className={styles.table}>
@@ -98,7 +98,7 @@ export default function StackLayers() {
         </div>
 
         <div className={`${styles.layer} ${styles.api}`}>
-          <span className={styles.tag}>02 / API · Node.js</span>
+          <span className={styles.tag}>API, Node.js</span>
           <div className={styles.routes}>
             {routes.map((route) => (
               <div key={route.path} className={styles.route}>
@@ -113,7 +113,7 @@ export default function StackLayers() {
         </div>
 
         <div className={`${styles.layer} ${styles.ui}`}>
-          <span className={styles.tag}>01 / UI · React · Next.js</span>
+          <span className={styles.tag}>UI, React, Next.js</span>
           <div className={styles.app}>
             <div className={`${styles.card} ${styles.hot}`}>
               <span>AI match</span>
@@ -169,7 +169,7 @@ export default function StackLayers() {
       </div>
 
       <div className={styles.legend}>
-        <span className={styles.hint}>Hover · expand the stack</span>
+        <span className={styles.hint}>Hover to expand the stack</span>
         <span className={styles.req}>request</span>
         <span className={styles.res}>response</span>
       </div>

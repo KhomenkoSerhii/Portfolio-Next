@@ -16,6 +16,21 @@ const allLinks = [
 // the portfolio section renders nothing until it has entries, so hide its link too
 const links = allLinks.filter((link) => link.id !== "portfolio" || works.length > 0);
 
+function ThemeIcon({ dark }: { dark: boolean }) {
+  return (
+    <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round">
+      {dark ? (
+        <>
+          <circle cx="12" cy="12" r="4.5" />
+          <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+        </>
+      ) : (
+        <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+      )}
+    </svg>
+  );
+}
+
 function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const dark = theme === "dark";
@@ -25,7 +40,7 @@ function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
-      className="flex h-9 w-9 items-center justify-center border border-[var(--line-strong)] transition hover:bg-[var(--foreground)] hover:text-[var(--background)]"
+      className="flex h-10 w-10 items-center justify-center border border-white/30 transition hover:bg-[var(--paper)] hover:text-[var(--ink)]"
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
@@ -33,9 +48,9 @@ function ThemeToggle() {
           initial={{ opacity: 0, rotate: -45 }}
           animate={{ opacity: 1, rotate: 0 }}
           exit={{ opacity: 0, rotate: 45 }}
-          className="font-mono text-sm"
+          className="flex"
         >
-          {dark ? "☼" : "◐"}
+          <ThemeIcon dark={dark} />
         </motion.span>
       </AnimatePresence>
     </button>
@@ -44,15 +59,10 @@ function ThemeToggle() {
 
 export default function Navbar() {
   const [active, setActive] = useState<string | null>(null);
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pendingSection = useRef<string | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -67,10 +77,7 @@ export default function Navbar() {
       if (element) observer.observe(element);
     }
 
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -105,34 +112,24 @@ export default function Navbar() {
       initial={{ y: -18, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.55, delay: 0.15 }}
-      className={`fixed inset-x-0 top-0 z-40 border-b transition-colors ${
-        scrolled || menuOpen
-          ? "border-[var(--line-strong)] bg-[var(--background)]/92 backdrop-blur-xl"
-          : "border-transparent bg-transparent"
-      }`}
+      className="fixed inset-x-0 top-0 z-40 border-b border-white/15 bg-[var(--ink)] text-[var(--paper)]"
     >
       <nav className="section-shell flex h-16 items-center justify-between">
         <a href="#" onClick={handleLogo} className="group flex items-center gap-3" aria-label="Back to top">
-          <span className="flex h-9 w-9 items-center justify-center bg-[var(--foreground)] font-display text-xs font-extrabold text-[var(--background)] transition group-hover:bg-[var(--accent)] group-hover:text-[#11150d]">
+          <span className="display flex h-10 w-10 items-center justify-center bg-[var(--paper)] text-sm text-[var(--ink)] transition group-hover:bg-[var(--accent)] group-hover:text-[#0e0e0e]">
             SK
           </span>
-          <span className="hidden font-mono text-[9px] uppercase leading-[1.35] tracking-[0.16em] text-[var(--muted)] xl:block">
-            Senior software
-            <br />
-            engineer
-          </span>
+          <span className="display hidden text-base sm:block">Serhii Khomenko</span>
         </a>
 
         <div className="flex items-center gap-2">
-          <ul className="mr-3 hidden items-center lg:flex">
+          <ul className="mr-3 hidden items-center gap-1 lg:flex">
             {links.map((link) => (
               <li key={link.id}>
                 <a
                   href={link.href}
-                  className={`relative px-3 py-2 font-mono text-[9px] uppercase tracking-[0.16em] transition ${
-                    active === link.id
-                      ? "text-[var(--foreground)]"
-                      : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                  className={`relative px-3 py-2 text-[15px] font-semibold transition ${
+                    active === link.id ? "text-white" : "text-white/70 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -148,7 +145,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1 border border-[var(--line-strong)] lg:hidden"
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1 border border-white/30 lg:hidden"
           >
             <span className={`h-px w-5 bg-current transition-[transform] ${menuOpen ? "translate-y-[5px] rotate-45" : ""}`} />
             <span className={`h-px w-5 bg-current transition-[opacity] ${menuOpen ? "opacity-0" : "opacity-100"}`} />
@@ -164,25 +161,24 @@ export default function Navbar() {
             animate={{ height: "calc(100svh - 4rem)", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-t border-[var(--line-strong)] bg-[var(--background)] lg:hidden"
+            className="overflow-hidden border-t border-white/15 bg-[var(--ink)] lg:hidden"
           >
             <div className="section-shell flex h-full min-h-0 flex-col justify-between overflow-y-auto py-5 sm:py-8">
               <ul>
-                {links.map((link, index) => (
-                  <li key={link.id} className="border-b border-[var(--line)]">
+                {links.map((link) => (
+                  <li key={link.id} className="border-b border-white/15">
                     <a
                       href={link.href}
                       onClick={(event) => selectSection(event, link.id)}
-                      className="flex items-center justify-between py-4 font-display text-2xl font-extrabold uppercase tracking-[-0.04em] sm:py-5 sm:text-3xl"
+                      className="display block py-4 text-3xl sm:py-5 sm:text-4xl"
                     >
                       {link.label}
-                      <span className="font-mono text-[10px] text-[var(--muted)]">0{index + 1}</span>
                     </a>
                   </li>
                 ))}
               </ul>
-              <p className="shrink-0 pt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-[var(--muted)]">
-                Lviv, Ukraine · Available remotely
+              <p className="shrink-0 pt-5 text-base text-white/70">
+                Lviv, Ukraine. Available remotely.
               </p>
             </div>
           </motion.div>

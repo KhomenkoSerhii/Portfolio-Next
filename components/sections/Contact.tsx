@@ -9,7 +9,7 @@ import SocialLinks from "@/components/ui/SocialLinks";
 type Status = "idle" | "sending" | "sent" | "error";
 
 const inputClass =
-  "mt-2 w-full border border-white/20 bg-white/[0.045] px-4 py-3.5 text-base text-[#f4f7ed] outline-none transition-[border-color,background-color,box-shadow] placeholder:text-white/35 hover:border-white/35 focus:border-[#c9f43d] focus:bg-white/[0.075] focus:shadow-[0_0_0_1px_#c9f43d]";
+  "mt-2 w-full border border-white/30 bg-white/[0.06] px-4 py-3.5 text-base font-normal text-[#efefeb] outline-none transition-[border-color,background-color,box-shadow] placeholder:text-white/55 hover:border-white/50 focus:border-[var(--accent)] focus:bg-white/[0.09] focus:shadow-[0_0_0_1px_var(--accent)]";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
@@ -94,21 +94,14 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-[var(--line-strong)] bg-[var(--accent)] text-[#11150d]">
-      <div className="pointer-events-none absolute -right-12 -top-24 font-display text-[22rem] font-extrabold leading-none text-black/[0.045]" aria-hidden>
-        @
-      </div>
-
+    <section id="contact" className="on-accent relative overflow-hidden">
       <div className="section-shell section-pad relative">
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-black/55">
-              05 / CONTACT
-            </p>
-            <h2 className="mt-5 max-w-[8ch] font-display text-4xl font-extrabold uppercase leading-[0.9] tracking-[-0.06em] sm:text-6xl lg:text-7xl">
+            <h2 className="display max-w-[9ch] text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">
               Bring me the hard part.
             </h2>
-            <p className="mt-8 max-w-md text-base leading-relaxed text-black/65">
+            <p className="mt-7 max-w-md text-lg leading-snug">
               Open to senior software engineering roles, full-time or contract:
               full-stack (frontend-heavy), product, and AI-powered work. Remote
               from Lviv, overlapping CET.
@@ -118,25 +111,16 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="border border-black/35 bg-[#11150d] p-5 text-[#f4f7ed] shadow-[14px_14px_0_rgba(17,21,13,0.14)] sm:p-8 lg:p-10">
+          <div className="bg-[#0e0e0e] p-5 text-[#efefeb] sm:p-8 lg:p-10">
             {status === "sent" ? (
               <div className="flex min-h-[25rem] flex-col justify-center">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#c9f43d]">Transmission received</p>
-                <p className="mt-5 font-display text-5xl font-extrabold uppercase tracking-[-0.05em]">Message sent!</p>
-                <p className="mt-4 max-w-md text-white/65">Thanks for reaching out. I’ll get back to you soon.</p>
+                <p className="display text-5xl text-[var(--accent)]">Message sent!</p>
+                <p className="mt-4 max-w-md text-lg text-white/75">Thanks for reaching out. I’ll get back to you soon.</p>
               </div>
             ) : (
               <form onSubmit={onSubmit} noValidate className="space-y-6">
-                <div className="flex items-center justify-between border-b border-white/15 pb-4">
-                  <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/55">
-                    Contact form / 01
-                  </p>
-                  <span className="flex items-center gap-2 font-mono text-[8px] uppercase tracking-[0.16em] text-[#c9f43d]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#c9f43d]" /> Ready
-                  </span>
-                </div>
                 <div className="grid gap-6 sm:grid-cols-2">
-                  <label className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/65">
+                  <label className="text-sm font-semibold">
                     Your name
                     <input
                       name="name"
@@ -146,9 +130,9 @@ export default function Contact() {
                       className={inputClass}
                       aria-invalid={Boolean(fieldErrors.name)}
                     />
-                    {fieldErrors.name ? <span className="mt-2 block normal-case tracking-normal text-red-300">{fieldErrors.name}</span> : null}
+                    {fieldErrors.name ? <span className="mt-2 block font-normal text-red-300">{fieldErrors.name}</span> : null}
                   </label>
-                  <label className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/65">
+                  <label className="text-sm font-semibold">
                     Your email
                     <input
                       name="email"
@@ -159,11 +143,11 @@ export default function Contact() {
                       className={inputClass}
                       aria-invalid={Boolean(fieldErrors.email)}
                     />
-                    {fieldErrors.email ? <span className="mt-2 block normal-case tracking-normal text-red-300">{fieldErrors.email}</span> : null}
+                    {fieldErrors.email ? <span className="mt-2 block font-normal text-red-300">{fieldErrors.email}</span> : null}
                   </label>
                 </div>
 
-                <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-white/65">
+                <label className="block text-sm font-semibold">
                   Context
                   <textarea
                     ref={messageRef}
@@ -177,7 +161,7 @@ export default function Contact() {
                     className={`${inputClass} min-h-40 resize-y`}
                     aria-invalid={Boolean(fieldErrors.message)}
                   />
-                  {fieldErrors.message ? <span className="mt-2 block normal-case tracking-normal text-red-300">{fieldErrors.message}</span> : null}
+                  {fieldErrors.message ? <span className="mt-2 block font-normal text-red-300">{fieldErrors.message}</span> : null}
                 </label>
 
                 <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden className="absolute left-[-9999px] h-0 w-0 opacity-0" />
@@ -186,19 +170,18 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="action-button mt-2 inline-flex w-full items-center justify-between px-6 py-4 font-mono text-xs uppercase tracking-[0.17em] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-60"
+                  className="action-button mt-2 inline-flex w-full items-center justify-center px-8 py-4 text-base font-bold transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
                 >
                   {status === "sending" ? "Sending…" : "Send message"}
-                  <span>↗</span>
                 </button>
               </form>
             )}
           </div>
         </div>
 
-        <footer className="mt-20 flex flex-col gap-3 border-t border-black/20 pt-6 font-mono text-[9px] uppercase tracking-[0.16em] text-black/55 sm:flex-row sm:items-center sm:justify-between">
+        <footer className="mt-20 flex flex-col gap-2 border-t-4 border-[#0e0e0e] pt-5 text-base font-semibold sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} {profile.name}</p>
-          <p>Next.js · TypeScript · Built in Lviv</p>
+          <p>Next.js, TypeScript. Built in Lviv.</p>
         </footer>
       </div>
     </section>

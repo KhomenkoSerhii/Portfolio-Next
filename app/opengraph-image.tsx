@@ -15,10 +15,7 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "80px",
-          background: "#0b0e0b",
-          backgroundImage:
-            "linear-gradient(rgba(201,244,61,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(201,244,61,0.06) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
+          background: "#efefeb",
           fontFamily: "sans-serif",
         }}
       >
@@ -27,13 +24,13 @@ export default function OpengraphImage() {
             display: "flex",
             justifyContent: "space-between",
             width: "100%",
-            fontSize: 20,
-            letterSpacing: 5,
-            color: "#c9f43d",
+            fontSize: 28,
+            fontWeight: 700,
+            color: "#0e0e0e",
           }}
         >
-          <span>SERHII KHOMENKO</span>
-          <span>LVIV / REMOTE</span>
+          <span>Serhii Khomenko</span>
+          <span>Lviv, remote</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
@@ -43,14 +40,13 @@ export default function OpengraphImage() {
               maxWidth: 1040,
               fontSize: 102,
               fontWeight: 900,
-              color: "#eeefe8",
-              lineHeight: 0.86,
-              letterSpacing: "-6px",
-              textTransform: "uppercase",
+              color: "#0e0e0e",
+              lineHeight: 0.95,
+              letterSpacing: "-4px",
             }}
           >
             Interfaces for real
-            <span style={{ color: "#c9f43d" }}> complexity.</span>
+            <span style={{ color: "#f2401b" }}> complexity.</span>
           </div>
           <div
             style={{
@@ -58,9 +54,9 @@ export default function OpengraphImage() {
               justifyContent: "space-between",
               marginTop: 50,
               paddingTop: 22,
-              borderTop: "1px solid rgba(238,239,232,0.24)",
-              fontSize: 24,
-              color: "#9aa096",
+              borderTop: "6px solid #0e0e0e",
+              fontSize: 26,
+              color: "#0e0e0e",
             }}
           >
             <span>Senior Software Engineer</span>

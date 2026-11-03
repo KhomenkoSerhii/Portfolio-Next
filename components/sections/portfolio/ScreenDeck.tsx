@@ -80,7 +80,7 @@ export function ScreenDeck({
                     <span className="h-1.5 w-1.5 rounded-full bg-[var(--line-strong)]" />
                     <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
                   </span>
-                  <span className="min-w-0 truncate font-mono text-[8px] tracking-[0.12em] text-[var(--muted)]">
+                  <span className="min-w-0 truncate text-[10px] font-medium text-[var(--muted)]">
                     {host}
                     {screen.path}
                   </span>
@@ -104,9 +104,9 @@ export function ScreenDeck({
                       type="button"
                       onClick={() => onOpen(index)}
                       aria-label={`Open ${name} product tour at ${screen.title}`}
-                      className="absolute bottom-3 right-3 bg-[var(--accent)] px-2.5 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-[#11150d] outline-offset-2 transition-transform hover:-translate-y-0.5"
+                      className="absolute bottom-3 right-3 bg-[var(--accent)] px-3 py-1.5 text-sm font-bold text-[#0e0e0e] outline-offset-2 transition-transform hover:-translate-y-0.5"
                     >
-                      Open tour ↗
+                      Open tour
                     </button>
                   ) : (
                     <button
@@ -136,13 +136,10 @@ export function ScreenDeck({
                 onClick={() => setActive(index)}
                 onPointerEnter={() => setActive(index)}
                 aria-current={current ? "true" : undefined}
-                className="group relative flex w-full items-baseline gap-2 py-3 text-left font-mono text-[10px] uppercase tracking-[0.14em] sm:block"
+                className="group relative flex w-full items-baseline gap-2 py-3 text-left text-sm font-semibold sm:block"
               >
-                <span className={current ? "text-[var(--accent-strong)]" : "text-[var(--muted)]"}>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
                 <span
-                  className={`block transition-colors sm:mt-1.5 ${
+                  className={`block transition-colors ${
                     current ? "text-[var(--foreground)]" : "text-[var(--muted)] group-hover:text-[var(--foreground)]"
                   }`}
                 >
