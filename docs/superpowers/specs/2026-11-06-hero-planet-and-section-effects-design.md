@@ -5,7 +5,7 @@ Replaces an uncommitted motion rework (decoded text, drawn titles, blueprint out
 ## Hero
 - The full-height hero shows a 3D figure drawn as text (an ASCII grid), and a lens that follows the pointer to show the same figure as a real render.
 - **Figure:** Earth only (a chip and a glass React atom were built and then dropped on request).
-  - **Earth:** day and night come from the real sun position at the current UTC time, with city lights on the night side, clouds, ocean glint and a rim glow. Syntax-highlighted code (One Dark colours) streams along arcs from Lviv to Berlin, London, Amsterdam, Paris, Warsaw, Stockholm, Lisbon, New York, San Francisco and Tel Aviv. Faint background traffic arcs and a green Lviv marker are added.
+  - **Earth:** day and night come from the real sun position at the current UTC time, with city lights on the night side, clouds, ocean glint and a rim glow. Glowing arcs run from Lviv to Berlin, London, Amsterdam, Paris, Warsaw, Stockholm, Lisbon, New York, San Francisco and Tel Aviv, with light pulses travelling along them like packets; fainter arcs carry background traffic elsewhere, and Lviv has a green marker. (Code streaming along the arcs was tried and dropped: unreadable at that size and it fought the city lights.)
 - **Controls** are segmented buttons with `aria-pressed`:
   - time (Earth): Now, or 24h in 20s;
   - render mode: ASCII, Binary, Blocks.
@@ -56,15 +56,14 @@ Section titles and their intro lines keep the blueprint entrance from the first 
 ## Testing
 - **Unit tests:**
   - subsolar point: declination on 2026-11-06 is about −16°, and the June solstice is about +23.4°;
-  - code tokenizer: keywords, strings, numbers, functions and tags get their colours;
   - the hero renders the H1, the role and the three control groups with Earth, Now and ASCII pressed, and falls back cleanly without WebGL;
   - split-text components keep the full sentence as the accessible name.
 - **Browser renders:** 1440 and 390, Blue Hour and Dark, for the hero and each section.
 - **Checks:** `tsc`, `eslint`, `vitest`, `next build`.
 
 ## Plan
-1. Textures, plus the pure helpers with tests: `lib/hero/sun.ts` and `lib/hero/code-tokens.ts`.
-2. The scene module `components/hero/scene/` (renderer, ASCII pass, the three figures, the code ribbons), and `components/hero/HeroStage.tsx` (canvases, lens, log, controls). Rewrite `Hero.tsx`.
+1. Textures, plus the sun-position helper with tests: `lib/hero/sun.ts`.
+2. The scene module `components/hero/scene/` (renderer, ASCII pass, the Earth figure and its arcs), and `components/hero/HeroStage.tsx` (canvases, lens, log, controls). Rewrite `Hero.tsx`.
 3. `components/visuals/Swarm.tsx` (network and plane figures), mounted in Skills and Contact.
 4. The section effects: an `useInViewOnce` hook, `ScrollWords`, `GitTimeline`, `SplitText`, `CountUp`, and the CSS for curtain, cells, spring and inset sections.
 5. Remove the old motion code, tune visually, and verify.

@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { dayPhase, subsolarPoint } from "@/lib/hero/sun";
-import { tokenizeCode } from "@/lib/hero/code-tokens";
 import { EARTH_RADIUS as R, disposeTree, glowTexture, latLon, type Figure } from "./shared";
 
 const LVIV: [number, number] = [49.84, 24.03];
@@ -12,18 +11,9 @@ const ELSEWHERE: [number, number][] = [
   [35.68, 139.69], [1.35, 103.82], [-23.55, -46.63], [19.43, -99.13], [-33.87, 151.21], [28.61, 77.21],
   [25.2, 55.27], [43.65, -79.38], [-26.2, 28.05], [31.23, 121.47], [6.52, 3.38], [64.15, -21.94],
 ];
-const SNIPPETS = [
-  'fetch("/api/match", { method: "POST" })  →  200 OK  38ms  ',
-  '{ "role": "frontend", "match": 0.94, "live": true }  ',
-  'socket.emit("candidate:new", { id: 4821 })  ',
-  "<CandidateList items={pool} onShortlist={save} />  ",
-  "git push origin main  ✓  deploy eu-central-1  ",
-  "const ranked = await llm.rank(role, candidates)  ",
-  "POST /v1/payments  201  stripe.charge.succeeded  ",
-  "export default function Hero() { return <Stack /> }  ",
-  "GET /graphql  { jobs { id title } }  200  ",
-  "npm run build  ✓ compiled  412 modules  ",
-];
+
+// one size for every city glow, Lviv included
+const CITY_DOT = 0.15;
 
 const dayNightShader = {
   vertex: /* glsl */ `
@@ -56,104 +46,38 @@ const dayNightShader = {
     }`,
 };
 
-function codeTexture(text: string) {
-  const canvas = document.createElement("canvas");
-  canvas.width = 2048;
-  canvas.height = 64;
-  const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = "rgba(8,12,30,.72)";
-  ctx.fillRect(0, 6, 2048, 52);
-  ctx.fillStyle = "rgba(109,179,255,.35)";
-  ctx.fillRect(0, 6, 2048, 2);
-  ctx.font = "600 32px ui-monospace, SFMono-Regular, Menlo, monospace";
-  ctx.textBaseline = "middle";
-  const tokens = tokenizeCode(text);
-  let x = 14;
-  while (x < 2048) {
-    for (const token of tokens) {
-      if (x > 2048) break;
-      if (token.color) {
-        ctx.fillStyle = token.color;
-        ctx.fillText(token.text, x, 33);
-      }
-      x += ctx.measureText(token.text).width;
-    }
-  }
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.anisotropy = 8;
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
-}
-
-/** a flat ribbon along an arc, facing out from the planet, with code scrolling along it */
-function codeRibbon(from: [number, number], to: [number, number], text: string, speed: number) {
-  // west-bound routes are built east to west so the code still reads left to right
-  const westward = to[1] < from[1];
-  const [a, b] = westward ? [to, from] : [from, to];
-  const start = latLon(...a);
-  const end = latLon(...b);
-  const mid = start.clone().add(end).multiplyScalar(0.5);
-  mid.setLength(R + start.distanceTo(end) * 0.32);
-  const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-
-  const steps = 90;
-  const halfWidth = 0.085;
-  const positions: number[] = [];
-  const uvs: number[] = [];
-  const colors: number[] = [];
-  const indices: number[] = [];
-  for (let i = 0; i <= steps; i++) {
-    const u = i / steps;
-    const point = curve.getPointAt(u);
-    const tangent = curve.getTangentAt(u);
-    // up = radial × tangent: the text faces away from the planet and is not mirrored
-    const side = new THREE.Vector3().crossVectors(point.clone().normalize(), tangent).normalize().multiplyScalar(halfWidth);
-    positions.push(...point.clone().add(side).toArray(), ...point.clone().sub(side).toArray());
-    uvs.push(u, 1, u, 0);
-    const fade = Math.min(1, u * 8, (1 - u) * 8);
-    colors.push(1, 1, 1, fade, 1, 1, 1, fade);
-    if (i < steps) indices.push(i * 2, i * 2 + 1, i * 2 + 2, i * 2 + 1, i * 2 + 3, i * 2 + 2);
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
-  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 4));
-  geometry.setIndex(indices);
-
-  const map = codeTexture(text);
-  map.repeat.x = curve.getLength() / 2.6;
-  const ribbon = new THREE.Mesh(
-    geometry,
-    new THREE.MeshBasicMaterial({ map, vertexColors: true, transparent: true, depthWrite: false, side: THREE.DoubleSide, toneMapped: false })
-  );
-  const guide = new THREE.Mesh(
-    new THREE.TubeGeometry(curve, 64, 0.008, 6),
-    new THREE.MeshBasicMaterial({ color: 0x4d8bff, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending, depthWrite: false })
-  );
-  return { objects: [ribbon, guide], map, speed: westward ? -speed : speed };
-}
-
-function trafficArc(from: [number, number], to: [number, number]) {
+/** a glowing arc above the surface, with light pulses running from `from` to `to` */
+function trafficArc(
+  from: [number, number],
+  to: [number, number],
+  { color = 0x9fd0ff, width = 0.02, base = 0.28, speed = 0.3 + Math.random() * 0.2 } = {}
+) {
   const start = latLon(...from);
   const end = latLon(...to);
   const mid = start.clone().add(end).multiplyScalar(0.5);
   mid.setLength(R + start.distanceTo(end) * 0.32);
   const material = new THREE.ShaderMaterial({
-    uniforms: { t: { value: 0 }, offset: { value: Math.random() }, speed: { value: 0.2 + Math.random() * 0.2 } },
+    uniforms: {
+      t: { value: 0 },
+      offset: { value: Math.random() },
+      speed: { value: speed },
+      base: { value: base },
+      tint: { value: new THREE.Color(color) },
+    },
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
     vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
     fragmentShader: /* glsl */ `
-      uniform float t, offset, speed; varying vec2 vUv;
+      uniform float t, offset, speed, base; uniform vec3 tint; varying vec2 vUv;
       void main(){
         float p = fract(vUv.x - t * speed + offset);
         float head = smoothstep(0.82, 1.0, p) * step(p, 0.995);
-        gl_FragColor = vec4(vec3(0.43, 0.7, 1.0) * (0.6 + head * 1.6), 0.16 + head * 1.4);
+        float ends = smoothstep(0.0, 0.06, vUv.x) * smoothstep(1.0, 0.94, vUv.x);
+        gl_FragColor = vec4(tint * (0.6 + head * 1.6), (base + head * 1.4) * ends);
       }`,
   });
-  return new THREE.Mesh(new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(start, mid, end), 64, 0.014, 6), material);
+  return new THREE.Mesh(new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(start, mid, end), 64, width, 6), material);
 }
 
 export function createEarth(textureBase = "/textures"): Figure {
@@ -187,8 +111,9 @@ export function createEarth(textureBase = "/textures"): Figure {
   );
   spin.add(earth);
 
-  const ribbons = TEAMS.map((city, i) => codeRibbon(LVIV, city, SNIPPETS[i % SNIPPETS.length], 0.08 + (i % 4) * 0.025));
-  ribbons.forEach((ribbon) => spin.add(...ribbon.objects));
+  // every arc on the planet looks the same: the Lviv routes and the traffic elsewhere
+  const routes = TEAMS.map((city) => trafficArc(LVIV, city));
+  routes.forEach((arc) => spin.add(arc));
   const traffic = Array.from({ length: 14 }, (_, i) => {
     const from = ELSEWHERE[i % ELSEWHERE.length];
     const pool = i % 3 === 0 ? TEAMS : ELSEWHERE;
@@ -200,13 +125,14 @@ export function createEarth(textureBase = "/textures"): Figure {
   [...TEAMS, ...ELSEWHERE].forEach((city) => {
     const dot = new THREE.Sprite(new THREE.SpriteMaterial({ map: glow, blending: THREE.AdditiveBlending, depthWrite: false }));
     dot.position.copy(latLon(...city, R * 1.005));
-    dot.scale.setScalar(0.22);
+    dot.scale.setScalar(CITY_DOT);
     spin.add(dot);
   });
   const home = new THREE.Sprite(
     new THREE.SpriteMaterial({ map: glow, color: 0x2bff7a, blending: THREE.AdditiveBlending, depthWrite: false })
   );
-  home.position.copy(latLon(...LVIV, R * 1.01));
+  home.position.copy(latLon(...LVIV, R * 1.005));
+  home.scale.setScalar(CITY_DOT); // the same size as every other city; only the colour marks it
   spin.add(home);
 
   // start with Lviv facing the camera
@@ -225,9 +151,8 @@ export function createEarth(textureBase = "/textures"): Figure {
       tilt.rotation.x = 0.8 + pitch;
     },
     update(t, when) {
-      ribbons.forEach((ribbon) => (ribbon.map.offset.x = -t * ribbon.speed * 3));
-      traffic.forEach((arc) => ((arc.material as THREE.ShaderMaterial).uniforms.t.value = t));
-      home.scale.setScalar(0.3 + Math.sin(t * 3) * 0.08);
+      [...routes, ...traffic].forEach((arc) => ((arc.material as THREE.ShaderMaterial).uniforms.t.value = t));
+      home.material.opacity = 0.75 + Math.sin(t * 3) * 0.25;
       const sun = subsolarPoint(when);
       tilt.updateMatrixWorld(true);
       sunDir.copy(latLon(sun.lat, sun.lon, 1).normalize().applyQuaternion(earth.getWorldQuaternion(worldQuat)));
