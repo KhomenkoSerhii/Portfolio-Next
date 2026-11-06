@@ -29,7 +29,7 @@ export function toSkyline(days: SkylineDay[]): {
   };
 }
 
-const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const MIN_LABEL_GAP = 3; // columns; closer labels overlap on screen
 
 // Month labels for the front edge: one per column that contains the 1st of a month.
