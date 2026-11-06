@@ -123,6 +123,7 @@ export const skills: { group: string; items: string[] }[] = [
       "Prompt engineering",
       "Streaming UX",
       "Claude Code",
+      "GitHub Copilot",
       "ChatGPT",
       "Gemini",
     ],
@@ -171,7 +172,7 @@ export const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "DevOps",
-    items: ["Docker", "AWS", "CI/CD"],
+    items: ["Docker", "AWS", "CI/CD", "GitHub Actions"],
   },
   {
     group: "Testing",
@@ -257,6 +258,7 @@ export const skillTiers: {
       { name: "CI/CD", level: 0.4, years: "projects" },
       { name: "web3", level: 0.4, years: "projects" },
       { name: "Docker", level: 0.35, years: "projects" },
+      { name: "GitHub Actions", level: 0.35, years: "projects" },
       { name: "GraphQL", level: 0.35, years: "projects" },
       { name: "Apollo", level: 0.35, years: "projects" },
       { name: "MongoDB", level: 0.35, years: "projects" },

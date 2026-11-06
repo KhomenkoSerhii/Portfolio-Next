@@ -44,20 +44,20 @@ describe("monthMarkers", () => {
     });
     // the partial January column is dropped: FEB right next to it would overlap
     expect(monthMarkers(toSkyline(days).stacks)).toEqual([
-      { column: 1, label: "FEB" },
-      { column: 5, label: "MAR" },
+      { column: 1, label: "Feb" },
+      { column: 5, label: "Mar" },
     ]);
   });
 
   it("keeps the leading month when there is room before the next one", () => {
-    // starts Sunday 4 Jan 2026: JAN at 0, FEB at 4
+    // starts Sunday 4 Jan 2026: Jan at 0, Feb at 4
     const days = Array.from({ length: 35 }, (_, i) => {
       const date = new Date(Date.UTC(2026, 0, 4 + i)).toISOString().slice(0, 10);
       return day(date, 0, 0);
     });
     expect(monthMarkers(toSkyline(days).stacks)).toEqual([
-      { column: 0, label: "JAN" },
-      { column: 4, label: "FEB" },
+      { column: 0, label: "Jan" },
+      { column: 4, label: "Feb" },
     ]);
   });
 

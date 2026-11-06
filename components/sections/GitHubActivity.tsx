@@ -65,7 +65,7 @@ function monthLabels(days: ContributionDay[]) {
       Math.floor((monthOffset / 11) * (days.length - 1))
     );
     const date = new Date(`${days[index].date}T00:00:00Z`);
-    const next = monthFormatter.format(date).toUpperCase();
+    const next = monthFormatter.format(date);
     labels.push(next === previous ? "" : next);
     previous = next;
   }
@@ -76,10 +76,10 @@ function monthLabels(days: ContributionDay[]) {
 function Stat({ value, label }: { value: number | null; label: string }) {
   return (
     <div className="min-w-0 border-l border-[var(--line)] pl-3 sm:pl-4">
-      <p className="font-display text-2xl font-extrabold tracking-[-0.05em] sm:text-4xl">
-        {value ?? "—"}
+      <p className="display text-3xl sm:text-4xl">
+        {value ?? "-"}
       </p>
-      <p className="mt-1 break-words font-mono text-[8px] uppercase tracking-[0.12em] text-[var(--muted)] sm:text-[10px] sm:tracking-[0.18em]">
+      <p className="mt-1 break-words text-sm font-medium text-[var(--muted)] sm:text-base">
         {label}
       </p>
     </div>
@@ -124,14 +124,12 @@ export default function GitHubActivity({
   );
   const labels = useMemo(() => monthLabels(days), [days]);
   const dateRange = useMemo(() => {
-    if (!selectedActivity?.days.length) return `LOADING ${selectedYear}`;
+    if (!selectedActivity?.days.length) return `Loading ${selectedYear}`;
     const first = new Date(`${selectedActivity.days[0].date}T00:00:00Z`);
     const last = new Date(
       `${selectedActivity.days[selectedActivity.days.length - 1].date}T00:00:00Z`
     );
-    return `${dateFormatter.format(first).toUpperCase()} — ${dateFormatter
-      .format(last)
-      .toUpperCase()}`;
+    return `${dateFormatter.format(first)} - ${dateFormatter.format(last)}`;
   }, [selectedActivity, selectedYear]);
 
   async function selectYear(year: number) {
@@ -155,17 +153,16 @@ export default function GitHubActivity({
   const isLoading = loadingYear === selectedYear && !selectedActivity;
   const isLive = selectedActivity?.live ?? false;
   const loadError = failedYears[selectedYear] ?? false;
-  const periodLabel = selectedYear === currentYear ? "THE LAST YEAR" : selectedYear;
+  const periodLabel = selectedYear === currentYear ? "the last year" : selectedYear;
 
   return (
-    <section id="activity" className="section-shell section-pad content-auto">
+    <section id="activity" className="section-shell section-pad">
       <div className="section-heading">
         <div>
-          <p className="section-index">05 / GITHUB ACTIVITY</p>
           <h2>Shipping leaves a trace.</h2>
         </div>
-        <div className="max-w-md md:pt-3">
-          <p className="text-base leading-relaxed text-[var(--muted)]">
+        <div className="max-w-md">
+          <p className="text-lg leading-snug text-[var(--muted)]">
             Public GitHub contributions by year. Choose a year to inspect the
             work rhythm without rearranging the timeline.
           </p>
@@ -181,21 +178,21 @@ export default function GitHubActivity({
         </div>
       </div>
 
-      <div className="activity-panel mt-12 border-y border-[var(--line)] py-8 sm:py-10">
+      <div className="activity-panel border-b-4 border-[var(--foreground)] py-8 sm:py-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_7rem] lg:gap-8">
           <div className="min-w-0">
             <div className="mb-7 flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="font-display text-xl font-extrabold uppercase tracking-[-0.03em] sm:text-2xl">
-                  {selectedActivity?.total ?? "—"} contributions in {periodLabel}
+                <p className="display text-2xl sm:text-3xl">
+                  {selectedActivity?.total ?? "-"} contributions in {periodLabel}
                 </p>
                 <div className="mt-2 flex items-center gap-3">
                   <span
                     className={`h-2.5 w-2.5 rounded-full ${
-                      isLive ? "pulse-dot bg-[var(--accent)]" : "bg-[var(--muted)]"
+                      isLive ? "pulse-dot bg-[var(--signal)]" : "bg-[var(--muted)]"
                     }`}
                   />
-                  <p className="font-mono text-[9px] uppercase tracking-[0.17em] text-[var(--muted)] sm:text-[10px]">
+                  <p className="text-sm font-medium text-[var(--muted)] sm:text-base">
                     {isLoading
                       ? `Loading ${selectedYear}`
                       : loadError
@@ -207,16 +204,16 @@ export default function GitHubActivity({
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-              <div role="group" aria-label="Calendar view" className="flex border border-[var(--line-strong)]">
+              <div role="group" aria-label="Calendar view" className="flex border-2 border-[var(--foreground)]">
                 {(["3d", "grid"] as const).map((option) => (
                   <button
                     key={option}
                     type="button"
                     aria-pressed={view === option}
                     onClick={() => setView(option)}
-                    className={`min-h-9 px-3 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
+                    className={`min-h-10 px-4 text-sm font-bold transition-colors ${
                       view === option
-                        ? "bg-[var(--accent)] text-[#11150d]"
+                        ? "bg-[var(--accent)] text-[var(--accent-ink)]"
                         : "text-[var(--muted)] hover:text-[var(--foreground)]"
                     }`}
                   >
@@ -224,7 +221,7 @@ export default function GitHubActivity({
                   </button>
                 ))}
               </div>
-              <div className="flex items-center gap-2 font-mono text-[8px] uppercase tracking-[0.12em] text-[var(--muted)] sm:text-[9px] sm:tracking-[0.16em]">
+              <div className="flex items-center gap-2 text-sm font-medium text-[var(--muted)]">
                 <span>Less</span>
                 {[0, 1, 2, 3, 4].map((level) => (
                   <span key={level} className={`contribution-day level-${level}`} />
@@ -235,10 +232,10 @@ export default function GitHubActivity({
             </div>
 
             <div className="mb-6 border-y border-[var(--line)] py-4">
-              <p className="font-mono text-[7px] uppercase tracking-[0.18em] text-[var(--muted)]">
+              <p className="text-sm font-medium text-[var(--muted)]">
                 Visible date range
               </p>
-              <p className="mt-1.5 font-mono text-[9px] uppercase tracking-[0.1em] sm:text-[10px] sm:tracking-[0.12em]">
+              <p className="mt-1 text-base font-semibold">
                 {dateRange}
               </p>
             </div>
@@ -253,19 +250,19 @@ export default function GitHubActivity({
                 <ContributionSkyline days={days} />
               ) : days.length > 0 ? (
                 <div className="min-w-[760px]">
-                  <div className="mb-2 grid grid-cols-12 gap-3 px-1 font-mono text-[9px] tracking-[0.16em] text-[var(--muted)]">
+                  <div className="mb-2 grid grid-cols-12 gap-3 px-1 text-xs font-medium text-[var(--muted)]">
                     {labels.map((label, index) => (
                       <span key={`${label}-${index}`}>{label}</span>
                     ))}
                   </div>
                   <div className="flex gap-3">
-                    <div className="grid h-[108px] shrink-0 grid-rows-7 gap-1 pt-[17px] font-mono text-[9px] text-[var(--muted)]">
+                    <div className="grid h-[108px] shrink-0 grid-rows-7 gap-1 pt-[17px] text-[11px] font-medium leading-none text-[var(--muted)]">
                       <span />
-                      <span>MON</span>
+                      <span>Mon</span>
                       <span />
-                      <span>WED</span>
+                      <span>Wed</span>
                       <span />
-                      <span>FRI</span>
+                      <span>Fri</span>
                       <span />
                     </div>
                     <div
@@ -287,7 +284,7 @@ export default function GitHubActivity({
                   </div>
                 </div>
               ) : (
-                <div className="flex h-[132px] items-center justify-center border border-dashed border-[var(--line)] font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">
+                <div className="flex h-[132px] items-center justify-center border border-dashed border-[var(--line)] text-sm font-medium text-[var(--muted)]">
                   {loadError ? "Select the year to retry" : `Loading ${selectedYear}`}
                 </div>
               )}
@@ -318,9 +315,9 @@ export default function GitHubActivity({
                   type="button"
                   aria-pressed={active}
                   onClick={() => selectYear(year)}
-                  className={`min-h-11 min-w-[5.25rem] shrink-0 px-4 text-left font-mono text-xs transition-colors focus-visible:outline-offset-2 lg:w-full lg:min-w-0 ${
+                  className={`min-h-11 min-w-[5.25rem] shrink-0 px-4 text-left text-base font-bold tabular-nums transition-colors focus-visible:outline-offset-2 lg:w-full lg:min-w-0 ${
                     active
-                      ? "bg-[var(--accent)] text-[#11150d]"
+                      ? "bg-[var(--accent)] text-[var(--accent-ink)]"
                       : "text-[var(--muted)] hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
                   }`}
                 >

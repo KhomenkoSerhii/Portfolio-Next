@@ -12,9 +12,9 @@ const CUBE = 0.17;
 const CUBE_STEP = 0.2; // cube height plus the gap that keeps each cube readable
 const TILE_HEIGHT = 0.03;
 const WEEKDAYS = [
-  { row: 1, label: "MON" },
-  { row: 3, label: "WED" },
-  { row: 5, label: "FRI" },
+  { row: 1, label: "Mon" },
+  { row: 3, label: "Wed" },
+  { row: 5, label: "Fri" },
 ] as const;
 
 // camera looks down at the grid from this direction; distance adapts to width
@@ -23,8 +23,8 @@ const MIN_DISTANCE = 5.5;
 const LOOK_AT = new THREE.Vector3(0, 0.35, 0.2);
 
 const palettes = {
-  dark: { tile: "#1c221b", levels: ["#1c221b", "#3f5a1d", "#6e9a24", "#a6dc32", "#d7ff55"] },
-  light: { tile: "#d6d3c7", levels: ["#d6d3c7", "#b9d77a", "#8fbf2c", "#6a9a12", "#4a7000"] },
+  dark: { tile: "#232321", levels: ["#232321", "#6b2a17", "#a8361a", "#f2401b", "#ff8a63"] },
+  light: { tile: "#d9d9d3", levels: ["#d9d9d3", "#ffc2ad", "#ff8a63", "#f2401b", "#b02c0d"] },
   "blue-hour": { tile: "#d6dcfa", levels: ["#d6dcfa", "#aab9f2", "#6db3ff", "#2a66ff", "#0c30ad"] },
 } as const;
 
@@ -134,7 +134,7 @@ function Cubes({
 function Labels({ stacks, columns }: { stacks: CubeStack[]; columns: number }) {
   const markers = useMemo(() => monthMarkers(stacks), [stacks]);
   const left = (-(columns - 1) / 2) * SPACING;
-  const label = "pointer-events-none whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--muted)]";
+  const label = "pointer-events-none whitespace-nowrap text-[11px] font-medium text-[var(--muted)]";
 
   return (
     <>
@@ -202,7 +202,7 @@ export default function ContributionSkyline({ days }: { days: SkylineDay[] }) {
         <FitCamera width={columns * SPACING} />
         <ambientLight intensity={theme === "dark" ? 0.9 : 1.4} />
         <directionalLight position={[-4, 8, 6]} intensity={2.2} />
-        <pointLight position={[4, 3, 3]} intensity={8} distance={12} color={theme === "blue-hour" ? "#2a66ff" : "#c8f542"} />
+        <pointLight position={[4, 3, 3]} intensity={8} distance={12} color={theme === "blue-hour" ? "#2a66ff" : "#ff7a4d"} />
         <Labels stacks={stacks} columns={columns} />
         <Cubes
           stacks={stacks}
@@ -214,14 +214,14 @@ export default function ContributionSkyline({ days }: { days: SkylineDay[] }) {
         />
       </Canvas>
 
-      <div className="pointer-events-none absolute left-0 top-0 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--muted)]">
+      <div className="pointer-events-none absolute left-0 top-0 text-sm font-medium text-[var(--muted)]">
         {day ? (
-          <span className="text-[var(--foreground)]">
-            {day.count} contribution{day.count === 1 ? "" : "s"} ·{" "}
+          <span className="font-semibold text-[var(--foreground)]">
+            {day.count} contribution{day.count === 1 ? "" : "s"},{" "}
             {dateFormatter.format(new Date(`${day.date}T00:00:00Z`))}
           </span>
         ) : (
-          "Hover a stack · one cube per activity level"
+          "Hover a stack. One cube per activity level."
         )}
       </div>
     </div>
