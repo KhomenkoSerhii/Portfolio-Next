@@ -76,6 +76,7 @@ export function ProductTour({
   index,
   onIndexChange,
   onClose,
+  origin = null,
 }: {
   name: string;
   label?: string;
@@ -84,6 +85,8 @@ export function ProductTour({
   index: number;
   onIndexChange: (index: number) => void;
   onClose: () => void;
+  /** on-screen box of the deck that opened the tour; the tour grows out of it */
+  origin?: DOMRect | null;
 }) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -155,6 +158,18 @@ export function ProductTour({
     scroller.scrollTop = fraction * contentHeight - scroller.clientHeight / 2;
   };
 
+  // closed state: clipped to the deck's box when we know it, otherwise just transparent
+  const collapsed =
+    origin && !reducedMotion
+      ? {
+          opacity: 1,
+          clipPath: `inset(${Math.max(origin.top, 0)}px ${Math.max(window.innerWidth - origin.right, 0)}px ${Math.max(
+            window.innerHeight - origin.bottom,
+            0
+          )}px ${Math.max(origin.left, 0)}px)`,
+        }
+      : { opacity: 0, clipPath: "inset(0px 0px 0px 0px)" };
+
   const counter = `${String(index + 1).padStart(2, "0")} / ${String(count).padStart(2, "0")}`;
 
   return createPortal(
@@ -163,10 +178,16 @@ export function ProductTour({
       role="dialog"
       aria-modal="true"
       aria-labelledby="product-tour-title"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: reducedMotion ? 0 : 0.25 }}
+      initial={collapsed}
+      animate={{ opacity: 1, clipPath: "inset(0px 0px 0px 0px)" }}
+      exit={collapsed}
+      transition={
+        reducedMotion
+          ? { duration: 0 }
+          : origin
+            ? { duration: 0.5, ease: [0.65, 0, 0.35, 1] }
+            : { duration: 0.25 }
+      }
       className="fixed inset-0 z-[100] flex flex-col bg-[var(--background)] text-[var(--foreground)]"
     >
       <header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-[var(--line)] px-4 sm:px-6">

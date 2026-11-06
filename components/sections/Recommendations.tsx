@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { profile, recommendations } from "@/lib/data";
-import { Reveal } from "@/components/ui/Reveal";
+import { InView } from "@/components/fx/InView";
+import { SplitText } from "@/components/fx/SplitText";
+import { Blueprint } from "@/components/motion/Blueprint";
+import { DecodeText } from "@/components/motion/DecodeText";
+import { DrawnText } from "@/components/motion/DrawnText";
 
 export default function Recommendations() {
   const initial = Math.max(
@@ -15,28 +19,36 @@ export default function Recommendations() {
 
   return (
     <section id="reviews" className="section-shell section-pad">
-      <Reveal>
-        <div className="section-heading">
-          <div>
-            <h2>What the people I shipped with say.</h2>
-          </div>
-          <div className="max-w-md">
-            <p className="text-lg leading-snug text-[var(--muted)]">
-              Recommendations from founders and engineers who worked beside me
-              through launches, pivots, legacy systems, and production pressure.
-            </p>
-            <a
-              href={`${profile.links.linkedin}/details/recommendations/`}
-              target="_blank"
-              rel="noreferrer"
-              className="button-secondary button-inline mt-5"
-            >
-              <span>All recommendations</span>
-              <span aria-hidden="true" className="shrink-0">↗</span>
-            </a>
-          </div>
+      <Blueprint className="section-heading">
+        <div>
+          <h2 data-bp-box>
+            <DrawnText>What the people I shipped with say.</DrawnText>
+          </h2>
         </div>
-      </Reveal>
+        <div className="max-w-md">
+          <p
+            className="text-lg leading-snug text-[var(--muted)]"
+            data-bp-box
+            style={{ "--i": 1 } as React.CSSProperties}
+          >
+            <DecodeText
+              delay={700}
+              text="Recommendations from founders and engineers who worked beside me through launches, pivots, legacy systems, and production pressure."
+            />
+          </p>
+          <a
+            href={`${profile.links.linkedin}/details/recommendations/`}
+            target="_blank"
+            rel="noreferrer"
+            className="button-secondary button-inline mt-5"
+          >
+            <span>All recommendations</span>
+            <span aria-hidden="true" className="shrink-0">
+              ↗
+            </span>
+          </a>
+        </div>
+      </Blueprint>
 
       <div className="grid border-b-4 border-[var(--foreground)] lg:grid-cols-[0.68fr_0.32fr]">
         <div className="min-w-0 py-9 pr-0 lg:min-h-[34rem] lg:border-r lg:border-[var(--line-strong)] lg:py-14 lg:pr-16">
@@ -49,12 +61,22 @@ export default function Recommendations() {
               transition={{ duration: 0.28, ease: "easeOut" }}
               className="flex h-full flex-col"
             >
-              <span className="display text-8xl leading-[0.6] text-[var(--accent)]" aria-hidden>
+              <span
+                className="display text-8xl leading-[0.6] text-[var(--accent)]"
+                aria-hidden
+              >
                 “
               </span>
-              <blockquote className="mt-7 whitespace-pre-line [overflow-wrap:anywhere] text-2xl font-medium leading-[1.16] tracking-[-0.02em] sm:text-4xl lg:text-[2.7rem]">
-                {recommendation.quote}
-              </blockquote>
+              <InView>
+                <blockquote className="mt-7 [overflow-wrap:anywhere] text-2xl font-medium leading-[1.16] tracking-[-0.02em] sm:text-4xl lg:text-[2.7rem]">
+                  <SplitText
+                    text={recommendation.quote}
+                    by="words"
+                    stagger={18}
+                    className="split-blur"
+                  />
+                </blockquote>
+              </InView>
               {/* the selected row in the list already names the author; keep it for screen readers */}
               <figcaption className="sr-only">
                 {recommendation.name}, {recommendation.role}, via LinkedIn
@@ -84,7 +106,9 @@ export default function Recommendations() {
                     {item.role}
                   </span>
                 </span>
-                <span className={`text-lg transition ${selected ? "translate-x-0 text-[var(--accent-strong)]" : "-translate-x-1 text-[var(--muted)] group-hover:translate-x-0"}`}>
+                <span
+                  className={`text-lg transition ${selected ? "translate-x-0 text-[var(--accent-strong)]" : "-translate-x-1 text-[var(--muted)] group-hover:translate-x-0"}`}
+                >
                   →
                 </span>
               </button>

@@ -10,9 +10,11 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 export default function Magnetic({
   children,
   strength = 0.35,
+  className = "inline-block",
 }: {
   children: ReactNode;
   strength?: number;
+  className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -39,7 +41,7 @@ export default function Magnetic({
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       style={{ x: sx, y: sy }}
-      className="inline-block"
+      className={className}
     >
       {children}
     </motion.div>

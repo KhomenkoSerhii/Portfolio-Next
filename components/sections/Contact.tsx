@@ -5,6 +5,12 @@ import { profile } from "@/lib/data";
 import { contactSchema } from "@/lib/contact-schema";
 import { CONTACT_PREFILL_EVENT } from "@/lib/contact-prefill";
 import SocialLinks from "@/components/ui/SocialLinks";
+import Magnetic from "@/components/ui/Magnetic";
+import { InView } from "@/components/fx/InView";
+import Swarm from "@/components/visuals/Swarm";
+import { Blueprint } from "@/components/motion/Blueprint";
+import { DecodeText } from "@/components/motion/DecodeText";
+import { DrawnText } from "@/components/motion/DrawnText";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -28,7 +34,10 @@ export default function Contact() {
         const textarea = messageRef.current;
         if (!textarea) return;
         textarea.focus({ preventScroll: true });
-        textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+        textarea.setSelectionRange(
+          textarea.value.length,
+          textarea.value.length
+        );
       });
     }
 
@@ -89,33 +98,53 @@ export default function Contact() {
       setMessage("");
     } catch (submitError) {
       setStatus("error");
-      setError(submitError instanceof Error ? submitError.message : "Failed to send");
+      setError(
+        submitError instanceof Error ? submitError.message : "Failed to send"
+      );
     }
   }
 
   return (
-    <section id="contact" className="on-accent relative overflow-hidden">
-      <div className="section-shell section-pad relative">
+    <section
+      id="contact"
+      className="on-accent inset-reveal relative overflow-hidden"
+    >
+      <Swarm figure="plane" />
+      <div className="section-shell section-pad relative z-10">
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
-          <div>
-            <h2 className="display max-w-[9ch] text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">
-              Bring me the hard part.
-            </h2>
-            <p className="mt-7 max-w-md text-lg leading-snug">
-              Open to senior software engineering roles, full-time or contract:
-              full-stack (frontend-heavy), product, and AI-powered work. Remote
-              from Lviv, overlapping CET.
-            </p>
+          <InView>
+            <Blueprint>
+              <h2
+                className="display max-w-[9ch] text-5xl leading-[0.95] sm:text-6xl lg:text-7xl"
+                data-bp-box
+              >
+                <DrawnText>Bring me the hard part.</DrawnText>
+              </h2>
+              <p
+                className="mt-7 max-w-md text-lg leading-snug"
+                data-bp-box
+                style={{ "--i": 1 } as React.CSSProperties}
+              >
+                <DecodeText
+                  delay={700}
+                  text="Open to senior software engineering roles, full-time or contract: full-stack (frontend-heavy), product, and AI-powered work. Remote from Lviv, overlapping CET."
+                />
+              </p>
+            </Blueprint>
             <div className="mt-10">
               <SocialLinks />
             </div>
-          </div>
+          </InView>
 
-          <div className="on-ink p-5 sm:p-8 lg:p-10">
+          <div className="on-ink glass-card p-5 sm:p-8 lg:p-10">
             {status === "sent" ? (
               <div className="flex min-h-[25rem] flex-col justify-center">
-                <p className="display text-5xl text-[var(--accent)]">Message sent!</p>
-                <p className="mt-4 max-w-md text-lg text-white/75">Thanks for reaching out. I’ll get back to you soon.</p>
+                <p className="display text-5xl text-[var(--accent)]">
+                  Message sent!
+                </p>
+                <p className="mt-4 max-w-md text-lg text-white/75">
+                  Thanks for reaching out. I’ll get back to you soon.
+                </p>
               </div>
             ) : (
               <form onSubmit={onSubmit} noValidate className="space-y-6">
@@ -126,11 +155,17 @@ export default function Contact() {
                       name="name"
                       placeholder="Your name"
                       maxLength={100}
-                      onBlur={(event) => validateField("name", event.target.value)}
+                      onBlur={(event) =>
+                        validateField("name", event.target.value)
+                      }
                       className={inputClass}
                       aria-invalid={Boolean(fieldErrors.name)}
                     />
-                    {fieldErrors.name ? <span className="mt-2 block font-normal text-red-300">{fieldErrors.name}</span> : null}
+                    {fieldErrors.name ? (
+                      <span className="mt-2 block font-normal text-red-300">
+                        {fieldErrors.name}
+                      </span>
+                    ) : null}
                   </label>
                   <label className="text-sm font-semibold">
                     Your email
@@ -139,11 +174,17 @@ export default function Contact() {
                       type="email"
                       placeholder="Your email"
                       maxLength={200}
-                      onBlur={(event) => validateField("email", event.target.value)}
+                      onBlur={(event) =>
+                        validateField("email", event.target.value)
+                      }
                       className={inputClass}
                       aria-invalid={Boolean(fieldErrors.email)}
                     />
-                    {fieldErrors.email ? <span className="mt-2 block font-normal text-red-300">{fieldErrors.email}</span> : null}
+                    {fieldErrors.email ? (
+                      <span className="mt-2 block font-normal text-red-300">
+                        {fieldErrors.email}
+                      </span>
+                    ) : null}
                   </label>
                 </div>
 
@@ -154,33 +195,50 @@ export default function Contact() {
                     name="message"
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
-                    onBlur={(event) => validateField("message", event.target.value)}
+                    onBlur={(event) =>
+                      validateField("message", event.target.value)
+                    }
                     placeholder="Tell me about your project or role…"
                     rows={6}
                     maxLength={5000}
                     className={`${inputClass} min-h-40 resize-y`}
                     aria-invalid={Boolean(fieldErrors.message)}
                   />
-                  {fieldErrors.message ? <span className="mt-2 block font-normal text-red-300">{fieldErrors.message}</span> : null}
+                  {fieldErrors.message ? (
+                    <span className="mt-2 block font-normal text-red-300">
+                      {fieldErrors.message}
+                    </span>
+                  ) : null}
                 </label>
 
-                <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden className="absolute left-[-9999px] h-0 w-0 opacity-0" />
+                <input
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden
+                  className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                />
                 {error ? <p className="text-sm text-red-300">{error}</p> : null}
 
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="action-button mt-2 inline-flex w-full items-center justify-center px-8 py-4 text-base font-bold transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-                >
-                  {status === "sending" ? "Sending…" : "Send message"}
-                </button>
+                <Magnetic strength={0.25} className="block sm:inline-block">
+                  <button
+                    type="submit"
+                    disabled={status === "sending"}
+                    className="action-button mt-2 inline-flex w-full items-center justify-center px-8 py-4 text-base font-bold transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                  >
+                    {status === "sending" ? "Sending…" : "Send message"}
+                  </button>
+                </Magnetic>
               </form>
             )}
           </div>
         </div>
 
         <footer className="mt-20 flex flex-col gap-2 border-t-4 border-[var(--foreground)] pt-5 text-base font-semibold sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} {profile.name}</p>
+          <p>
+            © {new Date().getFullYear()} {profile.name}
+          </p>
           <p>Next.js, TypeScript. Built in Lviv.</p>
         </footer>
       </div>

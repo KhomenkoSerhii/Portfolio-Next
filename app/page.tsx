@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import Metrics from "@/components/sections/Metrics";
 import Experience from "@/components/sections/Experience";
 import Skills from "@/components/sections/Skills";
 import Portfolio from "@/components/sections/Portfolio";
@@ -58,6 +59,7 @@ export default async function Home() {
       <Navbar />
       <div id="page-content">
         <Hero />
+        <Metrics />
         <PullQuote />
         <Experience />
         <Portfolio />

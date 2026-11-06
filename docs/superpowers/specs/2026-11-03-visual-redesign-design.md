@@ -14,7 +14,7 @@ Remove the generic AI-generated look from the site and make light the default th
 - `.on-accent` and `.on-ink` hold the orange and black sections to one palette in both themes.
 
 ## Theme
-Blue Hour is the default. Light and Dark stay available in the theme menu and are restored from `localStorage`. The default lives in `lib/theme/ThemeProvider.tsx` and the anti-flash script in `app/layout.tsx`.
+Two themes: Blue Hour (the default) and Dark. One navbar button switches between them, and the choice is restored from `localStorage`. The orange Light theme was retired on 2026-11-06; a saved "light" falls back to Blue Hour. The default lives in `lib/theme/ThemeProvider.tsx` and the anti-flash script in `app/layout.tsx`.
 
 ## Blue Hour theme
 The default theme. It uses the Calyptus product palette, weighted to blue: navy `#03092d`, royal `#0c30ad`, electric `#0847f7`, sky `#6db3ff`, as a gradient on the quote, contact and first metric blocks, the primary buttons, the headline and the section rules. Button border animations are sky blue. Green `#02b140` is only the live status dots. Surfaces that differ per theme go through `--accent-ink`, `--accent-surface` and `--signal`.

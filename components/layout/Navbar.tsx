@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useTheme } from "@/lib/theme/ThemeProvider";
+import { useTheme, type Theme } from "@/lib/theme/ThemeProvider";
 import { works } from "@/lib/data";
 
 const allLinks = [
@@ -16,92 +16,63 @@ const allLinks = [
 // the portfolio section renders nothing until it has entries, so hide its link too
 const links = allLinks.filter((link) => link.id !== "portfolio" || works.length > 0);
 
-function ThemeIcon({ theme }: { theme: "light" | "dark" | "blue-hour" }) {
+function ThemeIcon({ theme }: { theme: Theme }) {
   return (
     <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round">
       {theme === "dark" ? (
-        <>
-          <circle cx="12" cy="12" r="4.5" />
-          <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
-        </>
-      ) : theme === "blue-hour" ? (
+        <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+      ) : (
         <>
           <path d="M2.5 17h19M6 21h12" />
           <path d="M6.5 17a5.5 5.5 0 0 1 11 0" />
           <path d="M12 4v2.5M4.9 8.9l1.7 1.7M19.1 8.9l-1.7 1.7" />
         </>
-      ) : (
-        <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
       )}
     </svg>
   );
 }
 
+// two themes, so one button: it shows the current theme and switches to the other,
+// growing the new one out of the button
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const [open, setOpen] = useState(false);
-  const choices = [
-    { value: "blue-hour", label: "Blue Hour" },
-    { value: "light", label: "Light" },
-    { value: "dark", label: "Dark" },
-  ] as const;
+  const next: Theme = theme === "dark" ? "blue-hour" : "dark";
 
   return (
-    <div className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        aria-label="Choose colour theme"
-        aria-expanded={open}
-        aria-haspopup="menu"
-        className="flex h-10 w-10 items-center justify-center border border-white/30 transition hover:bg-[var(--paper)] hover:text-[var(--ink)]"
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={theme}
-            initial={{ opacity: 0, rotate: -45 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            exit={{ opacity: 0, rotate: 45 }}
-            className="flex"
-          >
-            <ThemeIcon theme={theme} />
-          </motion.span>
-        </AnimatePresence>
-      </button>
-      <AnimatePresence>
-        {open ? (
-          <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            role="menu"
-            aria-label="Colour themes"
-            className="absolute right-0 top-[calc(100%+0.5rem)] w-36 border border-[var(--line)] bg-[var(--paper)] p-1.5 text-[var(--ink)] shadow-xl"
-          >
-            {choices.map((choice) => (
-              <button
-                key={choice.value}
-                type="button"
-                role="menuitemradio"
-                aria-checked={theme === choice.value}
-                onClick={() => {
-                  setTheme(choice.value);
-                  setOpen(false);
-                }}
-                className="flex w-full items-center gap-2 px-2.5 py-2 text-left text-sm font-semibold transition hover:bg-black/10"
-              >
-                <span className={`h-2.5 w-2.5 rounded-full ${choice.value === "light" ? "bg-[#f2401b]" : choice.value === "dark" ? "bg-[#0e0e0e]" : "bg-gradient-to-br from-[#6db3ff] to-[#0c30ad]"}`} />
-                {choice.label}
-              </button>
-            ))}
-          </motion.div>
-        ) : null}
+    <button
+      type="button"
+      onClick={(event) => {
+        const box = event.currentTarget.getBoundingClientRect();
+        setTheme(next, { x: box.left + box.width / 2, y: box.top + box.height / 2 });
+      }}
+      aria-label={next === "dark" ? "Switch to dark theme" : "Switch to Blue Hour theme"}
+      className="flex h-10 w-10 items-center justify-center border border-white/30 transition hover:bg-[var(--paper)] hover:text-[var(--ink)]"
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={theme}
+          initial={{ opacity: 0, rotate: -45 }}
+          animate={{ opacity: 1, rotate: 0 }}
+          exit={{ opacity: 0, rotate: 45 }}
+          className="flex"
+        >
+          <ThemeIcon theme={theme} />
+        </motion.span>
       </AnimatePresence>
-    </div>
+    </button>
   );
 }
 
+// at the top of the page the navbar waits for the hero title to draw itself;
+// opened further down (or with reduced motion) it shows straight away
+function introDelay() {
+  if (typeof window === "undefined") return 0.15;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return !reduced && window.scrollY < 80 ? 2.8 : 0.15;
+}
+
 export default function Navbar() {
+  const [delay] = useState(introDelay);
   const [active, setActive] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const pendingSection = useRef<string | null>(null);
@@ -155,7 +126,8 @@ export default function Navbar() {
     <motion.header
       initial={{ y: -18, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.55, delay: 0.15 }}
+      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
+     
       className="nav-bar fixed inset-x-0 top-0 z-40 border-b border-white/15 bg-[var(--ink)] text-[var(--paper)]"
     >
       <nav className="section-shell flex h-16 items-center justify-between">

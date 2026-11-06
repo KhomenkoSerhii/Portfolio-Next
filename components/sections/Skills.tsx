@@ -1,6 +1,11 @@
 "use client";
 
 import { Reveal } from "@/components/ui/Reveal";
+import { InView } from "@/components/fx/InView";
+import Swarm from "@/components/visuals/Swarm";
+import { Blueprint } from "@/components/motion/Blueprint";
+import { DecodeText } from "@/components/motion/DecodeText";
+import { DrawnText } from "@/components/motion/DrawnText";
 
 const capabilities = [
   {
@@ -40,19 +45,30 @@ const stack = [
 
 export default function Skills() {
   return (
-    <section id="capabilities" className="on-ink">
-      <div className="section-shell section-pad">
-        <Reveal>
-          <div className="section-heading">
-            <h2>
-              Interface, API, and data. <span className="text-[var(--accent)]">End to end.</span>
-            </h2>
-            <p className="max-w-md text-lg leading-snug text-white/75">
-              Frontend is where I go deepest. Owning the API and data work
-              behind it is what lets me ship whole features, not just screens.
-            </p>
-          </div>
-        </Reveal>
+    <section
+      id="capabilities"
+      className="on-ink inset-reveal relative overflow-hidden"
+    >
+      <Swarm figure="network" />
+      <div className="section-shell section-pad relative z-10">
+        <Blueprint className="section-heading">
+          <h2 data-bp-box>
+            <DrawnText>
+              Interface, API, and data.{" "}
+              <span className="text-[var(--accent)]">End to end.</span>
+            </DrawnText>
+          </h2>
+          <p
+            className="max-w-md text-lg leading-snug text-white/75"
+            data-bp-box
+            style={{ "--i": 1 } as React.CSSProperties}
+          >
+            <DecodeText
+              delay={700}
+              text="Frontend is where I go deepest. Owning the API and data work behind it is what lets me ship whole features, not just screens."
+            />
+          </p>
+        </Blueprint>
 
         <div>
           {capabilities.map((capability, index) => (
@@ -63,15 +79,19 @@ export default function Skills() {
                 }`}
               >
                 <h3
-                  className={`display [overflow-wrap:anywhere] text-[clamp(1.9rem,4.7vw,4.25rem)] leading-[0.98] ${
+                  className={`cap-title ${index % 2 ? "cap-right" : ""} display [overflow-wrap:anywhere] text-[clamp(1.9rem,4.7vw,4.25rem)] leading-[0.98] ${
                     index % 2 ? "" : "text-[var(--accent)]"
                   }`}
                 >
                   {capability.title}
                 </h3>
                 <div className="relative z-10 min-w-0">
-                  <p className="break-words text-lg leading-snug">{capability.copy}</p>
-                  <p className="mt-3 break-words text-base text-white/70">{capability.tools}</p>
+                  <p className="break-words text-lg leading-snug">
+                    {capability.copy}
+                  </p>
+                  <p className="mt-3 break-words text-base text-white/70">
+                    {capability.tools}
+                  </p>
                 </div>
               </article>
             </Reveal>
@@ -83,23 +103,25 @@ export default function Skills() {
             <div>
               <h3 className="text-xl font-bold">Core stack index</h3>
               <p className="mt-1 max-w-xl text-base leading-snug text-white/70">
-                The tools I use in production, kept still so the list is easy
-                to scan instead of chasing it across the screen.
+                The tools I use in production, kept still so the list is easy to
+                scan instead of chasing it across the screen.
               </p>
             </div>
             <p className="text-base text-white/70">10 production tools, 2026</p>
           </div>
 
-          <ul className="mt-6 flex flex-wrap gap-2">
-            {stack.map((item) => (
-              <li
-                key={item}
-                className="display border-2 border-white/25 px-3 py-2 text-lg leading-none transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--accent-ink)] sm:px-4 sm:py-3 sm:text-2xl"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
+          <InView as="div">
+            <ul className="spring-in mt-6 flex flex-wrap gap-2">
+              {stack.map((item) => (
+                <li
+                  key={item}
+                  className="display border-2 border-white/25 px-3 py-2 text-lg leading-none transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--accent-ink)] sm:px-4 sm:py-3 sm:text-2xl"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </InView>
         </div>
       </div>
     </section>

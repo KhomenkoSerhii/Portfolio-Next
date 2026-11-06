@@ -4,11 +4,14 @@ import { Analytics } from "@vercel/analytics/next";
 import { MotionConfig } from "framer-motion";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
+import MotionReady from "@/components/motion/MotionReady";
 import "./globals.css";
 
 // Runs before hydration. The server renders Blue Hour by default; an explicitly
-// saved light or dark preference swaps the class before the first paint.
-const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){var c=document.documentElement.classList;c.remove("blue-hour");if(t==="dark"){c.add("dark")}}}catch(e){}})();`;
+// saved dark preference swaps the class before the first paint. `js` lets entrance
+// effects hide content until they play; without JS everything is simply visible, and if
+// the app has not hydrated after 4s (see MotionReady) the class comes off again.
+const themeScript = `(function(){var d=document.documentElement,c=d.classList;c.add("js");setTimeout(function(){if(!d.dataset.hydrated)c.remove("js")},4000);try{var t=localStorage.getItem("theme");if(t==="dark"){c.remove("blue-hour");c.add("dark")}}catch(e){}})();`;
 
 // wdth axis drives the expanded headlines (font-stretch: 125%)
 const monaSans = Mona_Sans({
@@ -85,11 +88,13 @@ export default function RootLayout({
         {/* browser extensions (popup/ad blockers) rewrite inline head scripts before hydration */}
         <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="min-h-full flex flex-col">
+      {/* extensions such as ColorZilla add attributes to <body> (cz-shortcut-listen) before hydration */}
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <div className="scroll-progress" aria-hidden />
         <ThemeProvider>
           <MotionConfig reducedMotion="user">{children}</MotionConfig>
         </ThemeProvider>
+        <MotionReady />
         <Analytics />
       </body>
     </html>

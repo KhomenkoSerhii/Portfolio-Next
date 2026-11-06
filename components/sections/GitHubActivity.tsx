@@ -2,6 +2,10 @@
 
 import { useMemo, useState, useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
+import { CountUp } from "@/components/fx/CountUp";
+import { Blueprint } from "@/components/motion/Blueprint";
+import { DecodeText } from "@/components/motion/DecodeText";
+import { DrawnText } from "@/components/motion/DrawnText";
 import type { ContributionDay, GitHubActivityData } from "@/lib/github";
 
 // three.js only loads when the 3D view actually renders
@@ -77,7 +81,7 @@ function Stat({ value, label }: { value: number | null; label: string }) {
   return (
     <div className="min-w-0 border-l border-[var(--line)] pl-3 sm:pl-4">
       <p className="display text-3xl sm:text-4xl">
-        {value ?? "-"}
+        {value === null ? "-" : <CountUp to={value} />}
       </p>
       <p className="mt-1 break-words text-sm font-medium text-[var(--muted)] sm:text-base">
         {label}
@@ -153,18 +157,27 @@ export default function GitHubActivity({
   const isLoading = loadingYear === selectedYear && !selectedActivity;
   const isLive = selectedActivity?.live ?? false;
   const loadError = failedYears[selectedYear] ?? false;
-  const periodLabel = selectedYear === currentYear ? "the last year" : selectedYear;
+  const periodLabel =
+    selectedYear === currentYear ? "the last year" : selectedYear;
 
   return (
     <section id="activity" className="section-shell section-pad">
-      <div className="section-heading">
+      <Blueprint className="section-heading">
         <div>
-          <h2>Shipping leaves a trace.</h2>
+          <h2 data-bp-box>
+            <DrawnText>Shipping leaves a trace.</DrawnText>
+          </h2>
         </div>
         <div className="max-w-md">
-          <p className="text-lg leading-snug text-[var(--muted)]">
-            Public GitHub contributions by year. Choose a year to inspect the
-            work rhythm without rearranging the timeline.
+          <p
+            className="text-lg leading-snug text-[var(--muted)]"
+            data-bp-box
+            style={{ "--i": 1 } as React.CSSProperties}
+          >
+            <DecodeText
+              delay={700}
+              text="Public GitHub contributions by year. Choose a year to inspect the work rhythm without rearranging the timeline."
+            />
           </p>
           <a
             href={`https://github.com/${username}`}
@@ -173,10 +186,12 @@ export default function GitHubActivity({
             className="button-secondary button-inline mt-5"
           >
             <span>GitHub / @{username}</span>
-            <span aria-hidden="true" className="shrink-0">↗</span>
+            <span aria-hidden="true" className="shrink-0">
+              ↗
+            </span>
           </a>
         </div>
-      </div>
+      </Blueprint>
 
       <div className="activity-panel border-b-4 border-[var(--foreground)] py-8 sm:py-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_7rem] lg:gap-8">
@@ -184,12 +199,15 @@ export default function GitHubActivity({
             <div className="mb-7 flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="display text-2xl sm:text-3xl">
-                  {selectedActivity?.total ?? "-"} contributions in {periodLabel}
+                  {selectedActivity?.total ?? "-"} contributions in{" "}
+                  {periodLabel}
                 </p>
                 <div className="mt-2 flex items-center gap-3">
                   <span
                     className={`h-2.5 w-2.5 rounded-full ${
-                      isLive ? "pulse-dot bg-[var(--signal)]" : "bg-[var(--muted)]"
+                      isLive
+                        ? "pulse-dot bg-[var(--signal)]"
+                        : "bg-[var(--muted)]"
                     }`}
                   />
                   <p className="text-sm font-medium text-[var(--muted)] sm:text-base">
@@ -204,30 +222,37 @@ export default function GitHubActivity({
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-              <div role="group" aria-label="Calendar view" className="flex border-2 border-[var(--foreground)]">
-                {(["3d", "grid"] as const).map((option) => (
-                  <button
-                    key={option}
-                    type="button"
-                    aria-pressed={view === option}
-                    onClick={() => setView(option)}
-                    className={`min-h-10 px-4 text-sm font-bold transition-colors ${
-                      view === option
-                        ? "bg-[var(--accent)] text-[var(--accent-ink)]"
-                        : "text-[var(--muted)] hover:text-[var(--foreground)]"
-                    }`}
-                  >
-                    {option === "3d" ? "3D" : "Grid"}
-                  </button>
-                ))}
-              </div>
-              <div className="flex items-center gap-2 text-sm font-medium text-[var(--muted)]">
-                <span>Less</span>
-                {[0, 1, 2, 3, 4].map((level) => (
-                  <span key={level} className={`contribution-day level-${level}`} />
-                ))}
-                <span>More</span>
-              </div>
+                <div
+                  role="group"
+                  aria-label="Calendar view"
+                  className="flex border-2 border-[var(--foreground)]"
+                >
+                  {(["3d", "grid"] as const).map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      aria-pressed={view === option}
+                      onClick={() => setView(option)}
+                      className={`min-h-10 px-4 text-sm font-bold transition-colors ${
+                        view === option
+                          ? "bg-[var(--accent)] text-[var(--accent-ink)]"
+                          : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                      }`}
+                    >
+                      {option === "3d" ? "3D" : "Grid"}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 text-sm font-medium text-[var(--muted)]">
+                  <span>Less</span>
+                  {[0, 1, 2, 3, 4].map((level) => (
+                    <span
+                      key={level}
+                      className={`contribution-day level-${level}`}
+                    />
+                  ))}
+                  <span>More</span>
+                </div>
               </div>
             </div>
 
@@ -235,9 +260,7 @@ export default function GitHubActivity({
               <p className="text-sm font-medium text-[var(--muted)]">
                 Visible date range
               </p>
-              <p className="mt-1 text-base font-semibold">
-                {dateRange}
-              </p>
+              <p className="mt-1 text-base font-semibold">{dateRange}</p>
             </div>
 
             <div
@@ -277,7 +300,9 @@ export default function GitHubActivity({
                           title={`${day.count} contribution${
                             day.count === 1 ? "" : "s"
                           } on ${day.date}`}
-                          style={{ animationDelay: `${Math.min(index * 4, 900)}ms` }}
+                          style={{
+                            animationDelay: `${Math.min(index * 4, 900)}ms`,
+                          }}
                         />
                       ))}
                     </div>
@@ -285,19 +310,34 @@ export default function GitHubActivity({
                 </div>
               ) : (
                 <div className="flex h-[132px] items-center justify-center border border-dashed border-[var(--line)] text-sm font-medium text-[var(--muted)]">
-                  {loadError ? "Select the year to retry" : `Loading ${selectedYear}`}
+                  {loadError
+                    ? "Select the year to retry"
+                    : `Loading ${selectedYear}`}
                 </div>
               )}
             </div>
 
             <div className="mt-7 grid grid-cols-2 gap-5 sm:grid-cols-4">
-              <Stat value={isLive ? selectedActivity.total : null} label="contributions" />
-              <Stat value={isLive ? selectedActivity.activeDays : null} label="active days" />
+              <Stat
+                value={isLive ? selectedActivity.total : null}
+                label="contributions"
+              />
+              <Stat
+                value={isLive ? selectedActivity.activeDays : null}
+                label="active days"
+              />
               <Stat
                 value={isLive ? selectedActivity.currentStreak : null}
-                label={selectedYear === currentYear ? "current streak" : "year-end streak"}
+                label={
+                  selectedYear === currentYear
+                    ? "current streak"
+                    : "year-end streak"
+                }
               />
-              <Stat value={isLive ? selectedActivity.longestStreak : null} label="longest streak" />
+              <Stat
+                value={isLive ? selectedActivity.longestStreak : null}
+                label="longest streak"
+              />
             </div>
           </div>
 
