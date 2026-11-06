@@ -20,6 +20,8 @@ export type Job = {
   period: string;
   title: string;
   product: string;
+  /** shown as the commit message on the experience git line */
+  commit: string;
   stack: string[];
   highlights: string[];
 };
@@ -31,6 +33,7 @@ export const experience: Job[] = [
     period: "Sep 2023 - Present",
     title: "Software Engineer",
     product: "Video-based AI talent platform used by 100+ companies",
+    commit: "feat: frontend from zero",
     stack: [
       "React",
       "TypeScript",
@@ -72,6 +75,7 @@ export const experience: Job[] = [
     period: "Jul 2022 - Jun 2023",
     title: "Software Engineer",
     product: "Insurance Technology Portal",
+    commit: "feat: insurance portal",
     stack: ["React", "TypeScript", "REST APIs", "Contentful", "Auth0", "AWS", "CI/CD"],
     highlights: [
       "Built a scalable search system with advanced filtering, sorting, and faceted navigation, improving content discoverability",
@@ -87,6 +91,7 @@ export const experience: Job[] = [
     period: "Mar 2021 - Jul 2022",
     title: "Software Engineer",
     product: "Crypto & Payment Infrastructure",
+    commit: "feat: crypto + payments",
     stack: ["React", "Redux", "TypeScript", "web3", "Solidity", "REST APIs", "Jest"],
     highlights: [
       "Integrated payment providers, REST APIs, wallets, and blockchain interactions, reducing payment processing errors by ~20%",
@@ -103,6 +108,7 @@ export const experience: Job[] = [
     period: "Oct 2019 - Feb 2021",
     title: "Front End Developer",
     product: "Corporate Management App & Online Store",
+    commit: "init: first production apps",
     stack: ["Node.js", "JavaScript", "React", "REST APIs", "MongoDB", "SASS"],
     highlights: [
       "Built and maintained Node.js REST APIs, business logic, and MongoDB data integrations for the HR and eCommerce modules",
@@ -327,10 +333,11 @@ export const recommendations = [
 ];
 
 // short excerpt shown right under the hero; must stay a verbatim part of that person's quote
+// Dan Jones's recommendation, word for word, split so the last sentence lands in bold
 export const pullQuote = {
-  author: "Angus Crombie",
-  lead: "He spent three years with us building the core of the platform. Authentication, payments, onboarding, our points system, admin tooling.",
-  punch: "He did not join a functioning system, he built it!",
+  author: "Dan Jones",
+  lead: "Can highly recommend Serhii - Serhii was often believed to have a twin/doubled himself, because he moved so quickly and produced a very high quality of work.",
+  punch: "Any startup would be lucky to have him.",
 };
 
 export type Project = {

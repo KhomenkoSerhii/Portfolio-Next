@@ -1,105 +1,159 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { profile } from "@/lib/data";
-import StackLayers from "@/components/visuals/StackLayers";
+import { useTheme } from "@/lib/theme/ThemeProvider";
+import HeroStage, { type StageStats } from "@/components/hero/HeroStage";
+import type { RenderMode, TimeMode } from "@/components/hero/scene";
+import { Blueprint } from "@/components/motion/Blueprint";
+import { DrawnText } from "@/components/motion/DrawnText";
 
-const reveal = {
-  hidden: { opacity: 0, y: 26 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] as const },
-  },
+const MODES: { value: RenderMode; label: string }[] = [
+  { value: "ascii", label: "ASCII" },
+  { value: "binary", label: "Binary" },
+  { value: "blocks", label: "Blocks" },
+];
+const TIMES: { value: TimeMode; label: string }[] = [
+  { value: "now", label: "Now" },
+  { value: "lapse", label: "24h in 20s" },
+];
+const CITIES = ["berlin", "london", "amsterdam", "paris", "warsaw", "stockholm", "lisbon", "new-york", "san-francisco", "tel-aviv"];
+
+function Segmented<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: (value: T) => void;
+}) {
+  return (
+    <div role="group" aria-label={label} className="hero-seg">
+      {options.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          aria-pressed={option.value === value}
+          onClick={() => onChange(option.value)}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+const subscribeWide = (callback: () => void) => {
+  const query = window.matchMedia("(min-width: 1024px)");
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
 };
 
-const metrics = [
-  { value: "7+", label: "years shipping" },
-  { value: "100K+", label: "users served" },
-  { value: "100+", label: "companies on the platform" },
-  { value: "0 to 1", label: "Calyptus frontend, from zero", small: true },
-];
+/** a few lines of "production" log beside the figure; decoration, so screen readers skip it */
+function useLog(stats: StageStats | null) {
+  const [lines, setLines] = useState<string[]>([]);
+  const statsRef = useRef(stats);
+  useEffect(() => {
+    statsRef.current = stats;
+  }, [stats]);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const startedAt = performance.now();
+    let n = 0;
+    const id = window.setInterval(() => {
+      n++;
+      const t = ((performance.now() - startedAt) / 1000).toFixed(2).padStart(7, "0");
+      const city = CITIES[(n * 7) % CITIES.length];
+      const fps = statsRef.current?.fps ?? 60;
+      const options = [`lviv → ${city}`, `ws  open  ${city}`, `render  ${fps} fps   cell 14px`, `sun  ${statsRef.current?.label ?? ""}`];
+      const pick = options[n % options.length];
+      setLines((previous) => [...previous.slice(-7), `> t+${t}  ${pick}`]);
+    }, 260);
+    return () => window.clearInterval(id);
+  }, []);
+
+  return lines;
+}
 
 export default function Hero() {
+  const { theme } = useTheme();
+  const [mode, setMode] = useState<RenderMode>("ascii");
+  const [time, setTime] = useState<TimeMode>("now");
+  const [stats, setStats] = useState<StageStats | null>(null);
+  const [supported, setSupported] = useState(true);
+  // intro: a clean screen, then the title draws itself, then everything else fades in
+  const [phase, setPhase] = useState<"title" | "all">("title");
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // long enough for the title to draw and the text planet to assemble
+    const id = window.setTimeout(() => setPhase("all"), reduced ? 0 : 3000);
+    return () => window.clearTimeout(id);
+  }, []);
+  const wide = useSyncExternalStore(
+    subscribeWide,
+    () => window.matchMedia("(min-width: 1024px)").matches,
+    () => true
+  );
+  const lines = useLog(stats);
+  const onUnsupported = useCallback(() => setSupported(false), []);
+
   return (
-    <section id="about" className="relative overflow-hidden pt-16">
-      <div className="hero-scanline" aria-hidden />
+    <section id="about" className="hero-planet" data-supported={supported} data-phase={phase}>
+      {supported ? (
+        <HeroStage
+          mode={mode}
+          time={time}
+          dark={theme === "dark"}
+          wide={wide}
+          onStats={setStats}
+          onUnsupported={onUnsupported}
+        />
+      ) : null}
 
-      <motion.div
-        initial="hidden"
-        animate="show"
-        transition={{ staggerChildren: 0.1, delayChildren: 0.08 }}
-        className="section-shell relative flex min-h-[calc(100svh-4rem)] flex-col"
-      >
-        <div className="relative z-10 pt-10 lg:pt-8">
-          <motion.p variants={reveal} className="flex flex-wrap items-center gap-x-4 gap-y-1 text-base font-medium">
-            <span className="inline-flex items-center gap-2.5 font-bold">
-              <span className="pulse-dot h-2.5 w-2.5 rounded-full bg-[var(--signal)]" aria-hidden />
-              {profile.name}
-            </span>
-            <span className="text-[var(--muted)]">{profile.location}, remote EMEA</span>
-          </motion.p>
+      <div className="hero-bar" aria-hidden="true">
+        <span>{stats?.label ?? " "}</span>
+        <span className="hero-live">
+          Live · {stats?.cell ?? 14}px · {stats?.fps ?? 60} fps
+        </span>
+      </div>
 
-          <motion.h1 variants={reveal} className="hero-title display mt-4 lg:mt-3">
-            Senior Software Engineer
-          </motion.h1>
-        </div>
-
-        <div className="grid flex-1 items-start gap-8 py-8 lg:grid-cols-2 lg:gap-12 lg:py-6">
-          <div className="relative z-10 min-w-0">
-            <motion.p variants={reveal} className="text-lg font-bold sm:text-xl">
-              Product-minded full-stack, frontend-heavy
-            </motion.p>
-            <motion.p variants={reveal} className="mt-1 text-base text-[var(--muted)]">
-              React, Next.js, Node.js, TypeScript, AI/LLM
-            </motion.p>
-            <motion.p variants={reveal} className="mt-5 max-w-lg text-lg leading-snug sm:text-xl">
-              I built the Calyptus frontend from zero and worked on the Node.js
-              API behind it. Three years on, it serves 100k+ users and 100+
-              companies.
-            </motion.p>
-
-            <motion.div variants={reveal} className="mt-7 flex flex-wrap items-center gap-3">
-              <a href="#portfolio" className="button-primary">
-                View work
-              </a>
-              <a href={profile.cvUrl} download className="button-secondary">
-                Download CV
-              </a>
-              <a
-                href={profile.links.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="button-secondary"
-              >
-                LinkedIn ↗
-              </a>
-            </motion.div>
+      <div className="hero-log" aria-hidden="true">
+        {lines.map((line, index) => (
+          <div key={`${index}-${line}`} style={{ opacity: 0.25 + (0.75 * index) / Math.max(lines.length, 1) }}>
+            {line}
           </div>
+        ))}
+      </div>
 
-          <div className="pointer-events-none relative hidden h-full min-h-[17rem] lg:block">
-            <StackLayers />
-          </div>
+      <Blueprint className="hero-copy">
+        <h1 className="hero-title display" data-bp-box>
+          <DrawnText>
+            Built from zero. <span className="hero-title-accent">Still in production.</span>
+          </DrawnText>
+        </h1>
+        <div className="hero-later mt-8 flex flex-wrap items-center gap-3">
+          <a href="#portfolio" className="button-primary">
+            View work
+          </a>
+          <a href={profile.cvUrl} download className="button-secondary">
+            Download CV
+          </a>
+          <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className="button-secondary">
+            LinkedIn ↗
+          </a>
         </div>
+      </Blueprint>
 
-        <motion.div variants={reveal} className="-mx-4 grid grid-cols-2 sm:mx-0 lg:grid-cols-[1fr_1.45fr_1fr_1.25fr]">
-          {metrics.map((metric, index) => (
-            <div
-              key={metric.label}
-              className={`min-w-0 border-t-4 px-4 pb-6 pt-5 lg:px-5 ${
-                index === 0
-                  ? "accent-fill border-[var(--accent)]"
-                  : "border-[var(--foreground)]"
-              }`}
-            >
-              <p className={`metric-value display ${metric.small ? "metric-value-small" : ""}`}>
-                {metric.value}
-              </p>
-              <p className="mt-2 text-base font-semibold">{metric.label}</p>
-            </div>
-          ))}
-        </motion.div>
-      </motion.div>
+      {supported ? (
+        <div className="hero-controls">
+          <Segmented label="Time" options={TIMES} value={time} onChange={setTime} />
+          <Segmented label="Render mode" options={MODES} value={mode} onChange={setMode} />
+        </div>
+      ) : null}
     </section>
   );
 }

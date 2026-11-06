@@ -20,6 +20,15 @@ if (!("IntersectionObserver" in globalThis)) {
   globalThis.IntersectionObserver = IO;
 }
 
+if (!("ResizeObserver" in globalThis)) {
+  class RO {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  globalThis.ResizeObserver = RO as unknown as typeof ResizeObserver;
+}
+
 if (!window.matchMedia) {
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
     matches: false,

@@ -29,22 +29,27 @@
   --paper: #efefeb;
 }
 
+/* Dark: the night version of Blue Hour. Same blues, on a deep navy-black. */
 .dark {
-  --background: #0e0e0e;
-  --foreground: #efefeb;
-  --surface: #1b1b19;
-  --line: rgba(239, 239, 235, 0.14);
-  --line-strong: rgba(239, 239, 235, 0.32);
-  --muted: #a6a6a0;
-  --accent: #f2401b;
-  --accent-strong: #ff7350;
-  --accent-soft: rgba(242, 64, 27, 0.16);
-  --action-edge: #ffd8ca;
-  --button-solid: #efefeb;
-  --button-solid-hover: #d6d6d0;
-  --button-solid-ink: #0e0e0e;
-  --ink: #0e0e0e;
-  --paper: #efefeb;
+  --background: #060a1a;
+  --foreground: #eef2ff;
+  --surface: #0d1330;
+  --line: rgba(160, 190, 255, 0.14);
+  --line-strong: rgba(160, 190, 255, 0.32);
+  --muted: #9ba8cc;
+  --accent: #4d8bff;
+  --accent-strong: #6db3ff;
+  --accent-soft: rgba(77, 139, 255, 0.16);
+  --accent-ink: #ffffff;
+  --accent-surface: var(--blue-hour-gradient);
+  --signal: #02b140;
+  --action-edge: #9fd0ff;
+  --button-solid: #eef2ff;
+  --button-solid-hover: #c9d8ff;
+  --button-solid-ink: #03092d;
+  --ink: #0a1028;
+  --paper: #ffffff;
+  --blue-hour-gradient: linear-gradient(252deg, #2a66ff 0%, #0847f7 40%, #0c30ad 68%, #03092d 100%);
 }
 
 /* Blue Hour: navy through royal to sky, built from the Calyptus product palette. Green is kept for the live status dot only. */
@@ -70,8 +75,8 @@
   --blue-hour-gradient: linear-gradient(252deg, #2a66ff 0%, #0847f7 40%, #0c30ad 68%, #03092d 100%);
 }
 
-.blue-hour .button-primary,
-.blue-hour .action-button {
+:is(.blue-hour, .dark) .button-primary,
+:is(.blue-hour, .dark) .action-button {
   --action-surface: linear-gradient(115deg, #2a66ff 0%, #0847f7 38%, #0c30ad 72%, #03092d 100%);
   --action-text: #ffffff;
   --action-border: #9fd0ff;
@@ -79,7 +84,7 @@
   color: #ffffff;
 }
 
-.blue-hour .button-secondary {
+:is(.blue-hour, .dark) .button-secondary {
   --action-border: #6db3ff;
   --action-border-tail: rgba(109, 179, 255, 0.5);
 }
@@ -108,15 +113,15 @@
 }
 
 /* blue on navy is unreadable, so anything on the navy surfaces switches to sky */
-.blue-hour .on-ink,
-.blue-hour .nav-bar {
+:is(.blue-hour, .dark) .on-ink,
+:is(.blue-hour, .dark) .nav-bar {
   --accent: #6db3ff;
   --accent-strong: #9fd0ff;
   --accent-ink: #03092d;
   --accent-surface: #6db3ff;
 }
 
-.blue-hour .on-ink {
+:is(.blue-hour, .dark) .on-ink {
   --foreground: #ffffff;
   background:
     radial-gradient(70% 60% at 100% 0%, rgba(8, 71, 247, 0.6), transparent 70%),
@@ -125,7 +130,7 @@
   color: #ffffff;
 }
 
-.blue-hour .on-accent {
+:is(.blue-hour, .dark) .on-accent {
   --foreground: #ffffff;
   --muted: #e6ecff;
   --line: rgba(255, 255, 255, 0.28);
@@ -140,38 +145,38 @@
   color: #ffffff;
 }
 
+.dark #about {
+  background:
+    radial-gradient(60% 70% at 92% 12%, rgba(42, 102, 255, 0.32), transparent 70%),
+    radial-gradient(45% 50% at 55% 100%, rgba(8, 71, 247, 0.14), transparent 70%);
+}
+
 .blue-hour #about {
   background:
     radial-gradient(60% 70% at 92% 12%, rgba(109, 179, 255, 0.42), transparent 70%),
     radial-gradient(45% 50% at 55% 100%, rgba(8, 71, 247, 0.1), transparent 70%);
 }
 
-/* the padding keeps descenders inside the box the gradient is clipped to */
-.blue-hour .hero-title {
-  padding-bottom: 0.14em;
-  margin-bottom: -0.14em;
-  background: linear-gradient(100deg, #03092d 0%, #0c30ad 48%, #0847f7 78%, #1f7ae0 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 .blue-hour .section-heading {
   border-image: linear-gradient(90deg, #03092d 0%, #0847f7 55%, #6db3ff 100%) 1;
 }
 
-.blue-hour .on-ink .section-heading {
+.dark .section-heading {
+  border-image: linear-gradient(90deg, #eef2ff 0%, #6db3ff 55%, #0847f7 100%) 1;
+}
+
+:is(.blue-hour, .dark) .on-ink .section-heading {
   border-image: linear-gradient(90deg, #ffffff 0%, #6db3ff 60%, #0847f7 100%) 1;
 }
 
-.blue-hour .on-ink .section-heading h2 span {
+:is(.blue-hour, .dark) .on-ink .section-heading h2 span {
   background: linear-gradient(90deg, #6db3ff, #bfe0ff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-.blue-hour .scroll-progress {
+:is(.blue-hour, .dark) .scroll-progress {
   background: linear-gradient(90deg, #0847f7, #6db3ff);
 }
 
@@ -290,21 +295,6 @@ button:disabled,
 .metric-value-small {
   font-size: clamp(1.75rem, 3.4vw, 3.2rem);
   line-height: 1.1;
-}
-
-.hero-scanline {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    transparent 48%,
-    color-mix(in srgb, var(--accent) 12%, transparent) 49.8%,
-    transparent 50.2%
-  );
-  background-size: 100% 18rem;
-  opacity: 0.35;
-  animation: scanline 9s linear infinite;
 }
 
 .button-primary,
@@ -632,12 +622,6 @@ button:disabled,
   animation: signal-pulse 2.2s ease-out infinite;
 }
 
-@keyframes scanline {
-  to {
-    background-position: 0 18rem;
-  }
-}
-
 @keyframes scene-enter {
   from {
     opacity: 0;
@@ -744,7 +728,7 @@ body.bursting #page-content {
 
 @media (max-width: 639px) {
   /* text fills the width here, so the sky glow would sit behind it */
-  .blue-hour .on-accent {
+  :is(.blue-hour, .dark) .on-accent {
     background: var(--blue-hour-gradient);
   }
 
@@ -772,4 +756,716 @@ body.bursting #page-content {
   .scroll-progress {
     display: none;
   }
+}
+
+/* theme switch: the new theme grows as a circle from the menu */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@keyframes theme-reveal {
+  from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); }
+  to { clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 0)); }
+}
+
+
+/* ---------- hero: a figure drawn as text, the real render through a lens ---------- */
+.hero-planet {
+  position: relative;
+  display: grid;
+  grid-template-areas: "bar" "copy" "stage" "controls";
+  gap: 1.25rem;
+  min-height: 100svh;
+  padding: 5.5rem 1rem 2.5rem;
+  overflow: hidden;
+  background: var(--background);
+}
+
+.hero-stage {
+  --lens-r: 105px;
+  --lens-x: 50%;
+  --lens-y: 50%;
+  grid-area: stage;
+  position: relative;
+  height: min(100vw, 440px);
+  margin-inline: -1rem;
+  touch-action: pan-y;
+}
+
+.hero-ascii,
+.hero-real {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* the lens shows deep space whatever the theme: it is a window onto the real thing */
+.hero-real {
+  clip-path: circle(var(--lens-r) at var(--lens-x) var(--lens-y));
+  background: radial-gradient(circle at var(--lens-x) var(--lens-y), #0b1638, #020617 45%);
+}
+
+.hero-lens {
+  position: absolute;
+  left: var(--lens-x);
+  top: var(--lens-y);
+  width: calc(var(--lens-r) * 2);
+  height: calc(var(--lens-r) * 2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 0.6s;
+  box-shadow:
+    -3px 0 0 rgba(255, 60, 120, 0.5),
+    3px 0 0 rgba(60, 200, 255, 0.6),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 0 50px rgba(109, 179, 255, 0.18),
+    0 24px 70px -20px rgba(0, 0, 0, 0.6);
+}
+
+.hero-lens::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 3px);
+}
+
+.hero-lens span {
+  position: absolute;
+  left: 50%;
+  bottom: -28px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font: 11px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero-stage[data-ready="false"] .hero-lens {
+  opacity: 0;
+}
+
+.hero-bar {
+  grid-area: bar;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+  font: 12px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.hero-live::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  vertical-align: 1px;
+}
+
+.hero-log {
+  display: none;
+}
+
+.hero-copy {
+  grid-area: copy;
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-copy a {
+  pointer-events: auto;
+}
+
+.hero-title {
+  font-size: clamp(2.9rem, 11vw, 4.6rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+}
+
+.hero-title-accent {
+  display: block;
+  color: var(--accent);
+}
+
+.hero-controls {
+  grid-area: controls;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+
+.hero-seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--background) 75%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.hero-seg button {
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  font: 600 12px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.hero-seg button:hover {
+  color: var(--foreground);
+}
+
+.hero-seg button[aria-pressed="true"] {
+  background: var(--accent-surface);
+  color: var(--accent-ink);
+}
+
+.hero-seg button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (min-width: 1024px) {
+  .hero-planet {
+    display: block;
+    height: 100svh;
+    min-height: 720px;
+    padding: 0;
+  }
+
+  .hero-stage {
+    --lens-r: 150px;
+    position: absolute;
+    inset: 0;
+    height: auto;
+    margin: 0;
+  }
+
+  @media (hover: hover) {
+    .hero-stage {
+      cursor: none;
+    }
+  }
+
+  .hero-bar {
+    position: absolute;
+    left: 2rem;
+    right: 2rem;
+    top: 5.5rem;
+  }
+
+  .hero-log {
+    display: block;
+    position: absolute;
+    left: 2rem;
+    top: 8.5rem;
+    font: 12.5px/1.75 ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--muted);
+    white-space: pre;
+    pointer-events: none;
+  }
+
+  .hero-copy.blueprint,
+  .hero-copy {
+    position: absolute;
+    left: 2rem;
+    bottom: 3.5rem;
+    max-width: 74%;
+  }
+
+  .hero-title {
+    font-size: min(7.4rem, 5.2vw);
+  }
+
+  .hero-controls {
+    position: absolute;
+    right: 2rem;
+    bottom: 3.5rem;
+    width: min(390px, 32vw);
+    justify-items: end;
+    pointer-events: none;
+  }
+
+  .hero-controls > * {
+    pointer-events: auto;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hero-bar,
+  .hero-log,
+  .hero-copy {
+    left: calc((100vw - 80rem) / 2);
+  }
+
+  .hero-bar,
+  .hero-controls {
+    right: calc((100vw - 80rem) / 2);
+  }
+}
+
+/* hero intro: a clean screen, the title draws itself, then the rest fades in gently */
+.hero-real,
+.hero-lens,
+.hero-bar,
+.hero-log,
+.hero-controls,
+.hero-later {
+  transition:
+    opacity 1.4s ease,
+    transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.js .hero-planet[data-phase="title"] :is(.hero-real, .hero-lens, .hero-bar, .hero-log, .hero-controls, .hero-later) {
+  opacity: 0;
+}
+
+.js .hero-planet[data-phase="title"] :is(.hero-later, .hero-controls) {
+  transform: translateY(12px);
+}
+
+.hero-bar { transition-delay: 0.35s; }
+.hero-later { transition-delay: 0.15s; }
+.hero-controls { transition-delay: 0.5s; }
+.hero-log { transition-delay: 0.7s; }
+
+/* ---------- section effects ---------- */
+/* content only waits hidden for its entrance when JS is running (html.js, set in layout.tsx) */
+
+/* letters rise, words come into focus */
+.split-word {
+  display: inline-block;
+}
+
+.split-paragraph {
+  display: block;
+}
+
+.split-paragraph + .split-paragraph {
+  margin-top: 0.7em;
+}
+
+.split-piece {
+  display: inline-block;
+  transition:
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease,
+    filter 0.7s ease;
+  transition-delay: var(--d, 0ms);
+}
+
+.js .split-rise .split-piece {
+  transform: translateY(0.6em) rotate(6deg);
+  opacity: 0;
+}
+
+.js .split-blur .split-piece {
+  filter: blur(10px);
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.js [data-in="true"] .split-piece {
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+
+/* portfolio screens open like a curtain and settle from a slight zoom */
+.fx-curtain {
+  transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.fx-curtain > * {
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.js .fx-curtain {
+  clip-path: inset(0 100% 0 0);
+}
+
+.js .fx-curtain > * {
+  transform: scale(1.08);
+}
+
+.js [data-in="true"] .fx-curtain {
+  clip-path: inset(-10% -10% -10% -10%);
+}
+
+.js [data-in="true"] .fx-curtain > * {
+  transform: none;
+}
+
+/* stack chips spring in one after another */
+.spring-in > * {
+  transition:
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.3s ease;
+}
+
+.js .spring-in > * {
+  transform: scale(0.6);
+  opacity: 0;
+}
+
+.js [data-in="true"] .spring-in > * {
+  transform: none;
+  opacity: 1;
+}
+
+.spring-in > :nth-child(2) { transition-delay: 60ms; }
+.spring-in > :nth-child(3) { transition-delay: 120ms; }
+.spring-in > :nth-child(4) { transition-delay: 180ms; }
+.spring-in > :nth-child(5) { transition-delay: 240ms; }
+.spring-in > :nth-child(6) { transition-delay: 300ms; }
+.spring-in > :nth-child(7) { transition-delay: 360ms; }
+.spring-in > :nth-child(8) { transition-delay: 420ms; }
+.spring-in > :nth-child(9) { transition-delay: 480ms; }
+.spring-in > :nth-child(10) { transition-delay: 540ms; }
+
+/* the pull quote sticks while its words light up with the scroll */
+.scroll-words {
+  min-height: 210vh;
+}
+
+.scroll-words-sticky {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 5rem 3rem;
+}
+
+.scroll-words-sticky > :not(.swarm-canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+.scroll-words-text {
+  width: calc(100% - 2rem);
+  max-width: 80rem;
+  margin-inline: auto;
+  font-size: clamp(1.9rem, 4vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.js .scroll-words-text [aria-hidden] > span {
+  opacity: 0.16;
+  transition: opacity 0.25s ease;
+}
+
+.js .scroll-words-text [aria-hidden] > span.is-lit {
+  opacity: 1;
+}
+
+@media (min-width: 1024px) {
+  .scroll-words-text {
+    width: calc(100% - 4rem);
+  }
+}
+
+/* experience: a git line draws down the roles; each lights up at its commit */
+.git-timeline {
+  position: relative;
+  padding-left: 2.6rem;
+}
+
+.git-rail,
+.git-draw {
+  position: absolute;
+  left: 0.55rem;
+  top: 0;
+  width: 3px;
+  border-radius: 3px;
+}
+
+.git-rail {
+  bottom: 0;
+  background: var(--line-strong);
+}
+
+.git-draw {
+  height: var(--git-reach, 100%);
+  max-height: 100%;
+  background: linear-gradient(var(--accent), var(--accent-strong));
+}
+
+.git-row {
+  position: relative;
+  transition:
+    opacity 0.6s ease,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.git-row::before {
+  content: "";
+  position: absolute;
+  left: -2.45rem;
+  top: 2.15rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  border: 3px solid var(--line-strong);
+  background: var(--background);
+  transition: all 0.3s ease;
+}
+
+.git-row.is-on::before {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 0 0 6px var(--accent-soft);
+}
+
+.js .git-row:not(.is-on) {
+  opacity: 0.2;
+  transform: translateX(40px);
+}
+
+.git-commit {
+  display: block;
+  margin-bottom: 0.35rem;
+  font: 600 13px ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--accent-strong);
+}
+
+/* skills and contact grow from an inset card to full bleed as they arrive,
+   and capability titles slide in from alternating sides, tied to the scroll */
+.swarm-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .inset-reveal {
+      animation: inset-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+
+    .cap-title {
+      animation: cap-from-left linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
+
+    .cap-title.cap-right {
+      animation-name: cap-from-right;
+    }
+  }
+}
+
+@keyframes inset-reveal {
+  from {
+    clip-path: inset(0 4% round 36px);
+  }
+  to {
+    clip-path: inset(0 0 round 0);
+  }
+}
+
+@keyframes cap-from-left {
+  from {
+    transform: translateX(-24vw);
+    opacity: 0.15;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes cap-from-right {
+  from {
+    transform: translateX(24vw);
+    opacity: 0.15;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ---------- headings: blueprint first, then the outline is drawn and filled ---------- */
+.blueprint {
+  --bp-line: color-mix(in srgb, var(--accent) 20%, transparent);
+  --bp-dash: var(--accent);
+  position: relative;
+  isolation: isolate;
+}
+
+.on-accent .blueprint {
+  --bp-line: color-mix(in srgb, currentColor 16%, transparent);
+  --bp-dash: currentColor;
+}
+
+.bp-grid {
+  position: absolute;
+  inset: -1.5rem -1rem;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background-image:
+    linear-gradient(var(--bp-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bp-line) 1px, transparent 1px);
+  background-size: 100% 3rem, 8.333% 100%;
+}
+
+[data-bp="run"] > .bp-grid {
+  animation: bp-grid 1.9s ease forwards;
+}
+
+[data-bp-box] {
+  position: relative;
+}
+
+[data-bp-box]::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border: 1.5px dashed var(--bp-dash);
+  pointer-events: none;
+  opacity: 0;
+  clip-path: inset(0 100% 100% 0);
+}
+
+[data-bp="run"] [data-bp-box]::before {
+  animation: bp-draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 120ms);
+}
+
+@keyframes bp-grid {
+  0% { opacity: 0; }
+  20%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* the outline runs along the top, then down, then fades as the content lands */
+@keyframes bp-draw {
+  0% { opacity: 1; clip-path: inset(0 100% 100% 0); }
+  35% { clip-path: inset(0 0 100% 0); }
+  55% { opacity: 1; clip-path: inset(0 0 0 0); }
+  100% { opacity: 0; clip-path: inset(0 0 0 0); }
+}
+
+.drawn {
+  position: relative;
+  display: block;
+}
+
+.drawn-line {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.2px var(--bp-dash, var(--accent));
+  clip-path: inset(0 100% 0 0);
+}
+
+.drawn-line * {
+  background: none !important;
+  -webkit-text-fill-color: transparent;
+}
+
+.js [data-bp="idle"] .drawn-fill {
+  opacity: 0;
+}
+
+[data-bp="run"] .drawn-line {
+  animation: drawn-line 2.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+[data-bp="run"] .drawn-fill {
+  animation: drawn-fill 0.9s ease 1.1s both;
+}
+
+@keyframes drawn-line {
+  0% { opacity: 1; clip-path: inset(0 100% 0 0); }
+  50% { opacity: 1; clip-path: inset(0 0 0 0); }
+  100% { opacity: 0; clip-path: inset(0 0 0 0); }
+}
+
+@keyframes drawn-fill {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* subheadings resolve out of random glyphs; the real text stays in place underneath */
+.decode {
+  position: relative;
+  display: inline-block;
+}
+
+.js .decode[data-decode="idle"],
+.decode[data-decode="running"] {
+  -webkit-text-fill-color: transparent;
+}
+
+/* a few px of slack: kerning across the per-character spans can make the layer a hair wider */
+.decode-layer {
+  position: absolute;
+  inset: 0 -3px 0 0;
+  pointer-events: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+.decode-layer .x {
+  position: relative;
+  -webkit-text-fill-color: transparent;
+}
+
+.decode-layer .x::after {
+  content: attr(data-g);
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-text-fill-color: var(--accent);
+}
+
+.on-accent .decode-layer .x::after {
+  -webkit-text-fill-color: currentColor;
+  opacity: 0.55;
+}
+
+.decode-layer .h {
+  -webkit-text-fill-color: transparent;
+}
+
+/* contact: the form card lets the paper plane show through */
+.glass-card {
+  background: color-mix(in srgb, var(--ink) 62%, transparent) !important;
+  backdrop-filter: blur(5px);
 }

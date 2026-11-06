@@ -23,8 +23,7 @@ const MIN_DISTANCE = 5.5;
 const LOOK_AT = new THREE.Vector3(0, 0.35, 0.2);
 
 const palettes = {
-  dark: { tile: "#232321", levels: ["#232321", "#6b2a17", "#a8361a", "#f2401b", "#ff8a63"] },
-  light: { tile: "#d9d9d3", levels: ["#d9d9d3", "#ffc2ad", "#ff8a63", "#f2401b", "#b02c0d"] },
+  dark: { tile: "#141b3a", levels: ["#141b3a", "#1f3a8a", "#2a66ff", "#6db3ff", "#bfe0ff"] },
   "blue-hour": { tile: "#d6dcfa", levels: ["#d6dcfa", "#aab9f2", "#6db3ff", "#2a66ff", "#0c30ad"] },
 } as const;
 
@@ -202,7 +201,7 @@ export default function ContributionSkyline({ days }: { days: SkylineDay[] }) {
         <FitCamera width={columns * SPACING} />
         <ambientLight intensity={theme === "dark" ? 0.9 : 1.4} />
         <directionalLight position={[-4, 8, 6]} intensity={2.2} />
-        <pointLight position={[4, 3, 3]} intensity={8} distance={12} color={theme === "blue-hour" ? "#2a66ff" : "#ff7a4d"} />
+        <pointLight position={[4, 3, 3]} intensity={8} distance={12} color="#2a66ff" />
         <Labels stacks={stacks} columns={columns} />
         <Cubes
           stacks={stacks}
