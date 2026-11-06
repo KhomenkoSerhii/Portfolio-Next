@@ -449,7 +449,7 @@ export const works: Work[] = [
     ],
   },  {
     name: "Fintech IQ",
-    url: "https://fintech-iq-zeta.vercel.app/",
+    url: "https://credit-flow-dev.vercel.app/",
     role: "Multi-page website · build and deployment",
     description:
       "Seven-page site for a Swiss-regulated digital asset intermediary: OTC execution, crypto-fiat exchange and settlement. A restrained dark design that makes a compliance-heavy service easy to follow, with product-style interface visuals instead of stock imagery.",
