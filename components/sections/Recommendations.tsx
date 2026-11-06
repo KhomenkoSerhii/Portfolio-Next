@@ -5,18 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { profile, recommendations } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 
-function Initials({ name }: { name: string }) {
-  return (
-    <span className="flex h-10 w-10 shrink-0 items-center justify-center border-2 border-[var(--foreground)] text-sm font-extrabold">
-      {name
-        .split(" ")
-        .map((word) => word[0])
-        .slice(0, 2)
-        .join("")}
-    </span>
-  );
-}
-
 export default function Recommendations() {
   const initial = Math.max(
     recommendations.findIndex((recommendation) => recommendation.featured),
@@ -51,7 +39,7 @@ export default function Recommendations() {
       </Reveal>
 
       <div className="grid border-b-4 border-[var(--foreground)] lg:grid-cols-[0.68fr_0.32fr]">
-        <div className="min-h-[34rem] min-w-0 py-9 pr-0 lg:border-r lg:border-[var(--line-strong)] lg:py-14 lg:pr-16">
+        <div className="min-w-0 py-9 pr-0 lg:min-h-[34rem] lg:border-r lg:border-[var(--line-strong)] lg:py-14 lg:pr-16">
           <AnimatePresence mode="wait" initial={false}>
             <motion.figure
               key={recommendation.name}
@@ -67,14 +55,9 @@ export default function Recommendations() {
               <blockquote className="mt-7 whitespace-pre-line [overflow-wrap:anywhere] text-2xl font-medium leading-[1.16] tracking-[-0.02em] sm:text-4xl lg:text-[2.7rem]">
                 {recommendation.quote}
               </blockquote>
-              <figcaption className="mt-auto flex items-center gap-4 pt-12">
-                <Initials name={recommendation.name} />
-                <div>
-                  <p className="font-semibold">{recommendation.name}</p>
-                  <p className="mt-0.5 text-sm text-[var(--muted)]">
-                    {recommendation.role}, via LinkedIn
-                  </p>
-                </div>
+              {/* the selected row in the list already names the author; keep it for screen readers */}
+              <figcaption className="sr-only">
+                {recommendation.name}, {recommendation.role}, via LinkedIn
               </figcaption>
             </motion.figure>
           </AnimatePresence>
