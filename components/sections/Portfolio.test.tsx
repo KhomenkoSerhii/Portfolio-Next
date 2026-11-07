@@ -18,6 +18,13 @@ const work: Work = {
 };
 
 describe("Portfolio", () => {
+  it("shows only the works that are not hidden by default", () => {
+    render(<Portfolio />);
+    expect(screen.getByRole("heading", { level: 3, name: "Calyptus" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { level: 3, name: "Fintech IQ" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { level: 3, name: "Minute Minder" })).not.toBeInTheDocument();
+  });
+
   it("renders nothing when there are no works", () => {
     const { container } = render(<Portfolio works={[]} />);
     expect(container).toBeEmptyDOMElement();

@@ -6,7 +6,7 @@ import {
   projects,
   recommendations,
   services,
-  works,
+  shownWorks,
 } from "@/lib/data";
 
 export const runtime = "nodejs";
@@ -24,7 +24,7 @@ Rules:
 - Serhii also offers freelance services (see SERVICES in the data). If a visitor describes a project or a problem, point them to the matching service and suggest the contact form. He is open to both full-time roles and freelance work.
 
 CV DATA:
-${JSON.stringify({ profile, experience, skills, projects, works, recommendations, services })}`;
+${JSON.stringify({ profile, experience, skills, projects, works: shownWorks, recommendations, services })}`;
 
 type IncomingMessage = { role: "user" | "assistant"; content: string };
 

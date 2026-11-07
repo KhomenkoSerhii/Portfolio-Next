@@ -412,6 +412,8 @@ export type Work = {
   kind: "freelance" | "product" | "side";
   year: string;
   screens: WorkScreen[];
+  /** kept in the data but left off the site for now */
+  hidden?: boolean;
 };
 
 export const works: Work[] = [
@@ -473,6 +475,7 @@ export const works: Work[] = [
     ],
   },  {
     name: "Fintech IQ",
+    hidden: true,
     url: "https://credit-flow-dev.vercel.app/",
     role: "Multi-page website · build and deployment",
     description:
@@ -529,6 +532,7 @@ export const works: Work[] = [
   },
   {
     name: "Minute Minder",
+    hidden: true,
     url: "https://minuteminder.io/",
     role: "Product website · build and deployment",
     description:
@@ -651,3 +655,6 @@ export const services = {
     { title: "AI Tooling for Teams", blurb: "adopt Claude Code without chaos" },
   ],
 };
+
+/** the works the site shows */
+export const shownWorks = works.filter((work) => !work.hidden);

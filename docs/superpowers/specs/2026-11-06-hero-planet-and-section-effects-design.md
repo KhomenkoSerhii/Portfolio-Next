@@ -36,7 +36,7 @@ Each section gets its own entrance, played once when it scrolls in, unless the e
 | --- | --- |
 | Pull quote | Dan Jones's recommendation, word for word. Sticky block; words light up with the scroll. |
 | Experience | A git line draws down the left; each role slides in when the line reaches its commit node. Each role shows a short commit label. |
-| Portfolio | Product name letters rise; the deck opens like a curtain and settles from a slight zoom. |
+| Portfolio | Only Calyptus for now, under "My latest project, up close." (Fintech IQ and Minute Minder stay in the data with `hidden: true`). Product name letters rise; the deck opens like a curtain and settles from a slight zoom. |
 | Skills | The section grows from a rounded inset to full bleed as it enters; capability titles slide in from alternating sides (scrubbed). The section is three short rows (Frontend, Backend, AI) under "From the button to the database."; the stack list was dropped since the stack shows everywhere else. The particle swarm forms a laptop, a server rack and a database behind it, with small clouds of the same points running along the cable between them, requests out and responses back. The rows have no hover effect. |
 | Recommendations | Quote words come into focus from a blur. |
 | GitHub | Calendar cells wave in diagonally; stat numbers count up. |

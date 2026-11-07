@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { works as allWorks, type Work } from "@/lib/data";
+import { shownWorks, type Work } from "@/lib/data";
 import { InView } from "@/components/fx/InView";
 import { SplitText } from "@/components/fx/SplitText";
 import { Blueprint } from "@/components/motion/Blueprint";
@@ -131,7 +131,7 @@ function Showcase({ work, flip }: { work: Work; flip: boolean }) {
   );
 }
 
-export default function Portfolio({ works = allWorks }: { works?: Work[] }) {
+export default function Portfolio({ works = shownWorks }: { works?: Work[] }) {
   if (works.length === 0) return null;
 
   return (
@@ -139,7 +139,7 @@ export default function Portfolio({ works = allWorks }: { works?: Work[] }) {
       <Blueprint className="section-heading">
         <div>
           <h2 data-bp-box>
-            <DrawnText>Real screens from products I shipped.</DrawnText>
+            <DrawnText>My latest project, up close.</DrawnText>
           </h2>
         </div>
         <p
@@ -149,7 +149,7 @@ export default function Portfolio({ works = allWorks }: { works?: Work[] }) {
         >
           <DecodeText
             delay={700}
-            text="Products and client sites I built from design to deployment. Open a tour and look at the details yourself."
+            text="The hiring platform I built from zero at Calyptus. Open the tour and look around."
           />
         </p>
       </Blueprint>
