@@ -80,8 +80,60 @@ function trafficArc(
   return new THREE.Mesh(new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(start, mid, end), 64, width, 6), material);
 }
 
+/** the slogan as a seamless strip of text, repeated so it wraps round the ring */
+function sloganTexture() {
+  const text = "BUILT IN LVIV  ·  RUNNING WORLDWIDE  ·  ";
+  const font = "700 72px ui-monospace, SFMono-Regular, Menlo, monospace";
+  const probe = document.createElement("canvas").getContext("2d")!;
+  probe.font = font;
+  const repeats = 3;
+  const unit = Math.ceil(probe.measureText(text).width);
+  const canvas = document.createElement("canvas");
+  canvas.width = unit * repeats;
+  canvas.height = 96;
+  const ctx = canvas.getContext("2d")!;
+  // a faint band under the letters: it reads as a ring in the text version, where letters are too small
+  ctx.fillStyle = "rgba(42,102,255,.22)";
+  ctx.fillRect(0, 8, canvas.width, 80);
+  ctx.fillStyle = "rgba(160,200,255,.55)";
+  ctx.fillRect(0, 8, canvas.width, 2);
+  ctx.fillRect(0, 86, canvas.width, 2);
+  ctx.font = font;
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "#eef5ff";
+  for (let i = 0; i < repeats; i++) ctx.fillText(text, i * unit, 50);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.anisotropy = 8;
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
+/** a band of text circling the planet; only its outer face renders, so it never reads mirrored */
+function sloganRing() {
+  const ring = new THREE.Mesh(
+    new THREE.CylinderGeometry(R * 1.22, R * 1.22, 0.42, 160, 1, true),
+    new THREE.MeshBasicMaterial({
+      map: sloganTexture(),
+      transparent: true,
+      depthWrite: false,
+      side: THREE.FrontSide,
+      toneMapped: false,
+    })
+  );
+  // a slight tilt, so the band reads as a ring and not a flat line
+  const holder = new THREE.Group();
+  holder.rotation.set(0.32, 0, -0.22);
+  holder.add(ring);
+  return { holder, ring };
+}
+
 export function createEarth(textureBase = "/textures"): Figure {
+  const root = new THREE.Group();
   const tilt = new THREE.Group();
+  root.add(tilt);
+  const slogan = sloganRing();
+  root.add(slogan.holder);
   const spin = new THREE.Group();
   tilt.add(spin);
 
@@ -144,13 +196,14 @@ export function createEarth(textureBase = "/textures"): Figure {
     latLon(lat, lon, 1).normalize().applyQuaternion(earth.getWorldQuaternion(worldQuat)).dot(sunDir);
 
   return {
-    group: tilt,
+    group: root,
     ready,
     orient(yaw, pitch) {
       spin.rotation.y = baseYaw + yaw;
       tilt.rotation.x = 0.8 + pitch;
     },
     update(t, when) {
+      slogan.ring.rotation.y = -t * 0.12;
       [...routes, ...traffic].forEach((arc) => ((arc.material as THREE.ShaderMaterial).uniforms.t.value = t));
       home.material.opacity = 0.75 + Math.sin(t * 3) * 0.25;
       const sun = subsolarPoint(when);
@@ -161,6 +214,6 @@ export function createEarth(textureBase = "/textures"): Figure {
       const time = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Kyiv", hour: "2-digit", minute: "2-digit" }).format(when);
       return `Lviv ${time} · ${dayPhase(sunHeightAt(...LVIV))}`;
     },
-    dispose: () => disposeTree(tilt),
+    dispose: () => disposeTree(root),
   };
 }

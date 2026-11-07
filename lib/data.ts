@@ -22,6 +22,10 @@ export type Job = {
   product: string;
   /** shown as the commit message on the experience git line */
   commit: string;
+  /** the one line the site shows for this role; the full list lives in the CV */
+  summary: string;
+  /** short "how I worked" points, shown for the main role only */
+  practice?: string[];
   stack: string[];
   highlights: string[];
 };
@@ -34,6 +38,14 @@ export const experience: Job[] = [
     title: "Software Engineer",
     product: "Video-based AI talent platform used by 100+ companies",
     commit: "feat: frontend from zero",
+    summary: "Founding frontend engineer. Built the product from zero and kept it shipping for three years.",
+    practice: [
+      "Worked with the CEO from idea to release: how to build it, building it, fixing it",
+      "Shipped hotfixes fast whenever production needed them",
+      "Turned what users asked for in feedback into released changes, quickly",
+      "Built new features end to end: React front end, Node.js API, AI matching",
+      "Built the Stripe payment flows the platform takes money through",
+    ],
     stack: [
       "React",
       "TypeScript",
@@ -76,6 +88,7 @@ export const experience: Job[] = [
     title: "Software Engineer",
     product: "Insurance Technology Portal",
     commit: "feat: insurance portal",
+    summary: "Insurance portal: search across 5+ data sources and a first load ~25-35% faster.",
     stack: ["React", "TypeScript", "REST APIs", "Contentful", "Auth0", "AWS", "CI/CD"],
     highlights: [
       "Built a scalable search system with advanced filtering, sorting, and faceted navigation, improving content discoverability",
@@ -92,6 +105,7 @@ export const experience: Job[] = [
     title: "Software Engineer",
     product: "Crypto & Payment Infrastructure",
     commit: "feat: crypto + payments",
+    summary: "Crypto payments dashboard with ~20% fewer payment errors and ~30% less lag under load.",
     stack: ["React", "Redux", "TypeScript", "web3", "Solidity", "REST APIs", "Jest"],
     highlights: [
       "Integrated payment providers, REST APIs, wallets, and blockchain interactions, reducing payment processing errors by ~20%",
@@ -109,6 +123,7 @@ export const experience: Job[] = [
     title: "Front End Developer",
     product: "Corporate Management App & Online Store",
     commit: "init: first production apps",
+    summary: "HR tools and an online store, where the cart and checkout I built lifted conversion ~15%.",
     stack: ["Node.js", "JavaScript", "React", "REST APIs", "MongoDB", "SASS"],
     highlights: [
       "Built and maintained Node.js REST APIs, business logic, and MongoDB data integrations for the HR and eCommerce modules",

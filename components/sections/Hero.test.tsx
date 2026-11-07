@@ -36,6 +36,7 @@ describe("Hero", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName("Built from zero. Still in production.");
     expect(screen.getByRole("link", { name: "View work" })).toHaveAttribute("href", "#portfolio");
     expect(screen.getByRole("link", { name: "Download CV" })).toBeInTheDocument();
+    expect(screen.getByText("Senior Software Engineer · React, Next.js, Node.js")).toBeVisible();
   });
 
   it("hides the figure controls when WebGL is not available", async () => {

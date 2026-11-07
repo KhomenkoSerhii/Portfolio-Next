@@ -7,6 +7,7 @@ import HeroStage, { type StageStats } from "@/components/hero/HeroStage";
 import type { RenderMode, TimeMode } from "@/components/hero/scene";
 import { Blueprint } from "@/components/motion/Blueprint";
 import { DrawnText } from "@/components/motion/DrawnText";
+import { DecodeText } from "@/components/motion/DecodeText";
 
 const MODES: { value: RenderMode; label: string }[] = [
   { value: "ascii", label: "ASCII" },
@@ -89,8 +90,8 @@ export default function Hero() {
   const [phase, setPhase] = useState<"title" | "all">("title");
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // long enough for the title to draw and the text planet to assemble
-    const id = window.setTimeout(() => setPhase("all"), reduced ? 0 : 3000);
+    // the title draws and the text planet assembles in about two seconds, the rest follows
+    const id = window.setTimeout(() => setPhase("all"), reduced ? 0 : 1300);
     return () => window.clearTimeout(id);
   }, []);
   const wide = useSyncExternalStore(
@@ -114,10 +115,16 @@ export default function Hero() {
         />
       ) : null}
 
-      <div className="hero-bar" aria-hidden="true">
-        <span>{stats?.label ?? " "}</span>
-        <span className="hero-live">
-          Live · {stats?.cell ?? 14}px · {stats?.fps ?? 60} fps
+      <div className="hero-bar">
+        {/* resolves out of glyphs while the title draws, rather than sitting there from the first frame */}
+        <p className="hero-role">
+          <DecodeText text="Senior Software Engineer · React, Next.js, Node.js" delay={350} />
+        </p>
+        <span className="hero-status" aria-hidden="true">
+          {stats?.label ? <span>{stats.label}</span> : null}
+          <span className="hero-live">
+            Live · {stats?.cell ?? 14}px · {stats?.fps ?? 60} fps
+          </span>
         </span>
       </div>
 
@@ -135,6 +142,8 @@ export default function Hero() {
             Built from zero. <span className="hero-title-accent">Still in production.</span>
           </DrawnText>
         </h1>
+        {/* the same line circles the planet; the planet is decoration, so say it here too */}
+        <p className="sr-only">Built in Lviv. Running worldwide.</p>
         <div className="hero-later mt-8 flex flex-wrap items-center gap-3">
           <a href="#portfolio" className="button-primary">
             View work

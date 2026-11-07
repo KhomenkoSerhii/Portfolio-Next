@@ -179,8 +179,14 @@ export function ProductTour({
       aria-modal="true"
       aria-labelledby="product-tour-title"
       initial={collapsed}
-      animate={{ opacity: 1, clipPath: "inset(0px 0px 0px 0px)" }}
-      exit={collapsed}
+      animate={{ opacity: 1, scale: 1, clipPath: "inset(0px 0px 0px 0px)" }}
+      // closing is a short fade on the compositor: shrinking a full-screen clip-path
+      // back into the deck repaints every frame and stutters
+      exit={{
+        opacity: 0,
+        scale: reducedMotion ? 1 : 0.98,
+        transition: { duration: reducedMotion ? 0 : 0.22, ease: [0.4, 0, 1, 1] },
+      }}
       transition={
         reducedMotion
           ? { duration: 0 }
