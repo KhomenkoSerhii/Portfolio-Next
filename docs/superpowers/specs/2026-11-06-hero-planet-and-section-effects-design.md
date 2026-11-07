@@ -11,9 +11,9 @@ Replaces an uncommitted motion rework (decoded text, drawn titles, blueprint out
   - render mode: ASCII, Binary, Blocks.
   - Defaults are Now and ASCII. The theme comes from the site toggle; Blue Hour is light.
 - **Chrome around the figure:**
-  - a mono top line: the role ("Senior Software Engineer · React, Next.js, Node.js", shown with the title) on the left, `Lviv HH:MM · day|twilight|night` and `Live · 14px · N fps` on the right;
+  - a mono top line on the right: `Lviv HH:MM · day|twilight|night` and `Live · 14px · N fps`;
   - a live log on the left, desktop only, `aria-hidden`;
-  - the H1 "Built from zero. Still in production." stays real server-rendered text, followed by View work, Download CV and LinkedIn. The name line, the pitch sentence and the figure captions were dropped from the hero on request.
+  - the H1 "Built from zero. Still in production." stays real server-rendered text, followed by the role in mono caps ("Senior Software Engineer · React, Next.js, Node.js", resolving from glyphs while the title draws), then View work, Download CV and LinkedIn. The name line, the pitch sentence and the figure captions were dropped from the hero on request.
 - The metric blocks (7+, 100K+, 100+, 0 to 1) move to a strip right under the hero and count up.
 - **Intro:** the hero opens on a clean screen; the title draws itself as a blueprint (grid, dashed outline, outlined letters, then the fill); the whole intro fits in about two seconds (the title draws in ~1.3s while the text planet assembles), then the lens, live status, log, buttons, controls and navbar fade in.
 - **Interaction:**
