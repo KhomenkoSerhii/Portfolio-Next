@@ -814,7 +814,7 @@ body.bursting #page-content {
   grid-area: bar;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 0.5rem 1rem;
   padding-bottom: 0.9rem;
   border-bottom: 1px solid var(--line);
@@ -826,9 +826,11 @@ body.bursting #page-content {
 }
 
 .hero-role {
-  margin: 0;
+  margin: 1.4rem 0 0;
+  font: 600 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--foreground);
-  font-weight: 600;
 }
 
 .hero-status {

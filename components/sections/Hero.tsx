@@ -116,10 +116,6 @@ export default function Hero() {
       ) : null}
 
       <div className="hero-bar">
-        {/* resolves out of glyphs while the title draws, rather than sitting there from the first frame */}
-        <p className="hero-role">
-          <DecodeText text="Senior Software Engineer · React, Next.js, Node.js" delay={350} />
-        </p>
         <span className="hero-status" aria-hidden="true">
           {stats?.label ? <span>{stats.label}</span> : null}
           <span className="hero-live">
@@ -144,7 +140,11 @@ export default function Hero() {
         </h1>
         {/* the same line circles the planet; the planet is decoration, so say it here too */}
         <p className="sr-only">Built in Lviv. Running worldwide.</p>
-        <div className="hero-later mt-8 flex flex-wrap items-center gap-3">
+        {/* resolves out of glyphs while the title draws, rather than sitting there from the first frame */}
+        <p className="hero-role" data-bp-box style={{ "--i": 1 } as React.CSSProperties}>
+          <DecodeText text="Senior Software Engineer · React, Next.js, Node.js" delay={500} />
+        </p>
+        <div className="hero-later mt-7 flex flex-wrap items-center gap-3">
           <a href="#portfolio" className="button-primary">
             View work
           </a>
