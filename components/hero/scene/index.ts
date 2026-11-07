@@ -54,8 +54,8 @@ export function createHeroScene({ real, ascii, assemble = true, onStats }: HeroS
 
   const CELL = 14;
   // intro: each glyph flies in from somewhere off its cell, staggered, scrambling until it lands
-  const ASSEMBLE_STAGGER = 0.9;
-  const ASSEMBLE_FLIGHT = 1.1;
+  const ASSEMBLE_STAGGER = 0.55;
+  const ASSEMBLE_FLIGHT = 0.85;
   let assembleFrom = assemble ? Infinity : -Infinity; // Infinity: not started yet
   const startAssembly = () => {
     if (assembleFrom === Infinity) assembleFrom = performance.now();

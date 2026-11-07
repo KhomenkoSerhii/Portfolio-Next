@@ -1,57 +1,64 @@
 import * as THREE from "three";
 
-export type SwarmFigure = "quotes" | "network" | "plane";
+export type SwarmFigure = "exchange" | "plane";
 
 const SIZE = 400;
 const COUNT = 3200;
 
 // figures are drawn on a small canvas, then sampled into points
+// where the request cable runs in the "exchange" figure, in canvas pixels: laptop → server
+const CABLE = { from: [100, 150], via: [205, 30], to: [300, 112] } as const;
+
 const DRAW: Record<SwarmFigure, (c: CanvasRenderingContext2D) => void> = {
-  // big opening and closing quotation marks, behind a quote
-  quotes(c) {
-    c.font = "900 420px Georgia, 'Times New Roman', serif";
-    c.textAlign = "center";
-    c.textBaseline = "middle";
-    c.fillText("\u201C\u201D", 200, 290);
-  },
-  // interface → API → database, with an AI spark over the API
-  network(c) {
-    c.lineWidth = 8;
-    c.strokeRect(15, 150, 100, 72);
+  // a laptop on the left, a server rack and a database on the right
+  exchange(c) {
+    c.lineWidth = 7;
+    // laptop: screen with a tiny UI, then the base
     c.beginPath();
-    c.moveTo(45, 245);
-    c.lineTo(85, 245);
+    c.roundRect(28, 150, 144, 96, 8);
     c.stroke();
-    [0, 1, 2].forEach((i) => {
+    c.fillRect(42, 164, 40, 6);
+    c.fillRect(42, 178, 116, 4);
+    c.fillRect(42, 188, 96, 4);
+    [0, 1, 2, 3, 4].forEach((i) => c.fillRect(96 + i * 13, 228 - i * 7, 8, 10 + i * 7));
+    c.beginPath();
+    c.moveTo(10, 262);
+    c.lineTo(190, 262);
+    c.lineTo(172, 248);
+    c.lineTo(28, 248);
+    c.closePath();
+    c.stroke();
+    // server rack: six units with lights
+    c.strokeRect(256, 112, 88, 168);
+    for (let u = 0; u < 6; u++) {
+      const y = 122 + u * 26;
+      c.strokeRect(264, y, 72, 18);
+      c.fillRect(270, y + 7, 6, 5);
+      c.fillRect(282, y + 7, 6, 5);
+    }
+    // database: three stacked disks
+    for (let d = 0; d < 3; d++) {
+      const y = 208 + d * 24;
       c.beginPath();
-      c.roundRect(150, 130 + i * 40, 100, 32, 8);
+      c.ellipse(372, y, 22, 7, 0, 0, Math.PI * 2);
       c.stroke();
-    });
+    }
     c.beginPath();
-    c.ellipse(335, 148, 50, 16, 0, 0, Math.PI * 2);
+    c.moveTo(350, 208);
+    c.lineTo(350, 256);
+    c.moveTo(394, 208);
+    c.lineTo(394, 256);
     c.stroke();
+    // the cables
+    c.lineWidth = 3;
+    c.setLineDash([6, 8]);
     c.beginPath();
-    c.moveTo(285, 148);
-    c.lineTo(285, 240);
-    c.ellipse(335, 240, 50, 16, 0, Math.PI, 0, true);
-    c.lineTo(385, 148);
-    c.stroke();
-    c.setLineDash([14, 12]);
-    c.beginPath();
-    c.moveTo(118, 186);
-    c.lineTo(148, 186);
-    c.moveTo(252, 186);
-    c.lineTo(283, 186);
+    c.moveTo(CABLE.from[0], CABLE.from[1]);
+    c.quadraticCurveTo(CABLE.via[0], CABLE.via[1], CABLE.to[0], CABLE.to[1]);
+    c.moveTo(344, 236);
+    c.lineTo(350, 236);
     c.stroke();
     c.setLineDash([]);
-    c.beginPath();
-    for (let i = 0; i < 8; i++) {
-      const r = i % 2 ? 10 : 34;
-      const a = (i * Math.PI) / 4 - Math.PI / 2;
-      c.lineTo(200 + Math.cos(a) * r, 70 + Math.sin(a) * r);
-    }
-    c.closePath();
-    c.fill();
   },
   // a paper plane with a dashed trail
   plane(c) {
@@ -150,6 +157,30 @@ export function createSwarm(canvas: HTMLCanvasElement, figure: SwarmFigure) {
   });
   group.add(new THREE.Points(geometry, material));
 
+  // "exchange": little clouds of the same points run along the cable, requests out and
+  // responses back, so the traffic looks like part of the figure
+  const toWorld = ([x, y]: readonly number[]) => new THREE.Vector3(((x - 200) / 200) * 3, (-(y - 200) / 200) * 3, 0.2);
+  const cable = new THREE.QuadraticBezierCurve3(toWorld(CABLE.from), toWorld(CABLE.via), toWorld(CABLE.to));
+  const PACKETS = figure === "exchange" ? 8 : 0;
+  const PER_PACKET = 26;
+  const packetPositions = new Float32Array(PACKETS * PER_PACKET * 3);
+  const packetColors = new Float32Array(PACKETS * PER_PACKET * 3);
+  const packetSpread = new Float32Array(PACKETS * PER_PACKET * 3);
+  for (let i = 0; i < PACKETS * PER_PACKET; i++) {
+    // a small ball of points around the packet's centre
+    const u = Math.random() * Math.PI * 2;
+    const v = Math.acos(2 * Math.random() - 1);
+    const r = 0.13 * Math.cbrt(Math.random());
+    packetSpread.set([r * Math.sin(v) * Math.cos(u), r * Math.cos(v), r * Math.sin(v) * Math.sin(u)], i * 3);
+    palette[(i + 2) % 4].toArray(packetColors, i * 3);
+  }
+  const packetGeometry = new THREE.BufferGeometry();
+  packetGeometry.setAttribute("position", new THREE.BufferAttribute(packetPositions, 3));
+  packetGeometry.setAttribute("color", new THREE.BufferAttribute(packetColors, 3));
+  const packetMaterial = material.clone();
+  if (PACKETS) group.add(new THREE.Points(packetGeometry, packetMaterial));
+  const packetPoint = new THREE.Vector3();
+
   const pointer = { x: 0, y: 0 };
   const onPointer = (event: PointerEvent) => {
     pointer.x = event.clientX / window.innerWidth - 0.5;
@@ -173,6 +204,23 @@ export function createSwarm(canvas: HTMLCanvasElement, figure: SwarmFigure) {
       positions[k + 2] += (target[k + 2] - positions[k + 2]) * go;
     }
     geometry.attributes.position.needsUpdate = true;
+    // packets appear once the figure has gathered
+    if (PACKETS) {
+      packetMaterial.opacity = material.opacity * (since > 1.2 ? Math.min(1, (since - 1.2) / 0.8) : 0);
+      for (let k = 0; k < PACKETS; k++) {
+        const p = (t * 0.3 + k / PACKETS) % 1;
+        // even packets are requests (laptop → server), odd ones are responses coming back
+        cable.getPointAt(k % 2 ? 1 - p : p, packetPoint);
+        const fade = Math.sin(p * Math.PI);
+        for (let n = 0; n < PER_PACKET; n++) {
+          const idx = (k * PER_PACKET + n) * 3;
+          packetPositions[idx] = packetPoint.x + packetSpread[idx] * fade;
+          packetPositions[idx + 1] = packetPoint.y + packetSpread[idx + 1] * fade;
+          packetPositions[idx + 2] = packetPoint.z + packetSpread[idx + 2] * fade;
+        }
+      }
+      packetGeometry.attributes.position.needsUpdate = true;
+    }
     group.rotation.y += (Math.sin(t * 0.25) * 0.3 + pointer.x * 0.5 - group.rotation.y) * 0.05;
     group.rotation.x += (pointer.y * 0.3 - group.rotation.x) * 0.05;
     renderer.render(scene, camera);
@@ -189,13 +237,13 @@ export function createSwarm(canvas: HTMLCanvasElement, figure: SwarmFigure) {
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       const wide = width > 900;
-      // wide screens: the network sits on the right; the plane flies left of centre, between
-      // the heading and the (translucent) form. Narrow screens: centred behind the copy
-      group.position.x = !wide ? 0 : figure === "plane" ? -Math.min(1.8, camera.aspect * 1.1) : Math.min(3.6, camera.aspect * 2);
+      // wide screens: the plane flies left of centre, between the heading and the
+      // (translucent) form; the exchange sits on the right. Narrow screens: centred
+      const side = figure === "plane" ? -Math.min(1.8, camera.aspect * 1.1) : Math.min(3.2, camera.aspect * 1.8);
+      group.position.x = wide ? side : 0;
       group.position.y = wide && figure === "plane" ? 0.6 : 0;
       group.scale.setScalar(wide ? 1.15 : 0.85);
-      // the quote marks sit under large text, so they stay quieter
-      material.opacity = (wide ? 0.55 : 0.32) * (figure === "quotes" ? 0.75 : 1);
+      material.opacity = wide ? 0.55 : 0.32;
     },
     gather(instant = false) {
       if (gatheredAt >= 0) return;
@@ -219,6 +267,8 @@ export function createSwarm(canvas: HTMLCanvasElement, figure: SwarmFigure) {
       cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", onPointer);
       geometry.dispose();
+      packetGeometry.dispose();
+      packetMaterial.dispose();
       material.map?.dispose();
       material.dispose();
       renderer.dispose();

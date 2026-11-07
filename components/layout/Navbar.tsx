@@ -68,7 +68,7 @@ function ThemeToggle() {
 function introDelay() {
   if (typeof window === "undefined") return 0.15;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  return !reduced && window.scrollY < 80 ? 2.8 : 0.15;
+  return !reduced && window.scrollY < 80 ? 1.3 : 0.15;
 }
 
 export default function Navbar() {
@@ -126,7 +126,7 @@ export default function Navbar() {
     <motion.header
       initial={{ y: -18, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
      
       className="nav-bar fixed inset-x-0 top-0 z-40 border-b border-white/15 bg-[var(--ink)] text-[var(--paper)]"
     >

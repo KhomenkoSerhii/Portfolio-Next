@@ -7,18 +7,7 @@ import { prefersReducedMotion } from "@/lib/hooks/useInViewOnce";
  * A tall block whose content sticks while its words light up one by one with the
  * scroll. `text` is read out whole; the lit words are decoration.
  */
-export function ScrollWords({
-  text,
-  punch,
-  footer,
-  background,
-}: {
-  text: string;
-  punch?: string;
-  footer?: ReactNode;
-  /** sits behind the words and stays on screen with them */
-  background?: ReactNode;
-}) {
+export function ScrollWords({ text, punch, footer }: { text: string; punch?: string; footer?: ReactNode }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const words = text.split(" ");
   const punchWords = punch ? punch.split(" ") : [];
@@ -52,7 +41,6 @@ export function ScrollWords({
   return (
     <div ref={wrapRef} className="scroll-words">
       <div className="scroll-words-sticky">
-        {background}
         <blockquote className="scroll-words-text">
           <span className="sr-only">
             {text} {punch}
