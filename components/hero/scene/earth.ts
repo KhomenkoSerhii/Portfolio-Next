@@ -80,28 +80,50 @@ function trafficArc(
   return new THREE.Mesh(new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(start, mid, end), 64, width, 6), material);
 }
 
+const SLOGAN_RADIUS = R * 1.22;
+const SLOGAN_HEIGHT = 0.26;
+
 /** the slogan as a seamless strip of text, repeated so it wraps round the ring */
 function sloganTexture() {
-  const text = "BUILT IN LVIV  ·  RUNNING WORLDWIDE  ·  ";
-  const font = "700 72px ui-monospace, SFMono-Regular, Menlo, monospace";
-  const probe = document.createElement("canvas").getContext("2d")!;
-  probe.font = font;
-  const repeats = 3;
-  const unit = Math.ceil(probe.measureText(text).width);
+  const phrase = "BUILT IN LVIV  ✦  RUNNING WORLDWIDE";
+  const font = "500 40px ui-monospace, SFMono-Regular, Menlo, monospace";
+  const tracking = 14; // wide letter spacing, drawn by hand since canvas letterSpacing is not everywhere yet
+  const height = 112;
+  // the strip has the ring's own proportions, so the letters are not stretched
+  const width = Math.round(((2 * Math.PI * SLOGAN_RADIUS) / SLOGAN_HEIGHT) * height);
   const canvas = document.createElement("canvas");
-  canvas.width = unit * repeats;
-  canvas.height = 96;
+  canvas.width = width;
+  canvas.height = height;
   const ctx = canvas.getContext("2d")!;
-  // a faint band under the letters: it reads as a ring in the text version, where letters are too small
-  ctx.fillStyle = "rgba(42,102,255,.22)";
-  ctx.fillRect(0, 8, canvas.width, 80);
-  ctx.fillStyle = "rgba(160,200,255,.55)";
-  ctx.fillRect(0, 8, canvas.width, 2);
-  ctx.fillRect(0, 86, canvas.width, 2);
   ctx.font = font;
+  const advance = (ch: string) => ctx.measureText(ch).width + tracking;
+  const phraseWidth = [...phrase].reduce((sum, ch) => sum + advance(ch), 0) - tracking;
+  const gap = 120;
+  const repeats = Math.max(1, Math.floor(width / (phraseWidth + gap)));
+  const unit = width / repeats;
+
+  // a soft glass band that fades out at the edges: it still reads as a ring in the text version
+  const band = ctx.createLinearGradient(0, 0, 0, height);
+  band.addColorStop(0, "rgba(42,102,255,0)");
+  band.addColorStop(0.5, "rgba(42,102,255,.2)");
+  band.addColorStop(1, "rgba(42,102,255,0)");
+  ctx.fillStyle = band;
+  ctx.fillRect(0, 0, width, height);
+  ctx.fillStyle = "rgba(170,205,255,.35)";
+  ctx.fillRect(0, 14, width, 1);
+  ctx.fillRect(0, height - 15, width, 1);
+
   ctx.textBaseline = "middle";
-  ctx.fillStyle = "#eef5ff";
-  for (let i = 0; i < repeats; i++) ctx.fillText(text, i * unit, 50);
+  ctx.shadowColor = "rgba(120,170,255,.8)";
+  ctx.shadowBlur = 10;
+  for (let i = 0; i < repeats; i++) {
+    let x = i * unit + (unit - phraseWidth) / 2;
+    for (const ch of phrase) {
+      ctx.fillStyle = ch === "✦" ? "#7fa8ff" : "#eef5ff";
+      ctx.fillText(ch, x, height / 2 + 1);
+      x += advance(ch);
+    }
+  }
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
   texture.anisotropy = 8;
@@ -112,7 +134,7 @@ function sloganTexture() {
 /** a band of text circling the planet; only its outer face renders, so it never reads mirrored */
 function sloganRing() {
   const ring = new THREE.Mesh(
-    new THREE.CylinderGeometry(R * 1.22, R * 1.22, 0.42, 160, 1, true),
+    new THREE.CylinderGeometry(SLOGAN_RADIUS, SLOGAN_RADIUS, SLOGAN_HEIGHT, 160, 1, true),
     new THREE.MeshBasicMaterial({
       map: sloganTexture(),
       transparent: true,
